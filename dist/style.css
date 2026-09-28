@@ -352,16 +352,13 @@ button { -webkit-tap-highlight-color:transparent; }
 .calendar-grid button.has-event { color:var(--ink); font-weight:750; background:var(--surface); }
 .calendar-grid button.active { color:#fff; background:var(--ink); }
 .calendar-grid button i { position:absolute; left:50%; bottom:3px; width:3px; height:3px; transform:translateX(-50%); border-radius:50%; background:var(--orange); }
-.weekly-calendar { padding:10px 6px 7px 12px; }
-.weekly-calendar-head { display:flex; align-items:center; justify-content:space-between; padding:1px 7px 8px 1px; }
-.weekly-calendar-head strong { font-size:12px; }
-.weekly-calendar-head span { color:var(--muted); font-size:10px; }
-.week-scroll { max-height:190px; overflow-y:auto; padding-right:6px; scroll-snap-type:y proximity; scrollbar-width:thin; scrollbar-color:#d7d3c8 transparent; }
-.calendar-week { padding:7px 0 10px; border-top:1px solid var(--line); scroll-snap-align:start; }
-.calendar-week:first-child { border-top:0; }
-.calendar-week h3 { margin:0 0 7px; color:var(--muted); font-size:10px; font-weight:650; }
+.weekly-calendar { padding:11px 10px 12px; }
+.calendar-month { display:block; margin:0 0 8px 4px; font-size:12px; }
+.calendar-week-view { display:grid; grid-template-columns:28px minmax(0,1fr) 28px; align-items:center; gap:5px; }
+.week-arrow { width:28px; height:38px; border:0; border-radius:10px; background:var(--surface); color:var(--ink); font-size:19px; cursor:pointer; }
+.week-arrow:disabled { opacity:.3; cursor:default; }
 .week-days { display:grid; grid-template-columns:repeat(7,1fr); gap:4px; }
-.week-days button { min-width:0; height:48px; position:relative; display:grid; place-items:center; align-content:center; gap:2px; border:0; border-radius:11px; background:transparent; color:var(--muted); cursor:pointer; }
+.week-days button { min-width:0; height:48px; position:relative; display:grid; place-items:center; align-content:center; gap:2px; border:0; border-radius:10px; background:transparent; color:var(--muted); cursor:pointer; }
 .week-days button span { font-size:8px; }
 .week-days button strong { font-size:11px; }
 .week-days button.has-event { color:var(--ink); background:var(--surface); }

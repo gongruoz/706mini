@@ -46,9 +46,17 @@ const campaign = {
   cities:['上海','杭州','北京','广州','成都'], cover:'linear-gradient(135deg,#6b3be8,#ef6650 62%,#ffbf4b)'
 };
 
+const calendarWeeks = [
+  {month:'九月',days:[['一','15','无'],['二','16','无'],['三','17','无'],['四','18','无'],['五','19','无'],['六','20','无'],['日','21','无']]},
+  {month:'九月',days:[['一','22','无'],['二','23','无'],['三','24','无'],['四','25','无'],['五','26','周六'],['六','27','周日'],['日','28','无']]},
+  {month:'九月',days:[['一','29','无'],['二','30','周三'],['三','1','无'],['四','2','无'],['五','3','10月3日'],['六','4','无'],['日','5','无']]},
+  {month:'十月',days:[['一','6','无'],['二','7','无'],['三','8','无'],['四','9','无'],['五','10','无'],['六','11','无'],['日','12','无']]},
+  {month:'十月',days:[['一','13','无'],['二','14','无'],['三','15','无'],['四','16','无'],['五','17','无'],['六','18','无'],['日','19','无']]}
+];
+
 const state = {
   view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao', activeEntity:'space',
-  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'本周', selectedSpace:'全部空间', calendarOpen:false, peopleOffset:0, recommended:{}, joined:{}, unread:4,
+  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'本周', selectedSpace:'全部空间', calendarOpen:false, calendarWeek:1, peopleOffset:0, recommended:{}, joined:{}, unread:4,
   publishStep:1, publishSubmitted:false, approvalDone:false,
   draftMedia:[{type:'image',label:'活动封面.jpg'}], activeRelation:'following', registrationFilter:'全部', myEventFilter:'全部', spacePickerOpen:false,
   draft:{ title:'周末共读：我们如何一起生活', summary:'选一篇不长的文章，一起读完再聊。', date:'2026-10-04', start:'14:00', end:'16:30', city:'上海', venue:'706 青年空间', identity:'以个人身份发布', org:'不关联组织', quota:'16', paid:false, price:'30', attendeeApproval:true, joinMethods:['group'], detail:'我们会提前一天把文章发到群里。不要求提前读完，也欢迎只带着问题来。' },
@@ -123,17 +131,12 @@ function renderDiscover(){
   const filtered=events.filter(e=>matchesDate(e)&&matchesSpace(e)&&matchesKeyword(e));
   const dateTitle=['本周','下周'].includes(state.selectedDate)?state.selectedDate:state.selectedDate;
   const resultTitle=state.selectedSpace==='全部空间'?`${dateTitle}活动`:`${state.selectedSpace} · ${dateTitle}`;
-  const calendarWeeks=[
-    {label:'本周 · 9月22–28日',days:[['一','22','无'],['二','23','无'],['三','24','无'],['四','25','无'],['五','26','周六'],['六','27','周日'],['日','28','无']]},
-    {label:'下周 · 9月29–10月5日',days:[['一','29','无'],['二','30','周三'],['三','1','无'],['四','2','无'],['五','3','10月3日'],['六','4','无'],['日','5','无']]},
-    {label:'10月6–12日',days:[['一','6','无'],['二','7','无'],['三','8','无'],['四','9','无'],['五','10','无'],['六','11','无'],['日','12','无']]},
-    {label:'10月13–19日',days:[['一','13','无'],['二','14','无'],['三','15','无'],['四','16','无'],['五','17','无'],['六','18','无'],['日','19','无']]}
-  ];
+  const visibleWeek=calendarWeeks[state.calendarWeek];
   const body=`<section class="screen gray"><div class="discover-toolbar"><button class="city-pill" data-action="city">上海⌄</button><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
     <div class="campaign-carousel compact" aria-label="活动系列"><article class="campaign-card" data-action="campaign"><small>${campaign.kicker}</small><h2>${campaign.title}</h2><p>${campaign.cities.slice(0,4).join(' · ')} 等城市同步发生</p><span>查看系列 ›</span></article><article class="campaign-card alt" data-action="campaign"><small>8 城联动 · 社区行动月</small><h2>把客厅打开</h2><p>从一次邻里晚餐开始认识附近的人</p><span>查看系列 ›</span></article></div>
     <section class="filter-stack" aria-label="活动筛选">
       <div class="filter-rail date-rail"><button class="rail-chip ${state.selectedDate==='本周'?'active':''}" data-action="date-filter" data-id="本周">本周</button><button class="rail-chip ${state.selectedDate==='下周'?'active':''}" data-action="date-filter" data-id="下周">下周</button><button class="rail-chip calendar-trigger ${state.calendarOpen?'open':''}" data-action="toggle-calendar">日历 <i>${state.calendarOpen?'⌃':'⌄'}</i></button></div>
-      ${state.calendarOpen?`<div class="calendar-expand weekly-calendar"><div class="weekly-calendar-head"><strong>按周浏览</strong><span>向下滑动查看更多</span></div><div class="week-scroll">${calendarWeeks.map(week=>`<section class="calendar-week"><h3>${week.label}</h3><div class="week-days">${week.days.map(([weekday,day,id])=>`<button class="${id!=='无'?'has-event':''} ${state.selectedDate===id?'active':''}" data-action="date-filter" data-id="${id}"><span>${weekday}</span><strong>${day}</strong>${id!=='无'?'<i></i>':''}</button>`).join('')}</div></section>`).join('')}</div></div>`:''}
+      ${state.calendarOpen?`<div class="calendar-expand weekly-calendar"><strong class="calendar-month">${visibleWeek.month}</strong><div class="calendar-week-view"><button class="week-arrow" data-action="calendar-week" data-id="prev" aria-label="上一周" ${state.calendarWeek===0?'disabled':''}>‹</button><div class="week-days">${visibleWeek.days.map(([weekday,day,id])=>`<button class="${id!=='无'?'has-event':''} ${state.selectedDate===id?'active':''}" data-action="date-filter" data-id="${id}"><span>${weekday}</span><strong>${day}</strong>${id!=='无'?'<i></i>':''}</button>`).join('')}</div><button class="week-arrow" data-action="calendar-week" data-id="next" aria-label="下一周" ${state.calendarWeek===calendarWeeks.length-1?'disabled':''}>›</button></div></div>`:''}
       <div class="filter-rail">${spaceFilters.map(x=>`<button class="rail-chip ${state.selectedSpace===x.id?'active':''}" data-action="space-filter" data-id="${x.id}">${x.name}</button>`).join('')}</div>
       <div class="filter-rail">${keywordFilters.map(x=>`<button class="rail-chip ${state.dateFilter===x?'active':''}" data-action="keyword-filter" data-id="${x}">${x==='全部'?'不限':x}</button>`).join('')}</div>
     </section>
@@ -452,6 +455,7 @@ document.addEventListener('click',e=>{
   else if(a==='browse-mode'){ state.browseMode=id; render(); }
   else if(a==='browse-filter'){ if(state.browseMode==='time') state.selectedDate=id; else state.selectedSpace=id; render(); }
   else if(a==='toggle-calendar'){ state.calendarOpen=!state.calendarOpen; render(); }
+  else if(a==='calendar-week'){ state.calendarWeek=Math.max(0,Math.min(calendarWeeks.length-1,state.calendarWeek+(id==='next'?1:-1))); render(); }
   else if(a==='date-filter'){ if(id!=='无'){ state.selectedDate=id; state.calendarOpen=false; render(); } }
   else if(a==='space-filter'){ state.selectedSpace=id; render(); }
   else if(a==='keyword-filter'){ state.dateFilter=id; render(); }
