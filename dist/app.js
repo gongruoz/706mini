@@ -139,16 +139,15 @@ function topbar(title,eyebrow='',right=''){
 
 function eventMini(e){
   return `<div class="event-mini" data-action="event" data-id="${e.id}" role="button" tabindex="0">
-    <div class="event-cover" style="--cover:${e.color}"><span class="cover-tag">${e.venue}</span><div><h3>${e.title}</h3><p>${e.date} ${e.time.split('–')[0]} · ${e.spots?`余 ${e.spots} 个名额`:'名额已满'}</p></div></div>
-    ${eventSource(e,'on-dark')}
-    <div class="event-mini-foot"><span>${e.price?`¥${e.price}`:'免费'} · ${e.joined} 人报名</span><span class="stack">${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}<span class="avatar xs" style="--avatar:#eee">+${Math.max(e.joined-2,1)}</span></span></div>
+    <div class="event-mini-main"><div class="row-status"><span class="badge ${e.spots?'open':'ended'}">${e.spots?'报名中':'名额已满'}</span></div><h3>${e.title}</h3><p>${e.date} ${e.time.split('–')[0]} · ${e.spots?`余 ${e.spots} 个名额`:'名额已满'}</p>${eventSource(e,'compact')}<div class="event-mini-foot"><span>${e.price?`¥${e.price}`:'免费'} · ${e.joined} 人报名</span><span class="stack">${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}<span class="avatar xs" style="--avatar:#eee">+${Math.max(e.joined-2,1)}</span></span></div></div>
+    <div class="event-cover" style="--cover:${e.color}"><span class="cover-tag">${e.venue}</span><div class="date-block poster-date"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div></div>
   </div>`;
 }
 
 function eventRow(e){
   return `<article class="event-row" data-action="event" data-id="${e.id}">
-    <div class="event-thumb" style="--cover:${e.color}"><div class="date-block"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div></div>
     <div class="event-row-main"><div class="row-status"><span class="badge ${e.spots?'open':'ended'}">${e.spots?'报名中':'名额已满'}</span>${state.joined[e.id]?'<span class="badge upcoming">你已报名</span>':''}</div><h3>${e.title}</h3><p>${e.time}</p>${eventSource(e,'compact')}<p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人报名</span></div></div>
+    <div class="event-thumb" style="--cover:${e.color}"><div class="date-block"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div></div>
   </article>`;
 }
 
