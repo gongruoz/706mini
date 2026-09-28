@@ -15,7 +15,7 @@ const events = [
     venue:'706 青年空间', address:'静安区愚园路 1088 号', price:30, spots:8, joined:12,
     host:'阿乔', org:'Sola 放映组', color:'linear-gradient(135deg,#3657cf,#24285e 65%,#131425)',
     summary:'一起看一部关于城市、居住与漂泊的纪录片。映后围成一圈，聊聊我们为什么留在一座城市。',
-    fit:'对城市生活、社区与纪录片感兴趣的人。不需要任何电影背景。', approval:true
+    fit:'对城市生活、社区与纪录片感兴趣的人。不需要任何电影背景。', approval:true, campaign:'dialog2026'
   },
   {
     id:'walk', title:'苏州河慢走：寻找城市缝隙', date:'周日', day:'27', time:'15:00–18:00', city:'上海',
@@ -29,7 +29,7 @@ const events = [
     venue:'706 青年空间', address:'静安区愚园路 1088 号', price:0, spots:12, joined:8,
     host:'Jiang', org:'706 产品小组', color:'linear-gradient(135deg,#ee784b,#9e3528 70%,#4f1918)',
     summary:'把你希望社区拥有的功能画出来。我们会一起讨论活动、空间、成员和信息流应该怎么连接。',
-    fit:'706 社区成员，以及对共创产品感兴趣的人。', approval:false
+    fit:'706 社区成员，以及对共创产品感兴趣的人。', approval:false, campaign:'dialog2026'
   },
   {
     id:'frisbee', title:'傍晚飞盘｜零基础友好', date:'10月3日', day:'03', time:'17:00–19:00', city:'上海',
@@ -40,11 +40,20 @@ const events = [
   }
 ];
 
+const campaign = {
+  id:'dialog2026', title:'我们为什么留在这里？', kicker:'12 城联动 · 706 客厅对话',
+  summary:'从一部电影、一顿晚餐或一次散步开始，在不同城市同时讨论居住、迁徙与社区。每个城市由本地成员独立发起，共用同一个主题与资料包。',
+  cities:['上海','杭州','北京','广州','成都'], cover:'linear-gradient(135deg,#6b3be8,#ef6650 62%,#ffbf4b)'
+};
+
 const state = {
   view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao', activeEntity:'space',
   dateFilter:'全部', messageFilter:'全部', recommended:{}, joined:{}, unread:4,
   publishStep:1, publishSubmitted:false, approvalDone:false,
-  draft:{ title:'周末共读：我们如何一起生活', summary:'选一篇不长的文章，一起读完再聊。', date:'2026-10-04', start:'14:00', end:'16:30', city:'上海', venue:'706 青年空间', identity:'以个人身份发布', org:'不关联组织', quota:'16', paid:false, price:'30', attendeeApproval:true, joinMethod:'审核通过后展示微信群二维码', detail:'我们会提前一天把文章发到群里。不要求提前读完，也欢迎只带着问题来。' }
+  draftMedia:[{type:'image',label:'活动封面.jpg'}], activeRelation:'following',
+  draft:{ title:'周末共读：我们如何一起生活', summary:'选一篇不长的文章，一起读完再聊。', date:'2026-10-04', start:'14:00', end:'16:30', city:'上海', venue:'706 青年空间', identity:'以个人身份发布', org:'不关联组织', quota:'16', paid:false, price:'30', attendeeApproval:true, joinMethod:'group', detail:'我们会提前一天把文章发到群里。不要求提前读完，也欢迎只带着问题来。' },
+  profileDraft:{name:'Jiang',city:'上海',bio:'城市研究 / 社区产品',intro:'关注城市里的公共生活，也喜欢组织桌游和陌生人晚餐。',work:'https://jiang.example.com',social:'小红书 @jiang_in_city',wechat:'jiang706',spaces:'706 青年空间'},
+  spaceDraft:{name:'706 青年空间',city:'上海',address:'静安区愚园路 1088 号',intro:'一个欢迎活动、讨论和偶遇发生的共享空间。',hours:'每日 10:00–22:00',contact:'Shing · 微信 shing706'}
 };
 
 const app = document.getElementById('app');
@@ -87,7 +96,7 @@ function eventMini(e){
 
 function eventRow(e){
   return `<article class="event-row" data-action="event" data-id="${e.id}">
-    <div class="date-block"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div>
+    <div class="event-thumb" style="--cover:${e.color}"><div class="date-block"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div></div>
     <div class="event-row-main"><h3>${e.title}</h3><p>${e.time} · ${e.venue}</p><p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人参加</span></div></div>
   </article>`;
 }
@@ -96,7 +105,7 @@ function renderFeed(){
   const cards=people.slice(0,4).map(p=>`<article class="person-card">${avatar(p)}<strong>${p.name}</strong><p>${p.bio}</p><button class="follow ${p.following||state.recommended[p.id]?'active':''}" data-action="follow" data-id="${p.id}">${p.following||state.recommended[p.id]?'已关注':'＋ 关注'}</button></article>`).join('');
   const e1=events[0],e2=events[2];
   const body=`<section class="screen">${topbar('社区动态','星期六 · 9月26日','<button class="city-pill" data-action="city">上海⌄</button>')}
-    <section class="section tight"><div class="section-title"><h2>同城值得认识的人</h2><button data-action="shuffle">换一批</button></div><div class="h-scroll">${cards}</div></section>
+    <section class="section tight"><div class="section-title"><h2>发现有意思的人</h2><button data-action="people-why">为什么推荐？</button></div><div class="h-scroll">${cards}</div></section>
     <div class="feed-kicker">关注的人与同城正在发生</div>
     <article class="post featured"><div class="post-head">${avatar(person('qiao'),'sm')}<div class="post-meta"><strong>阿乔推荐了一场活动</strong><span>18 分钟前 · 上海</span></div><button class="more">···</button></div><p class="post-copy">“周六晚上一起看一部关于城市与漂泊的电影，映后想聊聊我们为什么留在这里。”</p>${eventMini(e1)}<div class="post-actions"><button class="soft-btn ${state.recommended.film?'on':''}" data-action="recommend" data-id="film">${state.recommended.film?'已推荐':'推荐'}</button><button class="soft-btn" data-action="comment">评论 4</button><button class="soft-btn" data-action="share">分享</button></div></article>
     <article class="post"><div class="post-head">${avatar(person('jiang'),'sm')}<div class="post-meta"><strong>Jiang、Shing 和 6 位同城成员报名了</strong><span>今天 09:12 · 合并动态</span></div><button class="more">···</button></div><p class="post-copy">大家正在一起设计 706 小程序的下一步。</p>${eventMini(e2)}<div class="post-actions"><button class="soft-btn" data-action="recommend" data-id="workshop">推荐</button><button class="soft-btn" data-action="comment">评论 7</button><button class="soft-btn" data-action="share">分享</button></div></article>
@@ -108,26 +117,26 @@ function renderDiscover(){
   const filtered=events.filter(e=>state.dateFilter==='全部'||state.dateFilter==='本周末'&&['周六','周日'].includes(e.date)||state.dateFilter==='免费'&&e.price===0||state.dateFilter==='有名额'&&e.spots>0);
   const body=`<section class="screen gray">${topbar('发现活动','上海 · 近期活动','<button class="city-pill" data-action="city">上海⌄</button>')}
     <div class="search-wrap"><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
+    <div class="discover-modes"><button data-action="calendar"><span>日</span><div><strong>活动日历</strong><small>按日期浏览活动</small></div><b>›</b></button><button data-action="spaces"><span>屋</span><div><strong>按空间发现</strong><small>看看在哪里发生</small></div><b>›</b></button></div>
+    <article class="campaign-card" data-action="campaign"><small>${campaign.kicker}</small><h2>${campaign.title}</h2><p>${campaign.cities.slice(0,4).join(' · ')} 等城市同步发生</p><span>查看系列活动 ›</span></article>
     <div class="chips">${['全部','本周末','免费','有名额'].map(x=>`<button class="chip ${state.dateFilter===x?'active':''}" data-action="filter" data-id="${x}">${x}</button>`).join('')}<button class="chip" data-action="date">选择日期</button></div>
     <div class="section-title" style="padding:0 19px"><h2>${state.dateFilter==='全部'?'接下来可以参加':state.dateFilter}</h2><button data-action="filters">更多筛选</button></div>
     ${filtered.length?filtered.map(eventRow).join(''):`<div class="empty"><div class="empty-icon">⌕</div><h2>暂时没有活动</h2><p>换个时间看看，或者发起一场你想参加的活动。</p><button class="secondary" data-action="filter" data-id="全部">清除筛选</button></div>`}
-    <div class="section-title" style="padding:13px 19px 10px"><h2>常去的空间</h2><button>查看全部</button></div>
-    <div class="places"><article class="place-card" data-action="space"><small>静安 · 1.2 km</small><h3>706 青年空间</h3><small>本周有 4 场活动</small></article><article class="place-card" data-action="org"><small>徐汇 · 社区伙伴</small><h3>Sola 共创空间</h3><small>最近 12 位成员来过</small></article></div>
   </section>`;
   return shell(body,{fab:true});
 }
 
 function renderMessages(){
   const messages=[
-    {type:'审核',title:'一场活动等待你审核',copy:'「城市里的陌生人晚餐」申请使用 706 青年空间。',time:'10:22',icon:'审',unread:true,action:'approvals'},
-    {type:'报名',title:'活动报名申请已通过',copy:'你可以参加「秋日放映：城市游牧者」，请在 30 分钟内完成付款。',time:'昨天',icon:'票',unread:true,action:'event',id:'film'},
+    {type:'管理',title:'一场活动等待你审核',copy:'「城市里的陌生人晚餐」申请使用 706 青年空间。',time:'10:22',icon:'审',unread:true,action:'approvals'},
+    {type:'活动',title:'活动报名申请已通过',copy:'下一步：完成付款并查看活动群或组织者联系方式。',time:'昨天',icon:'票',unread:true,action:'event-access',id:'film'},
     {type:'互动',title:'阿乔关注了你',copy:'你们现在互相关注，可以在动态里看到彼此的活动。',time:'昨天',icon:'友',unread:true,action:'member',id:'qiao'},
     {type:'活动',title:'活动地点有更新',copy:'「苏州河慢走」集合点改为 M50 创意园 3 号门。',time:'周四',icon:'更',unread:false,action:'event',id:'walk'},
-    {type:'系统',title:'你已成为空间管理员',copy:'现在可以管理 706 青年空间的信息与活动审核。',time:'周一',icon:'管',unread:false,action:'space'}
+    {type:'管理',title:'你已成为空间管理员',copy:'现在可以管理 706 青年空间的信息与活动审核。',time:'周一',icon:'管',unread:false,action:'space'}
   ];
   const shown=messages.filter(m=>state.messageFilter==='全部'||m.type===state.messageFilter);
   const body=`<section class="screen">${topbar('消息',state.unread?`${state.unread} 条未读`:'已全部读完','<button class="plain-btn" data-action="readall">全部已读</button>')}
-    <div class="message-tabs">${['全部','审核','报名','互动'].map(x=>`<button class="chip ${state.messageFilter===x?'active':''}" data-action="message-filter" data-id="${x}">${x}</button>`).join('')}</div>
+    <div class="message-tabs">${['全部','管理','活动','互动'].map(x=>`<button class="chip ${state.messageFilter===x?'active':''}" data-action="message-filter" data-id="${x}">${x}</button>`).join('')}</div>
     ${shown.map(m=>`<article class="message-item ${m.unread&&state.unread?'unread':''}" data-action="${m.action}" ${m.id?`data-id="${m.id}"`:''}><span class="msg-icon">${m.icon}</span><div class="msg-body"><strong>${m.title}<time>${m.time}</time></strong><p>${m.copy}</p></div></article>`).join('')}
   </section>`;
   return shell(body);
@@ -135,7 +144,7 @@ function renderMessages(){
 
 function renderMe(){
   const body=`<section class="screen gray">${topbar('我的','','<button class="icon-btn" data-action="settings">⚙</button>')}
-    <section class="profile-hero" data-action="member" data-id="jiang"><div class="profile-top">${avatar(person('jiang'))}<div><h2>Jiang</h2><p>上海 · 城市研究 / 社区产品</p></div></div><div class="stats"><div class="stat"><strong>18</strong><span>关注</span></div><div class="stat"><strong>42</strong><span>被关注</span></div><div class="stat"><strong>16</strong><span>参与活动</span></div></div></section>
+    <section class="profile-hero"><div class="profile-top" data-action="member" data-id="jiang">${avatar(person('jiang'))}<div><h2>Jiang</h2><p>上海 · 城市研究 / 社区产品</p></div><button class="profile-edit" data-action="edit-profile">编辑资料</button></div><div class="stats"><button class="stat" data-action="relations" data-id="following"><strong>18</strong><span>关注</span></button><button class="stat" data-action="relations" data-id="followers"><strong>42</strong><span>被关注</span></button><button class="stat" data-action="my-registrations"><strong>16</strong><span>参与活动</span></button></div></section>
     <article class="admin-card" data-action="approvals"><div><strong>管理员待办</strong><p>${state.approvalDone?'新的审核都处理完了':'2 场活动正在等待审核'}</p></div><span class="count">${state.approvalDone?'0':'2'}</span></article>
     <div class="menu-group"><button class="menu-row" data-action="my-registrations"><span class="row-icon">票</span><span>我的报名</span><small>3 场 ›</small></button><button class="menu-row" data-action="my-events"><span class="row-icon">旗</span><span>我发布的活动</span><small>2 场 ›</small></button><button class="menu-row" data-action="publish"><span class="row-icon">＋</span><span>发布活动</span><small>›</small></button><button class="menu-row" data-action="drafts"><span class="row-icon">稿</span><span>草稿</span><small>1 ›</small></button></div>
     <div class="menu-group"><button class="menu-row" data-action="org"><span class="row-icon">组</span><span>我管理的组织</span><small>706 产品小组 ›</small></button><button class="menu-row" data-action="space"><span class="row-icon">屋</span><span>我管理的空间</span><small>706 青年空间 ›</small></button><button class="menu-row" data-action="following"><span class="row-icon">友</span><span>我的关注</span><small>18 ›</small></button></div>
@@ -147,20 +156,27 @@ function renderEvent(){
   const e=eventBy(state.activeEvent); const isJoined=state.joined[e.id];
   return `<section class="screen no-nav"><header class="topbar transparent"><button class="back" data-action="back">‹</button><span></span></header>
     <section class="detail-hero" style="--cover:${e.color}"><span class="cover-tag">${e.spots?'报名中':'名额已满'}</span><h1>${e.title}</h1><p>${e.date} ${e.time} · ${e.city}</p></section>
+    ${e.campaign?`<button class="campaign-link" data-action="campaign"><span>多城联动系列</span><strong>${campaign.title}</strong><b>›</b></button>`:''}
     <div class="social-proof"><span class="stack">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}</span><span><strong>阿乔和 Jiang</strong> 等 ${e.joined} 人已经参加</span></div>
     <section class="detail-section"><div class="facts"><div class="fact"><span class="fact-icon">日</span><div><strong>${e.date} · ${e.time}</strong><span>活动开始前 2 小时停止报名</span></div></div><div class="fact"><span class="fact-icon">地</span><div><strong>${e.venue}</strong><span>${e.address}</span></div></div><div class="fact"><span class="fact-icon">票</span><div><strong>${e.price?`¥${e.price} / 人`:'免费参加'}</strong><span>${e.spots?`还剩 ${e.spots} 个名额`:'可以加入候补'}</span></div></div></div></section>
     <section class="detail-section"><h2>关于活动</h2><p>${e.summary}</p><div class="tags"><span class="tag">城市</span><span class="tag">轻松交流</span><span class="tag">新朋友友好</span></div></section>
     <section class="detail-section"><h2>适合谁参加</h2><p>${e.fit}</p></section>
     <section class="detail-section"><h2>发起人和空间</h2><article class="entity-card" data-action="member" data-id="qiao">${avatar(person('qiao'),'sm')}<div><strong>${e.host}</strong><span>发起人 · 最近组织 5 场活动</span></div><b>›</b></article><article class="entity-card" data-action="space"><span class="avatar sm" style="--avatar:#ffe0b0">屋</span><div><strong>${e.venue}</strong><span>${e.org}</span></div><b>›</b></article></section>
-    <section class="detail-section"><div class="section-title"><h2>大家为什么想来</h2><button data-action="comment">写评论</button></div><article class="entity-card">${avatar(person('jiang'),'sm')}<div><strong>Jiang</strong><span>很想听听大家怎么理解“留下来”。</span></div></article><article class="entity-card">${avatar(person('shing'),'sm')}<div><strong>Shing</strong><span>朋友推荐了这部片，第一次来 706。</span></div></article></section>
+    <section class="detail-section"><div class="section-title"><h2>报名、推荐与讨论</h2><button data-action="comment">写评论</button></div>
+      <article class="response-card">${avatar(person('jiang'),'sm')}<div><strong>Jiang <em>已报名</em></strong><p>很想听听大家怎么理解“留下来”。</p><button data-action="reply" data-id="jiang">回复</button><div class="reply"><b>阿乔：</b>映后会留出大约 45 分钟讨论，欢迎带着问题来。</div></div></article>
+      <article class="response-card">${avatar(person('shing'),'sm')}<div><strong>Shing <em>已推荐</em></strong><p>朋友推荐了这部片，第一次来 706。</p><button data-action="reply" data-id="shing">回复</button></div></article>
+    </section>
   </section><div class="bottom-action"><button class="secondary" data-action="recommend" data-id="${e.id}">${state.recommended[e.id]?'已推荐':'推荐'}</button><button class="primary" data-action="signup" data-id="${e.id}" ${isJoined?'disabled':''}>${isJoined?'报名审核中':e.spots?(e.approval?'申请报名':'立即报名'):'加入候补'}</button></div>`;
 }
 
 function renderMember(){
   const p=person(state.activePerson); const followed=p.following||state.recommended[p.id];
-  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>成员主页</h2><button class="plain-btn">···</button></header>
-    <section class="member-hero">${avatar(p)}<h1>${p.name}</h1><p>${p.city} · ${p.bio}<br>喜欢把陌生人聚到一张桌子边，聊一些没有标准答案的问题。</p><div class="tags"><span class="tag">城市观察</span><span class="tag">纪录片</span><span class="tag">社区空间</span></div><div class="member-actions"><button class="secondary" data-action="follow" data-id="${p.id}">${followed?'已关注':'＋ 关注'}</button><button class="secondary" data-action="share">分享主页</button></div></section>
-    <section class="detail-section"><h2>最近参与</h2>${eventRow(events[0])}${eventRow(events[2])}</section>
+  const self=p.id==='jiang';
+  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>成员主页</h2><button class="manage-link" data-action="${self?'edit-profile':'member-more'}">${self?'编辑资料':'更多'}</button></header>
+    <section class="member-hero">${avatar(p)}<h1>${p.name}</h1><p>${p.city} · ${p.bio}<br>${self?state.profileDraft.intro:'喜欢把陌生人聚到一张桌子边，聊一些没有标准答案的问题。'}</p><div class="tags"><span class="tag">城市观察</span><span class="tag">纪录片</span><span class="tag">社区空间</span></div><div class="member-actions">${self?'<button class="secondary" data-action="edit-profile">编辑个人资料</button>':`<button class="secondary" data-action="follow" data-id="${p.id}">${followed?'已关注':'＋ 关注'}</button>`}<button class="secondary" data-action="share">分享主页</button></div><div class="profile-relations"><button data-action="relations" data-id="following"><b>${self?'18':'32'}</b><span>关注</span></button><button data-action="relations" data-id="followers"><b>${self?'42':'128'}</b><span>关注者</span></button><button><b>${self?'16':'23'}</b><span>共同活动</span></button></div></section>
+    <section class="detail-section"><h2>关于我</h2><p>${self?state.profileDraft.intro:'正在做与城市、影像和公共空间有关的事情。希望认识愿意一起行动的人。'}</p><div class="profile-links"><button data-action="external-link"><span>作</span><div><strong>作品与项目</strong><small>${self?state.profileDraft.work:'qiao.design/works'}</small></div><b>›</b></button><button data-action="external-link"><span>社</span><div><strong>社交媒体</strong><small>${self?state.profileDraft.social:'小红书 @qiao_in_city'}</small></div><b>›</b></button></div></section>
+    <section class="detail-section"><h2>所属组织</h2><article class="entity-card" data-action="org"><span class="avatar sm" style="--avatar:#eadfff">组</span><div><strong>706 产品小组</strong><span>成员 · 参与产品共创</span></div><b>›</b></article></section>
+    <section class="detail-section"><h2>最近参与和发起</h2>${eventRow(events[0])}${eventRow(events[2])}</section>
     <section class="detail-section"><h2>常去的空间</h2><article class="entity-card" data-action="space"><span class="avatar sm" style="--avatar:#ffe0b0">屋</span><div><strong>706 青年空间</strong><span>最近参加过 6 场活动</span></div><b>›</b></article></section>
   </section>`;
 }
@@ -185,18 +201,74 @@ function renderEntityMembers(){
   return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活跃成员</h2><span></span></header><div class="notice">近期在${isSpace?'这个空间参加或发起过活动':'这个组织的活动中有回应'}的成员，按最近活跃时间排列。</div><section class="member-list">${people.map(p=>`<article class="member-list-card" data-action="member" data-id="${p.id}">${avatar(p,'sm')}<div><strong>${p.name}</strong><span>${p.bio} · ${p.city}</span></div><button class="follow-inline ${p.following||state.recommended[p.id]?'active':''}" data-action="follow" data-id="${p.id}">${p.following||state.recommended[p.id]?'已关注':'关注'}</button></article>`).join('')}</section></section>`;
 }
 
+function formHeader(title,saveAction='save-form'){
+  return `<header class="topbar slim"><button class="back" data-action="back">‹</button><h2>${title}</h2><button class="manage-link" data-action="${saveAction}">保存</button></header>`;
+}
+
+function renderEditEntity(){
+  const d=state.spaceDraft;
+  return `<section class="screen no-nav">${formHeader('编辑空间资料','save-space')}<main class="form-page edit-form"><div class="media-cover" style="--cover:linear-gradient(145deg,#523915,#a56b25)"><span>屋</span><button data-action="change-cover">更换封面</button></div><div class="field"><label>空间名称</label><input class="input" data-scope="spaceDraft" data-bind="name" value="${d.name}"></div><div class="grid-2"><div class="field"><label>城市</label><input class="input" data-scope="spaceDraft" data-bind="city" value="${d.city}"></div><div class="field"><label>开放时间</label><input class="input" data-scope="spaceDraft" data-bind="hours" value="${d.hours}"></div></div><div class="field"><label>详细地址</label><input class="input" data-scope="spaceDraft" data-bind="address" value="${d.address}"></div><div class="field"><label>空间介绍</label><textarea class="textarea" data-scope="spaceDraft" data-bind="intro">${d.intro}</textarea></div><div class="field"><label>对外联系人</label><input class="input" data-scope="spaceDraft" data-bind="contact" value="${d.contact}"><small>仅在需要联系空间时向活动发起人展示。</small></div><div class="option-row"><div><strong>允许活动申请使用空间</strong><small>提交后进入空间管理员审核</small></div><button class="switch on" aria-label="允许活动申请"></button></div></main></section>`;
+}
+
+function renderAdmins(){
+  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>管理员设置</h2><button class="manage-link" data-action="invite-admin">＋ 添加</button></header><div class="notice">管理员可以编辑空间资料、处理活动审核和邀请其他管理员。</div><section class="member-list"><article class="member-list-card">${avatar(person('shing'),'sm')}<div><strong>Shing</strong><span>空间负责人 · 全部权限</span></div><span class="badge">Owner</span></article><article class="member-list-card">${avatar(person('qiao'),'sm')}<div><strong>阿乔</strong><span>活动审核、资料编辑</span></div><button class="plain-btn" data-action="admin-permission">权限 ›</button></article><article class="member-list-card">${avatar(person('jiang'),'sm')}<div><strong>Jiang</strong><span>仅活动审核</span></div><button class="plain-btn" data-action="admin-permission">权限 ›</button></article></section><div class="notice">移除管理员不会影响其普通成员身份，也不会删除其已发布的活动。</div></section>`;
+}
+
+function renderEditProfile(){
+  const d=state.profileDraft;
+  return `<section class="screen no-nav">${formHeader('编辑个人资料','save-profile')}<main class="form-page edit-form"><div class="avatar-editor">${avatar(person('jiang'))}<button data-action="change-avatar">更换头像</button></div><div class="field"><label>昵称</label><input class="input" data-scope="profileDraft" data-bind="name" value="${d.name}"></div><div class="grid-2"><div class="field"><label>当前城市</label><input class="input" data-scope="profileDraft" data-bind="city" value="${d.city}"></div><div class="field"><label>身份关键词</label><input class="input" data-scope="profileDraft" data-bind="bio" value="${d.bio}"></div></div><div class="field"><label>自我介绍</label><textarea class="textarea" data-scope="profileDraft" data-bind="intro">${d.intro}</textarea><small>可以回答：你最近在关心什么？希望在社区里遇见谁？</small></div><div class="field"><label>作品链接</label><input class="input" data-scope="profileDraft" data-bind="work" value="${d.work}"></div><div class="field"><label>社交媒体链接</label><input class="input" data-scope="profileDraft" data-bind="social" value="${d.social}"></div><div class="field"><label>个人微信号</label><input class="input" data-scope="profileDraft" data-bind="wechat" value="${d.wechat}"><small>默认不公开；报名活动时会明确征得同意后分享给组织者。</small></div><div class="field"><label>所属／常去空间</label><input class="input" data-scope="profileDraft" data-bind="spaces" value="${d.spaces}"></div></main></section>`;
+}
+
+function renderRelations(){
+  const followers=state.activeRelation==='followers';
+  const list=followers?people.slice(1,7):people.slice(0,6);
+  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>社交关系</h2><span></span></header><div class="message-tabs"><button class="chip ${!followers?'active':''}" data-action="relation-tab" data-id="following">关注 18</button><button class="chip ${followers?'active':''}" data-action="relation-tab" data-id="followers">关注者 42</button></div><section class="member-list">${list.map(p=>`<article class="member-list-card" data-action="member" data-id="${p.id}">${avatar(p,'sm')}<div><strong>${p.name}</strong><span>${p.bio} · ${p.city}</span></div><button class="follow-inline ${p.following||state.recommended[p.id]?'active':''}" data-action="follow" data-id="${p.id}">${p.following||state.recommended[p.id]?'已关注':'关注'}</button></article>`).join('')}</section></section>`;
+}
+
+function renderDrafts(){
+  const d=state.draft;
+  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活动草稿</h2><span></span></header><article class="draft-card"><div class="draft-cover" style="--cover:linear-gradient(135deg,#385cca,#1c245e)"></div><div><span class="badge orange">编辑至第 ${state.publishStep} 步</span><h3>${d.title}</h3><p>${d.date} · ${d.venue}</p><small>保存于今天 16:42</small></div><button class="primary" data-action="edit-draft">继续编辑</button></article></section>`;
+}
+
+function renderCalendar(){
+  const days=[['26','六',2],['27','日',1],['28','一',0],['29','二',1],['30','三',2],['01','四',0],['02','五',1]];
+  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活动日历</h2><button class="plain-btn">2026年9月⌄</button></header><div class="calendar-strip">${days.map((d,i)=>`<button class="calendar-day ${i===0?'active':''}"><span>周${d[1]}</span><strong>${d[0]}</strong>${d[2]?`<i>${d[2]}</i>`:''}</button>`).join('')}</div><div class="section-title" style="padding:4px 19px"><h2>9月26日 · 周六</h2><span>2 场</span></div>${eventRow(events[0])}${eventRow(events[2])}<div class="section-title" style="padding:15px 19px 4px"><h2>接下来</h2></div>${eventRow(events[1])}</section>`;
+}
+
+function renderSpaces(){
+  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>按空间发现</h2><button class="plain-btn" data-action="city">上海⌄</button></header><div class="notice">先选择一个空间，再查看那里近期发生的活动和活跃成员。</div><div class="space-list"><article data-action="space" style="--cover:linear-gradient(135deg,#8b5a20,#4f3213)"><span>静安 · 1.2 km</span><h2>706 青年空间</h2><p>本周 4 场活动 · 36 位成员活跃</p><b>查看活动 ›</b></article><article data-action="org" style="--cover:linear-gradient(135deg,#5c4dc2,#282257)"><span>徐汇 · 3.8 km</span><h2>Sola 共创空间</h2><p>本周 2 场活动 · 12 位成员活跃</p><b>查看活动 ›</b></article></div></section>`;
+}
+
+function renderCampaign(){
+  return `<section class="screen no-nav"><header class="topbar transparent"><button class="back" data-action="back">‹</button><button class="campaign-manage" data-action="campaign-edit">管理系列</button></header><section class="campaign-hero" style="--cover:${campaign.cover}"><small>${campaign.kicker}</small><h1>${campaign.title}</h1><p>${campaign.cities.join(' · ')}</p></section><section class="detail-section"><h2>关于这个系列</h2><p>${campaign.summary}</p><div class="profile-links"><button data-action="external-link"><span>文</span><div><strong>参与者资料包</strong><small>统一主题说明、讨论问题和视觉素材</small></div><b>›</b></button></div></section><section class="detail-section"><div class="section-title"><h2>各城市活动</h2><span>5 个节点</span></div>${eventRow(events[0])}<article class="event-row"><div class="event-thumb" style="--cover:linear-gradient(135deg,#19715b,#102f28)"></div><div class="event-row-main"><h3>客厅对话：迁徙之后</h3><p>10月2日 19:00 · 杭州 706 客厅</p><p>免费 · 剩余 6 个名额</p></div></article>${eventRow(events[2])}</section></section>`;
+}
+
+function renderCampaignEdit(){
+  return `<section class="screen no-nav">${formHeader('编辑活动系列','save-campaign')}<main class="form-page edit-form"><div class="media-cover" style="--cover:${campaign.cover}"><button data-action="change-cover">更换系列封面</button></div><div class="field"><label>系列名称</label><input class="input" value="${campaign.title}"></div><div class="field"><label>总介绍</label><textarea class="textarea">${campaign.summary}</textarea></div><div class="field"><label>资料与外部链接</label><input class="input" value="https://706.community/dialog-kit"></div><div class="section-title"><h2>系列中的活动</h2><button data-action="campaign-add-event">＋ 添加活动</button></div>${eventRow(events[0])}${eventRow(events[2])}</main></section>`;
+}
+
+function renderEventAccess(){
+  const e=eventBy(state.activeEvent);
+  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>报名已通过</h2><span></span></header><section class="status-hero"><div class="success-icon">✓</div><h1>你可以参加了</h1><p>${e.title}</p></section><section class="detail-section"><h2>下一步</h2>${e.price?`<article class="next-step"><span>1</span><div><strong>完成活动付款</strong><p>¥${e.price} · 请在 30 分钟内完成</p></div><button data-action="pay-event">去付款</button></article>`:''}<article class="next-step"><span>${e.price?'2':'1'}</span><div><strong>加入活动微信群</strong><p>付款后显示二维码；群内会发布行前提醒。</p></div><button data-action="show-group">查看</button></article><article class="next-step"><span>${e.price?'3':'2'}</span><div><strong>联系活动组织者</strong><p>阿乔 · 微信 qiao706；你报名时同意分享的微信号也会提供给她。</p></div><button data-action="copy-wechat">复制</button></article></section><div class="notice">有些活动不会提供群聊。届时这里会说明“组织者稍后会与你联络”，或显示公开联系人。</div></section>`;
+}
+
+function renderActivityPreview(){
+  const d=state.draft;
+  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活动预览</h2><span></span></header><section class="detail-hero" style="--cover:linear-gradient(135deg,#385cca,#1c245e)"><span class="cover-tag">审核后发布</span><h1>${d.title}</h1><p>10月4日 ${d.start}–${d.end} · ${d.city}</p></section><section class="detail-section"><h2>活动介绍</h2><p>${d.summary}</p></section><section class="detail-section"><div class="facts"><div class="fact"><span class="fact-icon">地</span><div><strong>${d.venue}</strong><span>${d.city}</span></div></div><div class="fact"><span class="fact-icon">票</span><div><strong>${d.paid?`¥${d.price}`:'免费'} · ${d.quota} 人</strong><span>报名${d.attendeeApproval?'需要':'不需要'}发起人审核</span></div></div></div></section></section>`;
+}
+
 function renderPublish(){
   if(state.publishSubmitted) return `<section class="screen no-nav"><div class="success"><div><div class="success-icon">✓</div><h1>活动已提交审核</h1><p>平台运营和空间管理员会同时收到申请。<br>你可以在“我发布的活动”中查看进度。</p><button class="primary dark" data-action="approval-progress">查看审核进度</button><button class="plain-btn" data-action="home" style="display:block;margin:12px auto">回到动态</button></div></div></section>`;
   const d=state.draft; let fields=''; let title=''; let intro='';
   if(state.publishStep===1){
     title='活动是什么？'; intro='先把时间、地点和主题说清楚，其他内容之后还可以继续编辑。';
-    fields=`<div class="field"><label>活动名称</label><input class="input" data-bind="title" value="${d.title}" /></div><div class="field"><label>一句话介绍</label><textarea class="textarea" data-bind="summary">${d.summary}</textarea></div><div class="field"><label>日期</label><input class="input" type="date" data-bind="date" value="${d.date}" /></div><div class="grid-2"><div class="field"><label>开始时间</label><input class="input" type="time" data-bind="start" value="${d.start}" /></div><div class="field"><label>结束时间</label><input class="input" type="time" data-bind="end" value="${d.end}" /></div></div><div class="grid-2"><div class="field"><label>城市</label><select class="select" data-bind="city"><option>上海</option><option>杭州</option><option>北京</option></select></div><div class="field"><label>空间／地点</label><select class="select" data-bind="venue"><option>706 青年空间</option><option>Sola 共创空间</option><option>自行填写地点</option></select></div></div><div class="field"><label>以什么身份发布</label><select class="select" data-bind="identity"><option>以个人身份发布</option><option>以 706 产品小组发布</option></select><small>选择组织身份后，需要对应组织管理员审核。</small></div>`;
+    fields=`<div class="field"><label>活动名称</label><input class="input" data-bind="title" value="${d.title}" /></div><div class="field"><label>一句话介绍</label><textarea class="textarea" data-bind="summary">${d.summary}</textarea></div><div class="field"><label>图片、视频与链接</label><div class="media-grid">${state.draftMedia.map((m,i)=>`<div class="media-item ${m.type}"><span>${m.type==='image'?'图':m.type==='video'?'影':'链'}</span><small>${m.label}</small><button data-action="remove-media" data-id="${i}">×</button></div>`).join('')}<button class="media-add" data-action="add-media" data-id="image">＋ 图片</button><button class="media-add" data-action="add-media" data-id="video">＋ 视频</button><button class="media-add" data-action="add-media" data-id="link">＋ 链接</button></div><small>最多 9 张图片、1 个视频和 3 个外部链接；第一张图片作为活动卡片封面。</small></div><div class="field"><label>日期</label><input class="input" type="date" data-bind="date" value="${d.date}" /></div><div class="grid-2"><div class="field"><label>开始时间</label><input class="input" type="time" data-bind="start" value="${d.start}" /></div><div class="field"><label>结束时间</label><input class="input" type="time" data-bind="end" value="${d.end}" /></div></div><div class="grid-2"><div class="field"><label>城市</label><select class="select" data-bind="city"><option>上海</option><option>杭州</option><option>北京</option></select></div><div class="field"><label>空间／地点</label><select class="select" data-bind="venue"><option>706 青年空间</option><option>Sola 共创空间</option><option>自行填写地点</option></select></div></div><div class="field"><label>以什么身份发布</label><select class="select" data-bind="identity"><option>以个人身份发布</option><option>以 706 产品小组发布</option></select><small>选择组织身份后，需要对应组织管理员审核。</small></div>`;
   } else if(state.publishStep===2){
     title='大家如何参加？'; intro='设置名额、费用和报名方式。报名后的联系信息不会公开。';
-    fields=`<div class="field"><label>活动名额</label><input class="input" type="number" data-bind="quota" value="${d.quota}" /></div><div class="option-row"><div><strong>这是付费活动</strong><small>支持任意金额，不设价格上限</small></div><button class="switch ${d.paid?'on':''}" data-action="toggle-paid" aria-label="切换付费活动"></button></div>${d.paid?`<div class="field"><label>每人费用（元）</label><input class="input" type="number" inputmode="decimal" min="0.01" step="0.01" data-bind="price" value="${d.price}" /><small>可输入任意正数金额，支持小数。</small></div>`:''}<div class="option-row"><div><strong>报名需要发起人审核</strong><small>付费活动将先审核，后付款</small></div><button class="switch ${d.attendeeApproval?'on':''}" data-action="toggle-approval" aria-label="切换报名审核"></button></div><div class="field"><label>报名成功后如何参与</label><textarea class="textarea" data-bind="joinMethod">${d.joinMethod}</textarea><small>群二维码、公开联系人或其他参与方式，只对报名成功的人显示。</small></div><div class="field"><label>补充活动介绍</label><textarea class="textarea" data-bind="detail">${d.detail}</textarea></div>`;
+    fields=`<div class="field"><label>活动名额</label><input class="input" type="number" data-bind="quota" value="${d.quota}" /></div><div class="option-row"><div><strong>这是付费活动</strong><small>支持任意金额，不设价格上限</small></div><button class="switch ${d.paid?'on':''}" data-action="toggle-paid" aria-label="切换付费活动"></button></div>${d.paid?`<div class="field"><label>每人费用（元）</label><input class="input" type="number" inputmode="decimal" min="0.01" step="0.01" data-bind="price" value="${d.price}" /><small>审核通过后，参与者先完成微信支付，再看到入群或联系信息。</small></div>`:''}<div class="option-row"><div><strong>报名需要发起人审核</strong><small>${d.paid?'审核通过 → 微信支付 → 获得参与方式':'审核通过后直接获得参与方式'}</small></div><button class="switch ${d.attendeeApproval?'on':''}" data-action="toggle-approval" aria-label="切换报名审核"></button></div><div class="field"><label>报名成功后如何参与</label><div class="choice-list">${[['group','展示微信群二维码','适合需要统一通知的活动'],['wechat','展示组织者微信','参与者主动添加联系人'],['contact','组织者稍后联系','把参与者微信分享给组织者']].map(([id,label,desc])=>`<button class="choice ${d.joinMethod===id?'active':''}" data-action="join-method" data-id="${id}"><span>${d.joinMethod===id?'✓':'○'}</span><div><strong>${label}</strong><small>${desc}</small></div></button>`).join('')}</div><small>只对报名成功且已完成付款的人显示。</small></div><div class="field"><label>补充活动介绍</label><textarea class="textarea" data-bind="detail">${d.detail}</textarea></div>`;
   } else {
     title='确认并提交'; intro='所有活动公开前都需要审核。关联组织或空间时，相应管理员会同时收到申请。';
-    fields=`<div class="review-card"><h3>${d.title}</h3><div class="review-row"><span>时间</span><b>10月4日 ${d.start}–${d.end}</b></div><div class="review-row"><span>地点</span><b>${d.venue}</b></div><div class="review-row"><span>发布身份</span><b>${d.identity}</b></div><div class="review-row"><span>参与方式</span><b>${d.paid?`¥${d.price}`:'免费'} · ${d.quota} 人</b></div></div><div class="review-card"><h3>将由这些人审核</h3><div class="approval-list"><div class="approval-row"><span class="status-dot"></span><div><strong>706 上海运营</strong><span>所有活动的基础审核</span></div><span>待提交</span></div><div class="approval-row"><span class="status-dot"></span><div><strong>706 青年空间</strong><span>确认时间与空间安排</span></div><span>待提交</span></div></div></div><div class="notice">提交后，你可以随时查看卡在哪个环节，以及可以联系谁。</div>`;
+    fields=`<button class="preview-card" data-action="activity-preview"><div class="preview-cover" style="--cover:linear-gradient(135deg,#385cca,#1c245e)"><span>动态卡片预览</span></div><div><h3>${d.title}</h3><p>10月4日 ${d.start}–${d.end} · ${d.venue}</p><small>${d.paid?`¥${d.price}`:'免费'} · ${d.quota} 人 · 点击查看完整预览</small></div></button><div class="review-card"><div class="review-row"><span>发布身份</span><b>${d.identity}</b></div><div class="review-row"><span>报名后</span><b>${d.joinMethod==='group'?'群二维码':d.joinMethod==='wechat'?'组织者微信':'组织者联系参与者'}</b></div></div><div class="review-card"><h3>将由这些人审核</h3><div class="approval-list"><div class="approval-row"><span class="status-dot"></span><div><strong>706 上海运营</strong><span>所有活动的基础审核</span></div><span>待提交</span></div><div class="approval-row"><span class="status-dot"></span><div><strong>706 青年空间</strong><span>确认时间与空间安排</span></div><span>待提交</span></div></div></div><div class="notice">提交后，你可以随时查看卡在哪个环节，以及可以联系谁。</div>`;
   }
   return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="publish-back">‹</button><h2>发布活动</h2><button class="plain-btn" data-action="save-draft">存草稿</button></header><main class="form-page"><div class="steps">${[1,2,3].map(n=>`<span class="step-line ${n<=state.publishStep?'done':''}"></span>`).join('')}</div><div class="form-intro"><h1>${title}</h1><p>${intro}</p></div>${fields}</main></section><div class="bottom-action">${state.publishStep>1?'<button class="secondary" data-action="publish-prev">上一步</button>':''}<button class="primary" data-action="publish-next">${state.publishStep===3?'提交审核':'继续'}</button></div>`;
 }
@@ -223,11 +295,14 @@ function render(){
     case 'feed': html=renderFeed(); break; case 'discover': html=renderDiscover(); break; case 'messages': html=renderMessages(); break; case 'me': html=renderMe(); break;
     case 'event': html=renderEvent(); break; case 'member': html=renderMember(); break; case 'space': html=renderEntity('space'); break; case 'org': html=renderEntity('org'); break;
     case 'entity-events': html=renderEntityEvents(); break; case 'entity-members': html=renderEntityMembers(); break;
+    case 'edit-entity': html=renderEditEntity(); break; case 'admins': html=renderAdmins(); break; case 'edit-profile': html=renderEditProfile(); break; case 'relations': html=renderRelations(); break;
+    case 'calendar': html=renderCalendar(); break; case 'spaces': html=renderSpaces(); break; case 'campaign': html=renderCampaign(); break; case 'campaign-edit': html=renderCampaignEdit(); break;
+    case 'event-access': html=renderEventAccess(); break; case 'activity-preview': html=renderActivityPreview(); break;
     case 'publish': html=renderPublish(); break; case 'approvals': html=renderApprovals(); break; case 'approval-detail': html=renderApprovalDetail(); break; case 'approval-progress': html=renderProgress(); break;
     case 'registrations': html=renderSimple('我的报名','这里会集中展示待审核、待付款、即将开始和已经结束的活动。'); break;
     case 'my-events': html=renderSimple('我发布的活动','可以查看草稿、审核进度、报名名单，以及从旧活动再办一场。'); break;
-    case 'drafts': html=renderSimple('活动草稿','你有一份“周末共读”的草稿，可以从发布入口继续编辑。'); break;
-    case 'following': html=renderSimple('我的关注','你关注的人、组织和空间会共同影响动态首页。'); break;
+    case 'drafts': html=renderDrafts(); break;
+    case 'following': html=renderRelations(); break;
     default: html=renderFeed();
   }
   app.innerHTML=html;
@@ -235,7 +310,7 @@ function render(){
 
 function go(view,opts={}){
   state.history.push(state.view); state.view=view;
-  if(opts.id){ if(view==='event') state.activeEvent=opts.id; if(view==='member') state.activePerson=opts.id; }
+  if(opts.id){ if(view==='event'||view==='event-access') state.activeEvent=opts.id; if(view==='member') state.activePerson=opts.id; }
   render(); scrollTop();
 }
 function scrollTop(){ const s=app.querySelector('.screen'); if(s) s.scrollTop=0; }
@@ -245,11 +320,11 @@ function closeSheet(){ layer.innerHTML=''; }
 
 function signupSheet(id){
   const e=eventBy(id);
-  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>${e.spots?'报名活动':'加入候补'}</h2><p>${e.title}<br>你的报名和参与状态会公开展示，联系方式和报名回答只对发起人可见。</p><div class="field"><label>怎么称呼你</label><input class="input" value="Jiang" /></div><div class="field"><label>为什么想参加？</label><textarea class="textarea" placeholder="简单说说你的兴趣或期待">对城市里的公共空间很感兴趣，也想认识一起做社区的人。</textarea></div><label style="display:flex;gap:9px;align-items:flex-start;font-size:12px;line-height:1.45"><input type="checkbox" checked /> 我知道报名和参与状态会展示在社区中</label><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary" data-action="submit-signup" data-id="${id}">${e.spots?(e.approval?'提交申请':'确认报名'):'加入候补'}</button></div></section></div>`;
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>${e.spots?'报名活动':'加入候补'}</h2><p>${e.title}<br>报名与参与状态会公开展示；报名后，你的个人微信号 <strong>${state.profileDraft.wechat}</strong> 会分享给活动组织者，用于确认参与和发送活动通知。</p><div class="field"><label>怎么称呼你</label><input class="input" value="Jiang" /></div><div class="field"><label>为什么想参加？</label><textarea class="textarea" placeholder="简单说说你的兴趣或期待">对城市里的公共空间很感兴趣，也想认识一起做社区的人。</textarea></div><label class="consent"><input type="checkbox" checked /> 我同意向组织者分享个人微信号，并知道报名和参与状态会展示在社区中</label><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary" data-action="submit-signup" data-id="${id}">${e.spots?(e.approval?'提交申请':'确认报名'):'加入候补'}</button></div></section></div>`;
 }
 
-function commentSheet(){
-  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>写下回应</h2><p>评论会公开显示在活动详情中。</p><textarea class="textarea" placeholder="你想说什么？">这个主题很有意思，想知道映后讨论会持续多久？</textarea><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary" data-action="post-comment">发布评论</button></div></section></div>`;
+function commentSheet(replyTo=''){
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>${replyTo?`回复 ${person(replyTo).name}`:'写下回应'}</h2><p>评论与回复都会公开显示在活动详情中。</p><textarea class="textarea" placeholder="你想说什么？">${replyTo?'谢谢分享，我也想听听你的看法。':'这个主题很有意思，想知道映后讨论会持续多久？'}</textarea><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary" data-action="post-comment">发布${replyTo?'回复':'评论'}</button></div></section></div>`;
 }
 
 function recommendSheet(id){
@@ -265,15 +340,33 @@ function manageEntitySheet(){
   layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>${isSpace?'空间':'组织'}管理</h2><p>这些入口只有管理员可见，普通成员不会看到顶部的“管理”。</p><div class="menu-group sheet-menu"><button class="menu-row" data-action="manage-edit"><span class="row-icon">编</span><span>编辑${isSpace?'空间':'组织'}资料</span><small>›</small></button><button class="menu-row" data-action="approvals"><span class="row-icon">审</span><span>活动审核</span><small>2 个待办 ›</small></button><button class="menu-row" data-action="manage-admins"><span class="row-icon">人</span><span>管理员设置</span><small>›</small></button></div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
 }
 
+function memberMoreSheet(){
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>成员主页操作</h2><p>这些操作不会影响你已经参与的活动。</p><div class="menu-group sheet-menu"><button class="menu-row" data-action="share"><span class="row-icon">链</span><span>复制主页链接</span><small>›</small></button><button class="menu-row" data-action="mute-member"><span class="row-icon">静</span><span>不看 TA 的动态</span><small>›</small></button><button class="menu-row" data-action="report-member"><span class="row-icon">!</span><span>举报成员</span><small>›</small></button></div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
+}
+
+function peopleWhySheet(){
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>为什么推荐这些人？</h2><p>“发现有意思的人”会优先展示与你有真实社区关联的成员。</p><div class="reason-list"><div><span>友</span><p><strong>TA 关注了你</strong><small>有机会建立双向关注</small></p></div><div><span>同</span><p><strong>参加过相同活动</strong><small>你们共同参加过 2 场活动</small></p></div><div><span>屋</span><p><strong>关注同一个空间</strong><small>你们都关注 706 青年空间</small></p></div><div><span>荐</span><p><strong>推荐过同一场活动</strong><small>兴趣和判断可能相近</small></p></div></div><button class="secondary sheet-close" data-action="close-sheet">知道了</button></section></div>`;
+}
+
+function paymentSheet(){
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>确认活动付款</h2><p>秋日放映：城市游牧者</p><div class="payment-total"><span>应付金额</span><strong>¥30.00</strong></div><div class="notice">付款成功后立即显示活动群和组织者联系方式。取消报名与退款规则由活动组织者处理。</div><div class="sheet-actions"><button class="secondary" data-action="close-sheet">稍后支付</button><button class="primary" data-action="confirm-pay">微信支付</button></div></section></div>`;
+}
+
+function groupSheet(){
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet center-sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>活动微信群</h2><div class="qr-placeholder">群二维码</div><p>长按识别二维码加入群聊。二维码仅对报名成功且已付款的参与者显示。</p><button class="secondary sheet-close" data-action="close-sheet">完成</button></section></div>`;
+}
+
 function returnSheet(){
   layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>退回修改</h2><p>请具体说明需要调整的地方，发起人会收到通知。</p><textarea class="textarea">空间 18:30 前还有其他活动，请将布置时间改为 18:40 以后。</textarea><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary dark" data-action="confirm-return">发送修改意见</button></div></section></div>`;
 }
 
-app.addEventListener('input',e=>{ const key=e.target.dataset.bind; if(key) state.draft[key]=e.target.value; });
-app.addEventListener('change',e=>{ const key=e.target.dataset.bind; if(key) state.draft[key]=e.target.value; });
+function bindField(e){ const key=e.target.dataset.bind; if(!key) return; const scope=e.target.dataset.scope||'draft'; state[scope][key]=e.target.value; }
+app.addEventListener('input',bindField);
+app.addEventListener('change',bindField);
 
 document.addEventListener('click',e=>{
   const btn=e.target.closest('[data-action]'); if(!btn) return;
+  if(btn.classList.contains('sheet-backdrop')&&e.target!==btn) return;
   const a=btn.dataset.action,id=btn.dataset.id;
   if(a==='tab'){ state.tab=id; state.view=id; state.history=[]; if(id==='messages') state.unread=0; render(); scrollTop(); }
   else if(a==='back'||a==='publish-back'){ if(a==='publish-back'&&state.publishStep>1){ state.publishStep--; render(); } else back(); }
@@ -286,11 +379,19 @@ document.addEventListener('click',e=>{
   else if(a==='follow-entity'){ const label=state.activeEntity==='space'?'空间':'组织'; btn.textContent=btn.textContent.includes('＋')?`已关注${label}`:`＋ 关注${label}`; showToast('关注状态已更新'); }
   else if(a==='entity-events') go('entity-events'); else if(a==='entity-members') go('entity-members');
   else if(a==='manage-entity') manageEntitySheet();
-  else if(a==='manage-edit'){ closeSheet(); showToast('已进入资料编辑（交互演示）'); }
-  else if(a==='manage-admins'){ closeSheet(); showToast('已进入管理员设置（交互演示）'); }
+  else if(a==='manage-edit'){ closeSheet(); go('edit-entity'); }
+  else if(a==='manage-admins'){ closeSheet(); go('admins'); }
+  else if(a==='save-space'){ back(); showToast('空间资料已保存'); }
+  else if(a==='save-profile'){ back(); showToast('个人资料已保存'); }
+  else if(a==='save-campaign'){ back(); showToast('活动系列已保存'); }
+  else if(a==='edit-profile') go('edit-profile');
+  else if(a==='member-more') memberMoreSheet();
+  else if(a==='people-why') peopleWhySheet();
+  else if(a==='relations'){ state.activeRelation=id||'following'; go('relations'); }
+  else if(a==='relation-tab'){ state.activeRelation=id; render(); }
   else if(a==='recommend') recommendSheet(id||state.activeEvent);
   else if(a==='submit-recommend'){ state.recommended[id]=true; closeSheet(); render(); showToast('推荐已发布到动态'); }
-  else if(a==='comment') commentSheet(); else if(a==='post-comment'){ closeSheet(); showToast('评论已发布'); }
+  else if(a==='comment') commentSheet(); else if(a==='reply') commentSheet(id); else if(a==='post-comment'){ closeSheet(); showToast('回应已发布'); }
   else if(a==='share') showToast('已打开微信分享面板（模拟）');
   else if(a==='wx-more'||a==='settings') miniProgramSheet();
   else if(a==='wx-home'){ closeSheet(); state.tab='feed'; state.view='feed'; state.history=[]; render(); showToast('已回到小程序首页'); }
@@ -298,6 +399,9 @@ document.addEventListener('click',e=>{
   else if(a==='wx-refresh'){ closeSheet(); render(); showToast('页面已重新加载'); }
   else if(a==='wx-feedback'){ closeSheet(); showToast('反馈入口将在正式版接入'); }
   else if(a==='signup') signupSheet(id); else if(a==='submit-signup'){ state.joined[id]=true; closeSheet(); render(); showToast(eventBy(id).approval?'报名申请已提交':'报名成功'); }
+  else if(a==='event-access'){ go('event-access',{id}); }
+  else if(a==='pay-event') paymentSheet(); else if(a==='confirm-pay'){ closeSheet(); showToast('支付成功，参与方式已解锁'); }
+  else if(a==='show-group') groupSheet(); else if(a==='copy-wechat'){ showToast('微信号已复制'); }
   else if(a==='close-sheet') closeSheet();
   else if(a==='filter'){ state.dateFilter=id; render(); } else if(a==='message-filter'){ state.messageFilter=id; render(); }
   else if(a==='readall'){ state.unread=0; render(); showToast('已全部标为已读'); }
@@ -306,13 +410,22 @@ document.addEventListener('click',e=>{
   else if(a==='return-approval') returnSheet(); else if(a==='confirm-return'){ state.approvalDone=true; closeSheet(); back(); showToast('修改意见已发送'); }
   else if(a==='toggle-paid'){ state.draft.paid=!state.draft.paid; render(); }
   else if(a==='toggle-approval'){ state.draft.attendeeApproval=!state.draft.attendeeApproval; render(); }
+  else if(a==='join-method'){ state.draft.joinMethod=id; render(); }
+  else if(a==='add-media'){ const counts={image:'活动现场.jpg',video:'活动介绍.mp4',link:'资料链接'}; state.draftMedia.push({type:id,label:counts[id]}); render(); showToast(`已添加${id==='image'?'图片':id==='video'?'视频':'链接'}`); }
+  else if(a==='remove-media'){ state.draftMedia.splice(Number(id),1); render(); }
   else if(a==='publish-next'){ if(state.publishStep===2&&state.draft.paid&&(!state.draft.price||Number(state.draft.price)<=0)){ showToast('请输入大于 0 的活动价格'); } else if(state.publishStep<3){ state.publishStep++; render(); scrollTop(); } else { state.publishSubmitted=true; render(); } }
   else if(a==='publish-prev'){ state.publishStep--; render(); scrollTop(); }
   else if(a==='save-draft'){ showToast('草稿已保存'); }
   else if(a==='approval-progress') go('approval-progress');
+  else if(a==='edit-draft'){ state.publishStep=1; state.publishSubmitted=false; go('publish'); }
+  else if(a==='calendar'||a==='date') go('calendar'); else if(a==='spaces') go('spaces');
+  else if(a==='campaign') go('campaign'); else if(a==='campaign-edit') go('campaign-edit'); else if(a==='activity-preview') go('activity-preview');
+  else if(a==='campaign-add-event') showToast('已打开活动选择器（演示）');
+  else if(a==='invite-admin') showToast('已打开管理员邀请（演示）'); else if(a==='admin-permission') showToast('已打开权限设置（演示）');
+  else if(['change-cover','change-avatar','external-link','mute-member','report-member'].includes(a)) showToast('这是交互模型中的演示入口');
   else if(a==='my-registrations') go('registrations'); else if(a==='my-events') go('my-events'); else if(a==='drafts') go('drafts'); else if(a==='following') go('following');
-  else if(['city','shuffle','date','filters','search'].includes(a)) showToast('这是交互模型中的演示入口');
-});
+  else if(['city','shuffle','filters','search'].includes(a)) showToast('这是交互模型中的演示入口');
+},true);
 
 document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-action="event"]')) e.target.click(); });
 
