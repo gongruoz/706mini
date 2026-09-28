@@ -70,6 +70,7 @@
 | 发现 | 城市、搜索、系列、筛选选项、活动列表 | 保存当前城市（可本地+账号同步） |
 | 消息 | 分类通知、未读数 | 单条已读、全部已读 |
 | 我的 | 个人资料、统计、管理员待办、管理实体 | 编辑资料、进入发布/管理流程 |
+| 新人引导 | 城市、兴趣与空间选项 | 创建公开资料、保存隐私同意与推荐偏好 |
 | 更多 | 城市、语言、通知偏好、隐私设置 | 更新城市、语言与偏好 |
 | 活动详情 | 活动、发起方、地点、报名状态、讨论 | 报名、候补、推荐、评论、分享记录 |
 | 发布活动 | 草稿、可用身份、组织、地点、媒体 | 自动存草稿、提交审核 |
@@ -78,6 +79,8 @@
 | 成员主页 | 公开资料、关注关系、共同关联 | 关注、屏蔽、举报 |
 | 组织/空间 | 资料、活动、成员、管理员权限 | 关注、编辑、邀请管理员、审核活动 |
 | 活动系列 | 系列资料、城市节点、活动 | 管理系列、添加/移除活动 |
+| 发起专题 | 可关联活动、发起身份、媒体 | 保存专题草稿、提交审核 |
+| 专题审核 | 专题快照、活动确认与审核链 | 通过、退回修改 |
 
 ## 5. 全局界面与交互规则
 
@@ -246,6 +249,16 @@ GET /api/v1/events?city_id=shanghai&from=2026-09-22T00:00:00%2B08:00&to=2026-09-
 
 页面最下方入口为“更多”，其中包含城市、语言、通知、隐私、安全、关于和反馈。
 
+#### 6.4.1 新人 onboarding
+
+首次完成登录但尚未建立资料的成员进入三步 onboarding；“我的 → 更多 → 新人资料”保留再次查看和编辑入口：
+
+1. 基础身份：头像、昵称、当前城市、身份关键词；
+2. 兴趣与介绍：选择 2–5 个兴趣标签，填写自我介绍；
+3. 社区连接：选择常去或关注的空间、填写非公开微信号、确认隐私说明。
+
+完成后创建或更新 `Profile`、推荐偏好和关注空间。微信号默认不公开，不能进入成员公开 DTO。每一步支持保存草稿；退出后继续时恢复进度。隐私同意需保存版本与时间。完成页展示将要公开的资料摘要，并允许立即重新编辑。
+
 ### 6.5 活动详情
 
 详情结构：封面与标题 → 系列入口（如有）→ 报名社交证明 → 时间/地点/费用/名额 → 活动介绍 → 适合谁 → 发起方 → 大家说 → 底部固定操作。
@@ -276,7 +289,15 @@ GET /api/v1/events?city_id=shanghai&from=2026-09-22T00:00:00%2B08:00&to=2026-09-
 
 ### 6.7 活动系列
 
-系列包含封面、名称、介绍、参与城市、资料链接和活动集合。系列管理员可添加/移除活动。活动可以不属于系列；MVP 中一个活动最多属于一个系列，模型可使用中间表为未来多系列预留。
+界面对成员统一使用“专题”，数据层可继续使用 `Campaign`。专题包含封面、名称、一句话主题、图文介绍、发起身份、参与城市、资料链接和活动集合。活动可以不属于专题；模型使用中间表支持一场活动被多个专题引用。
+
+发起专题分三步：
+
+1. 填写专题名称、主题、图文介绍、封面/正文图片和发起身份；
+2. 勾选已发布或审核中的相关活动，填写资料链接；
+3. 预览公开卡片、确认发起身份、活动数量和审核方后提交。
+
+专题提交后进入独立审核链：平台运营审核内容；每一场被关联活动的发起者确认关联。活动发起者拒绝时，只移除该活动的关联，不必直接否决整个专题；平台退回修改时，保存原因并产生新的审核轮次。所有必要审核完成后专题才进入发现页。发起者可从“我的 → 我发起的专题”查看进度。
 
 ## 7. 完整业务流程与状态机
 
@@ -482,6 +503,34 @@ interface EventOccurrence {
 
 规则：结束时间必须晚于开始时间；付费活动金额必须大于 0；免费活动金额必须为 0；地点必须是 `space_id` 或完整自定义地点之一；发布身份必须是本人或本人有发布权限的组织。
 
+```ts
+interface Campaign {
+  id: string;
+  title: string;
+  kicker: string;
+  introduction: string;
+  initiator_user_id: string;
+  organization_id: string | null;
+  cover_asset_id: string | null;
+  resource_links: ProfileLink[];
+  lifecycle_status: "DRAFT" | "IN_REVIEW" | "CHANGES_REQUESTED" | "PUBLISHED" | "ARCHIVED";
+  version: number;
+  created_at: string;
+  updated_at: string;
+}
+
+interface CampaignEventLink {
+  campaign_id: string;
+  event_id: string;
+  confirmation_status: "PENDING" | "CONFIRMED" | "DECLINED";
+  decided_by: string | null;
+  decided_at: string | null;
+  sort_order: number;
+}
+```
+
+专题审核复用审核轮次与快照原则，但 `ReviewRound` 应使用通用的 `subject_type` / `subject_id`，或建立语义一致的 `CampaignReviewRound`。不要把专题审核伪装成活动审核记录。
+
 ### 8.4 审核
 
 ```ts
@@ -638,6 +687,14 @@ POST   /event-drafts/{draft_id}/submit
 GET    /me/events?status=
 POST   /events/{event_id}/clone
 POST   /events/{event_id}/cancel
+POST   /campaign-drafts
+GET    /campaign-drafts/{draft_id}
+PATCH  /campaign-drafts/{draft_id}
+POST   /campaign-drafts/{draft_id}/submit
+GET    /me/campaigns?status=
+GET    /campaigns/{campaign_id}/review-progress
+POST   /campaigns/{campaign_id}/event-links/{event_id}/confirm
+POST   /campaigns/{campaign_id}/event-links/{event_id}/decline
 GET    /review-tasks
 GET    /review-tasks/{task_id}
 POST   /review-tasks/{task_id}/approve
@@ -697,6 +754,8 @@ GET    /notifications/unread-count
 
 ```text
 GET   /me
+POST  /me/onboarding
+GET   /me/onboarding
 PATCH /me/profile
 PATCH /me/preferences
 GET   /users/{user_id}
@@ -915,4 +974,3 @@ Seed 只用于本地和测试环境，ID 不得被正式业务逻辑依赖。
 - 单元、集成和关键端到端测试通过；
 - API 文档、migration、监控指标和回滚方案齐全；
 - 与本手册中的页面交互和验收清单完成联调。
-
