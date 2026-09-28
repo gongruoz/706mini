@@ -3,7 +3,10 @@ const people = [
   { id:'qiao', name:'阿乔', initial:'乔', color:'#ffd7cb', bio:'产品设计 · 放映组织者', city:'上海', following:true },
   { id:'shing', name:'Shing', initial:'S', color:'#dce7ff', bio:'开发者 · 关心公共空间', city:'上海', following:false },
   { id:'maomao', name:'毛毛', initial:'毛', color:'#ffeaa6', bio:'自由写作者 · 徒步爱好者', city:'上海', following:false },
-  { id:'ning', name:'宁宁', initial:'宁', color:'#d8f2e3', bio:'社区运营 · 手作老师', city:'杭州', following:true }
+  { id:'ning', name:'宁宁', initial:'宁', color:'#d8f2e3', bio:'社区运营 · 手作老师', city:'杭州', following:true },
+  { id:'xiaobei', name:'小北', initial:'北', color:'#f5dbff', bio:'独立策展 · 社区厨房', city:'上海', following:false },
+  { id:'yiming', name:'一鸣', initial:'鸣', color:'#ccefe9', bio:'摄影师 · 城市漫游', city:'上海', following:false },
+  { id:'chenmo', name:'陈墨', initial:'墨', color:'#ffe2a8', bio:'心理咨询 · 读书会', city:'上海', following:false }
 ];
 
 const events = [
@@ -38,7 +41,7 @@ const events = [
 ];
 
 const state = {
-  view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao',
+  view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao', activeEntity:'space',
   dateFilter:'全部', messageFilter:'全部', recommended:{}, joined:{}, unread:4,
   publishStep:1, publishSubmitted:false, approvalDone:false,
   draft:{ title:'周末共读：我们如何一起生活', summary:'选一篇不长的文章，一起读完再聊。', date:'2026-10-04', start:'14:00', end:'16:30', city:'上海', venue:'706 青年空间', identity:'以个人身份发布', org:'不关联组织', quota:'16', paid:false, price:'30', attendeeApproval:true, joinMethod:'审核通过后展示微信群二维码', detail:'我们会提前一天把文章发到群里。不要求提前读完，也欢迎只带着问题来。' }
@@ -164,11 +167,22 @@ function renderMember(){
 
 function renderEntity(type){
   const isSpace=type==='space';
-  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>${isSpace?'空间':'组织'}</h2><button class="plain-btn">···</button></header>
-    <section class="member-hero" style="background:${isSpace?'linear-gradient(145deg,#523915,#a56b25)':'linear-gradient(145deg,#202750,#6c4bc5)'}"><span class="avatar" style="--avatar:${isSpace?'#ffe0b0':'#eadfff'}">${isSpace?'屋':'组'}</span><h1>${isSpace?'706 青年空间':'Sola 放映组'}</h1><p>${isSpace?'上海 · 静安区愚园路 1088 号':'上海 · 关注城市、空间与人的独立放映小组'}<br>${isSpace?'一个欢迎活动、讨论和偶遇发生的共享空间。':'用电影打开现实里的讨论，也认识一起看电影的人。'}</p><div class="member-actions"><button class="secondary" data-action="follow-entity">＋ 关注</button><button class="secondary" data-action="share">分享</button></div></section>
-    <section class="detail-section"><div class="section-title"><h2>近期活动</h2><button>查看全部</button></div>${eventRow(events[0])}${eventRow(isSpace?events[2]:events[1])}</section>
-    <section class="detail-section"><h2>最近活跃的成员</h2><div class="h-scroll">${people.slice(0,4).map(p=>`<article class="person-card" data-action="member" data-id="${p.id}">${avatar(p)}<strong>${p.name}</strong><p>${p.bio}</p></article>`).join('')}</div></section>
+  state.activeEntity=type;
+  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>${isSpace?'空间':'组织'}</h2><button class="manage-link" data-action="manage-entity">管理</button></header>
+    <section class="member-hero" style="background:${isSpace?'linear-gradient(145deg,#523915,#a56b25)':'linear-gradient(145deg,#202750,#6c4bc5)'}"><span class="avatar" style="--avatar:${isSpace?'#ffe0b0':'#eadfff'}">${isSpace?'屋':'组'}</span><h1>${isSpace?'706 青年空间':'Sola 放映组'}</h1><p>${isSpace?'上海 · 静安区愚园路 1088 号':'上海 · 关注城市、空间与人的独立放映小组'}<br>${isSpace?'一个欢迎活动、讨论和偶遇发生的共享空间。':'用电影打开现实里的讨论，也认识一起看电影的人。'}</p><div class="member-actions"><button class="secondary" data-action="follow-entity">＋ 关注${isSpace?'空间':'组织'}</button><button class="secondary" data-action="share">分享${isSpace?'空间':'组织'}</button></div></section>
+    <section class="detail-section"><div class="section-title"><h2>近期活动</h2><button data-action="entity-events">查看全部 ›</button></div>${eventRow(events[0])}${eventRow(isSpace?events[2]:events[1])}</section>
+    <section class="detail-section"><div class="section-title"><h2>最近活跃的成员</h2><button data-action="entity-members">查看全部 ›</button></div><div class="h-scroll">${people.slice(0,4).map(p=>`<article class="person-card" data-action="member" data-id="${p.id}">${avatar(p)}<strong>${p.name}</strong><p>${p.bio}</p></article>`).join('')}</div></section>
   </section>`;
+}
+
+function renderEntityEvents(){
+  const isSpace=state.activeEntity==='space';
+  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>全部活动</h2><span></span></header><div class="notice">${isSpace?'706 青年空间':'Sola 放映组'}发布或承办的活动</div><div class="chips"><button class="chip active">即将开始</button><button class="chip">已结束</button></div>${events.map(eventRow).join('')}</section>`;
+}
+
+function renderEntityMembers(){
+  const isSpace=state.activeEntity==='space';
+  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活跃成员</h2><span></span></header><div class="notice">近期在${isSpace?'这个空间参加或发起过活动':'这个组织的活动中有回应'}的成员，按最近活跃时间排列。</div><section class="member-list">${people.map(p=>`<article class="member-list-card" data-action="member" data-id="${p.id}">${avatar(p,'sm')}<div><strong>${p.name}</strong><span>${p.bio} · ${p.city}</span></div><button class="follow-inline ${p.following||state.recommended[p.id]?'active':''}" data-action="follow" data-id="${p.id}">${p.following||state.recommended[p.id]?'已关注':'关注'}</button></article>`).join('')}</section></section>`;
 }
 
 function renderPublish(){
@@ -208,6 +222,7 @@ function render(){
   switch(state.view){
     case 'feed': html=renderFeed(); break; case 'discover': html=renderDiscover(); break; case 'messages': html=renderMessages(); break; case 'me': html=renderMe(); break;
     case 'event': html=renderEvent(); break; case 'member': html=renderMember(); break; case 'space': html=renderEntity('space'); break; case 'org': html=renderEntity('org'); break;
+    case 'entity-events': html=renderEntityEvents(); break; case 'entity-members': html=renderEntityMembers(); break;
     case 'publish': html=renderPublish(); break; case 'approvals': html=renderApprovals(); break; case 'approval-detail': html=renderApprovalDetail(); break; case 'approval-progress': html=renderProgress(); break;
     case 'registrations': html=renderSimple('我的报名','这里会集中展示待审核、待付款、即将开始和已经结束的活动。'); break;
     case 'my-events': html=renderSimple('我发布的活动','可以查看草稿、审核进度、报名名单，以及从旧活动再办一场。'); break;
@@ -245,6 +260,11 @@ function miniProgramSheet(){
   layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><div class="mini-program-head"><span class="mini-program-logo">706</span><div><h2>706 社区</h2><p>让活动更容易发生，也让人更容易彼此发现。</p></div></div><div class="menu-group sheet-menu"><button class="menu-row" data-action="wx-about"><span class="row-icon">i</span><span>关于 706 社区</span><small>›</small></button><button class="menu-row" data-action="wx-refresh"><span class="row-icon">↻</span><span>重新加载页面</span><small>›</small></button><button class="menu-row" data-action="wx-feedback"><span class="row-icon">✎</span><span>反馈与建议</span><small>›</small></button></div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
 }
 
+function manageEntitySheet(){
+  const isSpace=state.activeEntity==='space';
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>${isSpace?'空间':'组织'}管理</h2><p>这些入口只有管理员可见，普通成员不会看到顶部的“管理”。</p><div class="menu-group sheet-menu"><button class="menu-row" data-action="manage-edit"><span class="row-icon">编</span><span>编辑${isSpace?'空间':'组织'}资料</span><small>›</small></button><button class="menu-row" data-action="approvals"><span class="row-icon">审</span><span>活动审核</span><small>2 个待办 ›</small></button><button class="menu-row" data-action="manage-admins"><span class="row-icon">人</span><span>管理员设置</span><small>›</small></button></div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
+}
+
 function returnSheet(){
   layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>退回修改</h2><p>请具体说明需要调整的地方，发起人会收到通知。</p><textarea class="textarea">空间 18:30 前还有其他活动，请将布置时间改为 18:40 以后。</textarea><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary dark" data-action="confirm-return">发送修改意见</button></div></section></div>`;
 }
@@ -260,10 +280,14 @@ document.addEventListener('click',e=>{
   else if(a==='home'){ state.tab='feed'; state.view='feed'; state.history=[]; render(); }
   else if(a==='event') go('event',{id});
   else if(a==='member') go('member',{id:id||'jiang'});
-  else if(a==='space') go('space'); else if(a==='org') go('org');
+  else if(a==='space'){ state.activeEntity='space'; go('space'); } else if(a==='org'){ state.activeEntity='org'; go('org'); }
   else if(a==='publish'){ state.publishStep=1; state.publishSubmitted=false; go('publish'); }
   else if(a==='follow'){ state.recommended[id]=!state.recommended[id]; render(); showToast(state.recommended[id]?'已关注，TA 的活动会优先出现':'已取消关注'); }
-  else if(a==='follow-entity'){ btn.textContent=btn.textContent.includes('＋')?'已关注':'＋ 关注'; showToast('关注状态已更新'); }
+  else if(a==='follow-entity'){ const label=state.activeEntity==='space'?'空间':'组织'; btn.textContent=btn.textContent.includes('＋')?`已关注${label}`:`＋ 关注${label}`; showToast('关注状态已更新'); }
+  else if(a==='entity-events') go('entity-events'); else if(a==='entity-members') go('entity-members');
+  else if(a==='manage-entity') manageEntitySheet();
+  else if(a==='manage-edit'){ closeSheet(); showToast('已进入资料编辑（交互演示）'); }
+  else if(a==='manage-admins'){ closeSheet(); showToast('已进入管理员设置（交互演示）'); }
   else if(a==='recommend') recommendSheet(id||state.activeEvent);
   else if(a==='submit-recommend'){ state.recommended[id]=true; closeSheet(); render(); showToast('推荐已发布到动态'); }
   else if(a==='comment') commentSheet(); else if(a==='post-comment'){ closeSheet(); showToast('评论已发布'); }
@@ -277,7 +301,7 @@ document.addEventListener('click',e=>{
   else if(a==='close-sheet') closeSheet();
   else if(a==='filter'){ state.dateFilter=id; render(); } else if(a==='message-filter'){ state.messageFilter=id; render(); }
   else if(a==='readall'){ state.unread=0; render(); showToast('已全部标为已读'); }
-  else if(a==='approvals') go('approvals'); else if(a==='approval-detail') go('approval-detail');
+  else if(a==='approvals'){ closeSheet(); go('approvals'); } else if(a==='approval-detail') go('approval-detail');
   else if(a==='approve'){ state.approvalDone=true; back(); showToast('已通过审核，发起人将收到通知'); }
   else if(a==='return-approval') returnSheet(); else if(a==='confirm-return'){ state.approvalDone=true; closeSheet(); back(); showToast('修改意见已发送'); }
   else if(a==='toggle-paid'){ state.draft.paid=!state.draft.paid; render(); }

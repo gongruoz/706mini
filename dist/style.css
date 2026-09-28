@@ -200,6 +200,16 @@ button { -webkit-tap-highlight-color:transparent; }
 .member-hero .tag { background:rgba(255,255,255,.13); color:#fff; }
 .member-actions { display:flex; gap:8px; margin-top:16px; }
 .member-actions button { flex:1; }
+.member-actions .secondary { color:var(--ink); background:#fff; border-color:rgba(255,255,255,.8); }
+.member-actions .secondary + .secondary { color:#fff; background:rgba(255,255,255,.12); border-color:rgba(255,255,255,.55); }
+.manage-link { border:0; background:transparent; color:var(--orange); min-height:36px; padding:7px 3px; font-size:14px; font-weight:750; cursor:pointer; }
+.member-list { padding:0 12px 18px; }
+.member-list-card { display:flex; align-items:center; gap:11px; padding:14px 7px; border-bottom:1px solid var(--line); cursor:pointer; }
+.member-list-card>div { flex:1; min-width:0; }
+.member-list-card strong { display:block; font-size:15px; }
+.member-list-card span { display:block; margin-top:3px; color:var(--muted); font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.follow-inline { border:1px solid var(--ink); border-radius:999px; background:var(--ink); color:#fff; min-width:64px; padding:7px 11px; font-size:12px; cursor:pointer; }
+.follow-inline.active { border-color:var(--line); background:var(--surface); color:var(--muted); }
 .notice { margin:0 12px 12px; padding:13px; border-radius:15px; background:#fff6d8; color:#766329; font-size:12px; line-height:1.5; }
 .approve-card { margin:0 12px 12px; padding:16px; border:1px solid var(--line); border-radius:19px; background:#fff; cursor:pointer; }
 .approve-card h3 { margin:0 0 5px; font-size:15px; }
