@@ -48,7 +48,7 @@ const campaign = {
 
 const state = {
   view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao', activeEntity:'space',
-  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'全部', selectedSpace:'全部空间', calendarOpen:false, recommended:{}, joined:{}, unread:4,
+  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'本周', selectedSpace:'全部空间', calendarOpen:false, calendarPage:0, recommended:{}, joined:{}, unread:4,
   publishStep:1, publishSubmitted:false, approvalDone:false,
   draftMedia:[{type:'image',label:'活动封面.jpg'}], activeRelation:'following', registrationFilter:'全部', myEventFilter:'全部', spacePickerOpen:false,
   draft:{ title:'周末共读：我们如何一起生活', summary:'选一篇不长的文章，一起读完再聊。', date:'2026-10-04', start:'14:00', end:'16:30', city:'上海', venue:'706 青年空间', identity:'以个人身份发布', org:'不关联组织', quota:'16', paid:false, price:'30', attendeeApproval:true, joinMethods:['group'], detail:'我们会提前一天把文章发到群里。不要求提前读完，也欢迎只带着问题来。' },
@@ -90,14 +90,14 @@ function topbar(title,eyebrow='',right=''){
 function eventMini(e){
   return `<div class="event-mini" data-action="event" data-id="${e.id}" role="button" tabindex="0">
     <div class="event-cover" style="--cover:${e.color}"><span class="cover-tag">${e.venue}</span><div><h3>${e.title}</h3><p>${e.date} ${e.time.split('–')[0]} · ${e.spots?`余 ${e.spots} 个名额`:'名额已满'}</p></div></div>
-    <div class="event-mini-foot"><span>${e.price?`¥${e.price}`:'免费'} · ${e.joined} 人已参加</span><span class="stack">${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}<span class="avatar xs" style="--avatar:#eee">+${Math.max(e.joined-2,1)}</span></span></div>
+    <div class="event-mini-foot"><span>${e.price?`¥${e.price}`:'免费'} · ${e.joined} 人报名</span><span class="stack">${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}<span class="avatar xs" style="--avatar:#eee">+${Math.max(e.joined-2,1)}</span></span></div>
   </div>`;
 }
 
 function eventRow(e){
   return `<article class="event-row" data-action="event" data-id="${e.id}">
     <div class="event-thumb" style="--cover:${e.color}"><div class="date-block"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div></div>
-    <div class="event-row-main"><h3>${e.title}</h3><p>${e.time} · ${e.venue}</p><p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人参加</span></div></div>
+    <div class="event-row-main"><h3>${e.title}</h3><p>${e.time} · ${e.venue}</p><p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人报名</span></div></div>
   </article>`;
 }
 
@@ -105,35 +105,31 @@ function renderFeed(){
   const relations={jiang:'你们共同参加过 2 场活动',qiao:'TA 关注了你',shing:'你们都关注 706 青年空间',maomao:'你们推荐过同一场活动'};
   const cards=people.slice(0,4).map(p=>`<article class="person-card" data-action="member" data-id="${p.id}">${avatar(p)}<strong>${p.name}</strong><p>${p.bio}</p><small class="relation-hint">${relations[p.id]}</small><button class="follow ${p.following||state.recommended[p.id]?'active':''}" data-action="follow" data-id="${p.id}">${p.following||state.recommended[p.id]?'已关注':'＋ 关注'}</button></article>`).join('');
   const e1=events[0],e2=events[2];
-  const body=`<section class="screen">${topbar('社区动态')}
-    <div class="page-action-row"><button class="city-pill" data-action="city">上海⌄</button></div>
+  const body=`<section class="screen"><div class="main-toolbar"><button class="city-pill" data-action="city">上海⌄</button></div>
     <section class="section tight"><div class="section-title"><h2>发现有意思的人</h2></div><div class="h-scroll">${cards}</div></section>
-    <div class="feed-kicker">关注的人与同城正在发生</div>
-    <article class="post featured"><div class="post-head">${avatar(person('qiao'),'sm')}<div class="post-meta"><strong>阿乔推荐了一场活动</strong><span>18 分钟前 · 上海</span></div><button class="more">···</button></div><p class="post-copy">“周六晚上一起看一部关于城市与漂泊的电影，映后想聊聊我们为什么留在这里。”</p>${eventMini(e1)}<div class="post-actions"><button class="soft-btn ${state.recommended.film?'on':''}" data-action="recommend" data-id="film">${state.recommended.film?'已推荐':'推荐'}</button><button class="soft-btn" data-action="comment">评论 4</button><button class="soft-btn" data-action="share">分享</button></div></article>
-    <article class="post"><div class="post-head">${avatar(person('jiang'),'sm')}<div class="post-meta"><strong>Jiang、Shing 和 6 位同城成员报名了</strong><span>今天 09:12 · 合并动态</span></div><button class="more">···</button></div><p class="post-copy">大家正在一起设计 706 小程序的下一步。</p>${eventMini(e2)}<div class="post-actions"><button class="soft-btn" data-action="recommend" data-id="workshop">推荐</button><button class="soft-btn" data-action="comment">评论 7</button><button class="soft-btn" data-action="share">分享</button></div></article>
+    <article class="post featured"><div class="post-head">${avatar(person('qiao'),'sm')}<div class="post-meta"><strong>阿乔推荐了一场活动</strong><span>18 分钟前 · 上海</span></div><button class="more">···</button></div><p class="post-copy">“周六晚上一起看一部关于城市与漂泊的电影，映后想聊聊我们为什么留在这里。”</p>${eventMini(e1)}</article>
+    <article class="post"><div class="post-head">${avatar(person('jiang'),'sm')}<div class="post-meta"><strong>Jiang、Shing 和 6 位同城成员报名了</strong><span>今天 09:12 · 合并动态</span></div><button class="more">···</button></div><p class="post-copy">大家正在一起设计 706 小程序的下一步。</p>${eventMini(e2)}</article>
     <div style="height:16px"></div></section>`;
   return shell(body,{fab:true});
 }
 
 function renderDiscover(){
-  const timeFilters=[{id:'全部',day:'全部',date:'近期'},{id:'周六',day:'周六',date:'26'},{id:'周日',day:'周日',date:'27'},{id:'周三',day:'周三',date:'30'},{id:'10月',day:'周六',date:'03'}];
   const spaceFilters=[{id:'全部空间',name:'全部空间',meta:'4 场活动'},{id:'706 青年空间',name:'706 青年空间',meta:'2 场活动'},{id:'M50 创意园门口',name:'M50 创意园',meta:'1 场活动'},{id:'徐汇滨江草坪',name:'徐汇滨江',meta:'1 场活动'}];
   const keywordFilters=['全部','免费','有名额','共读','放映','户外'];
-  const matchesDate=e=>state.selectedDate==='全部'||e.date===state.selectedDate;
+  const matchesDate=e=>state.selectedDate==='本周'&&!e.date.startsWith('10月')||state.selectedDate==='下周'&&e.date.startsWith('10月')||e.date===state.selectedDate;
   const matchesSpace=e=>state.selectedSpace==='全部空间'||e.venue===state.selectedSpace;
   const matchesKeyword=e=>state.dateFilter==='全部'||state.dateFilter==='免费'&&e.price===0||state.dateFilter==='有名额'&&e.spots>0||state.dateFilter==='共读'&&e.title.includes('共读')||state.dateFilter==='放映'&&e.title.includes('放映')||state.dateFilter==='户外'&&['walk','frisbee'].includes(e.id);
   const filtered=events.filter(e=>matchesDate(e)&&matchesSpace(e)&&matchesKeyword(e));
-  const timeLabel=timeFilters.find(x=>x.id===state.selectedDate);
-  const dateTitle=state.selectedDate==='全部'?'近期':`${timeLabel.day} ${timeLabel.date} 日`;
+  const dateTitle=['本周','下周'].includes(state.selectedDate)?state.selectedDate:state.selectedDate;
   const resultTitle=state.selectedSpace==='全部空间'?`${dateTitle}活动`:`${state.selectedSpace} · ${dateTitle}`;
-  const body=`<section class="screen gray">${topbar('发现活动')}
-    <div class="search-wrap discover-search"><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
+  const calendarDates=state.calendarPage===0?[['22','无'],['23','无'],['24','无'],['25','无'],['26','周六'],['27','周日'],['28','无'],['29','无'],['30','周三'],['1','无'],['2','无'],['3','10月3日'],['4','无'],['5','无']]:[['6','无'],['7','无'],['8','无'],['9','无'],['10','无'],['11','无'],['12','无'],['13','无'],['14','无'],['15','无'],['16','无'],['17','无'],['18','无'],['19','无']];
+  const body=`<section class="screen gray"><div class="discover-toolbar"><button class="city-pill" data-action="city">上海⌄</button><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
     <div class="campaign-carousel compact" aria-label="活动系列"><article class="campaign-card" data-action="campaign"><small>${campaign.kicker}</small><h2>${campaign.title}</h2><p>${campaign.cities.slice(0,4).join(' · ')} 等城市同步发生</p><span>查看系列 ›</span></article><article class="campaign-card alt" data-action="campaign"><small>8 城联动 · 社区行动月</small><h2>把客厅打开</h2><p>从一次邻里晚餐开始认识附近的人</p><span>查看系列 ›</span></article></div>
     <section class="filter-stack" aria-label="活动筛选">
-      <div class="filter-rail date-rail"><button class="rail-label calendar-trigger ${state.calendarOpen?'open':''}" data-action="toggle-calendar"><span>日</span><strong>日历</strong><i>${state.calendarOpen?'⌃':'⌄'}</i></button>${timeFilters.map(x=>`<button class="rail-chip ${state.selectedDate===x.id?'active':''}" data-action="date-filter" data-id="${x.id}">${x.id==='全部'?'近期':`${x.day} ${x.date}`}</button>`).join('')}</div>
-      ${state.calendarOpen?`<div class="calendar-expand"><header><strong>2026 年 9 月</strong><span>圆点表示当天有活动</span></header><div class="calendar-weekdays">${['一','二','三','四','五','六','日'].map(x=>`<span>${x}</span>`).join('')}</div><div class="calendar-grid">${[['22','无'],['23','无'],['24','无'],['25','无'],['26','周六'],['27','周日'],['28','无'],['29','无'],['30','周三'],['1','无'],['2','无'],['3','10月'],['4','无'],['5','无']].map(([d,id])=>`<button class="${id!=='无'?'has-event':''} ${state.selectedDate===id?'active':''}" data-action="date-filter" data-id="${id}">${d}${id!=='无'?'<i></i>':''}</button>`).join('')}</div></div>`:''}
-      <div class="filter-rail"><span class="rail-label static"><span>地</span><strong>本地节点</strong></span>${spaceFilters.map(x=>`<button class="rail-chip ${state.selectedSpace===x.id?'active':''}" data-action="space-filter" data-id="${x.id}">${x.name}</button>`).join('')}</div>
-      <div class="filter-rail"><span class="rail-label static"><span>签</span><strong>活动</strong></span>${keywordFilters.map(x=>`<button class="rail-chip ${state.dateFilter===x?'active':''}" data-action="keyword-filter" data-id="${x}">${x==='全部'?'不限':x}</button>`).join('')}</div>
+      <div class="filter-rail date-rail"><button class="rail-chip ${state.selectedDate==='本周'?'active':''}" data-action="date-filter" data-id="本周">本周</button><button class="rail-chip ${state.selectedDate==='下周'?'active':''}" data-action="date-filter" data-id="下周">下周</button><button class="rail-chip calendar-trigger ${state.calendarOpen?'open':''}" data-action="toggle-calendar">日历 <i>${state.calendarOpen?'⌃':'⌄'}</i></button></div>
+      ${state.calendarOpen?`<div class="calendar-expand"><header><button data-action="calendar-page" data-id="prev">‹</button><strong>${state.calendarPage===0?'2026 年 9 月':'2026 年 10 月'}</strong><button data-action="calendar-page" data-id="next">›</button></header><div class="calendar-weekdays">${['一','二','三','四','五','六','日'].map(x=>`<span>${x}</span>`).join('')}</div><div class="calendar-grid">${calendarDates.map(([d,id])=>`<button class="${id!=='无'?'has-event':''} ${state.selectedDate===id?'active':''}" data-action="date-filter" data-id="${id}">${d}${id!=='无'?'<i></i>':''}</button>`).join('')}</div></div>`:''}
+      <div class="filter-rail">${spaceFilters.map(x=>`<button class="rail-chip ${state.selectedSpace===x.id?'active':''}" data-action="space-filter" data-id="${x.id}">${x.name}</button>`).join('')}</div>
+      <div class="filter-rail">${keywordFilters.map(x=>`<button class="rail-chip ${state.dateFilter===x?'active':''}" data-action="keyword-filter" data-id="${x}">${x==='全部'?'不限':x}</button>`).join('')}</div>
     </section>
     <div class="section-title list-heading" style="padding:0 19px"><h2>${resultTitle}</h2><span>${filtered.length} 场</span></div>
     ${filtered.length?filtered.map(eventRow).join(''):`<div class="empty"><div class="empty-icon">⌕</div><h2>暂时没有活动</h2><p>换个时间看看，或者发起一场你想参加的活动。</p><button class="secondary" data-action="filter" data-id="全部">清除筛选</button></div>`}
@@ -150,7 +146,7 @@ function renderMessages(){
     {type:'管理',title:'你已成为空间管理员',copy:'现在可以管理 706 青年空间的信息与活动审核。',time:'周一',icon:'管',unread:false,action:'space'}
   ];
   const shown=messages.filter(m=>state.messageFilter==='全部'||m.type===state.messageFilter);
-  const body=`<section class="screen">${topbar('消息')}
+  const body=`<section class="screen"><div class="main-safe-area"></div>
     <div class="page-action-row"><span>${state.unread?`${state.unread} 条未读`:''}</span><button class="toolbar-action" data-action="readall">全部标为已读</button></div>
     <div class="message-tabs">${['全部','管理','活动','互动'].map(x=>`<button class="chip ${state.messageFilter===x?'active':''}" data-action="message-filter" data-id="${x}">${x}</button>`).join('')}</div>
     ${shown.map(m=>`<article class="message-item ${m.unread&&state.unread?'unread':''}" data-action="${m.action}" ${m.id?`data-id="${m.id}"`:''}><span class="msg-icon">${m.icon}</span><div class="msg-body"><strong>${m.title}<time>${m.time}</time></strong><p>${m.copy}</p></div></article>`).join('')}
@@ -159,7 +155,7 @@ function renderMessages(){
 }
 
 function renderMe(){
-  const body=`<section class="screen gray">${topbar('我的')}<div class="page-action-row"><button class="toolbar-action" data-action="settings">设置</button></div>
+  const body=`<section class="screen gray"><div class="main-safe-area"></div><div class="page-action-row"><button class="toolbar-action" data-action="settings">设置</button></div>
     <section class="profile-hero"><div class="profile-top" data-action="member" data-id="jiang">${avatar(person('jiang'))}<div><h2>Jiang</h2><p>上海 · 城市研究 / 社区产品</p></div><button class="profile-edit" data-action="edit-profile">编辑资料</button></div><div class="stats"><button class="stat" data-action="relations" data-id="following"><strong>18</strong><span>关注</span></button><button class="stat" data-action="relations" data-id="followers"><strong>42</strong><span>被关注</span></button><button class="stat" data-action="my-registrations"><strong>16</strong><span>参与活动</span></button></div></section>
     <article class="admin-card" data-action="approvals"><div><strong>管理员待办</strong><p>${state.approvalDone?'新的审核都处理完了':'2 场活动正在等待审核'}</p></div><span class="count">${state.approvalDone?'0':'2'}</span></article>
     <div class="menu-group"><button class="menu-row" data-action="my-registrations"><span class="row-icon">票</span><span>我的报名</span><small>3 场 ›</small></button><button class="menu-row" data-action="my-events"><span class="row-icon">旗</span><span>我发布的活动</span><small>2 场 ›</small></button><button class="menu-row" data-action="publish"><span class="row-icon">＋</span><span>发布活动</span><small>›</small></button><button class="menu-row" data-action="drafts"><span class="row-icon">稿</span><span>草稿</span><small>1 ›</small></button></div>
@@ -173,12 +169,12 @@ function renderEvent(){
   return `<section class="screen no-nav"><header class="topbar transparent"><button class="back" data-action="back">‹</button><span></span></header>
     <section class="detail-hero" style="--cover:${e.color}"><span class="cover-tag">${e.spots?'报名中':'名额已满'}</span><h1>${e.title}</h1><p>${e.date} ${e.time} · ${e.city}</p></section>
     ${e.campaign?`<button class="campaign-link" data-action="campaign"><span>多城联动系列</span><strong>${campaign.title}</strong><b>›</b></button>`:''}
-    <div class="social-proof"><span class="stack">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}</span><span><strong>阿乔和 Jiang</strong> 等 ${e.joined} 人已经参加</span></div>
+    <div class="social-proof"><span class="stack">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}</span><span><strong>阿乔和 Jiang</strong> 等 ${e.joined} 人已经报名</span></div>
     <section class="detail-section"><div class="facts"><div class="fact"><span class="fact-icon">日</span><div><strong>${e.date} · ${e.time}</strong><span>活动开始前 2 小时停止报名</span></div></div><div class="fact"><span class="fact-icon">地</span><div><strong>${e.venue}</strong><span>${e.address}</span></div></div><div class="fact"><span class="fact-icon">票</span><div><strong>${e.price?`¥${e.price} / 人`:'免费参加'}</strong><span>${e.spots?`还剩 ${e.spots} 个名额`:'可以加入候补'}</span></div></div></div></section>
     <section class="detail-section"><h2>关于活动</h2><p>${e.summary}</p><div class="tags"><span class="tag">城市</span><span class="tag">轻松交流</span><span class="tag">新朋友友好</span></div></section>
     <section class="detail-section"><h2>适合谁参加</h2><p>${e.fit}</p></section>
-    <section class="detail-section"><h2>发起人和空间</h2><article class="entity-card" data-action="member" data-id="qiao">${avatar(person('qiao'),'sm')}<div><strong>${e.host}</strong><span>发起人 · 最近组织 5 场活动</span></div><b>›</b></article><article class="entity-card" data-action="space"><span class="avatar sm" style="--avatar:#ffe0b0">屋</span><div><strong>${e.venue}</strong><span>${e.org}</span></div><b>›</b></article></section>
-    <section class="detail-section"><div class="section-title"><h2>报名、推荐与讨论</h2><button data-action="comment">写评论</button></div>
+    <section class="detail-section"><h2>发起方</h2><article class="entity-card" data-action="member" data-id="qiao">${avatar(person('qiao'),'sm')}<div><strong>${e.host}</strong><span>发起人 · 最近组织 5 场活动</span></div><b>›</b></article><article class="entity-card" data-action="space"><span class="avatar sm" style="--avatar:#ffe0b0">屋</span><div><strong>${e.venue}</strong><span>${e.org}</span></div><b>›</b></article></section>
+    <section class="detail-section"><div class="section-title"><h2>大家说</h2><button data-action="comment">写评论</button></div>
       <article class="response-card">${avatar(person('jiang'),'sm')}<div><strong>Jiang <em>已报名</em></strong><p>很想听听大家怎么理解“留下来”。</p><button data-action="reply" data-id="jiang">回复</button><div class="reply"><b>阿乔：</b>映后会留出大约 45 分钟讨论，欢迎带着问题来。</div></div></article>
       <article class="response-card">${avatar(person('shing'),'sm')}<div><strong>Shing <em>已推荐</em></strong><p>朋友推荐了这部片，第一次来 706。</p><button data-action="reply" data-id="shing">回复</button></div></article>
     </section>
@@ -262,7 +258,7 @@ function renderMyEvents(){
   const rows=[
     {status:'审核中',event:{...events[2],title:'周末共读：我们如何一起生活'},meta:'等待 706 青年空间审核',actions:[['approval-progress','查看进度'],['edit-draft','编辑']]},
     {status:'已发布',event:events[0],meta:'12 人报名 · 8 个剩余名额',actions:[['event','查看活动'],['attendee-list','报名名单']]},
-    {status:'已结束',event:events[1],meta:'15 人参加 · 4 条活动回应',actions:[['event','查看记录'],['rerun-event','再办一场']]},
+    {status:'已结束',event:events[1],meta:'15 人报名 · 4 条活动回应',actions:[['event','查看记录'],['rerun-event','再办一场']]},
     {status:'草稿',event:{...events[3],title:state.draft.title},meta:'保存于今天 16:42',actions:[['edit-draft','继续编辑']]}
   ];
   const shown=state.myEventFilter==='全部'?rows:rows.filter(x=>x.status===state.myEventFilter);
@@ -450,6 +446,7 @@ document.addEventListener('click',e=>{
   else if(a==='browse-mode'){ state.browseMode=id; render(); }
   else if(a==='browse-filter'){ if(state.browseMode==='time') state.selectedDate=id; else state.selectedSpace=id; render(); }
   else if(a==='toggle-calendar'){ state.calendarOpen=!state.calendarOpen; render(); }
+  else if(a==='calendar-page'){ state.calendarPage=Math.max(0,state.calendarPage+(id==='next'?1:-1)); render(); }
   else if(a==='date-filter'){ if(id!=='无'){ state.selectedDate=id; state.calendarOpen=false; render(); } }
   else if(a==='space-filter'){ state.selectedSpace=id; render(); }
   else if(a==='keyword-filter'){ state.dateFilter=id; render(); }
