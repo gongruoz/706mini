@@ -68,6 +68,7 @@ const englishPhrases={
   '昨天':'Yesterday','今天':'Today','周一':'Mon','周二':'Tue','周三':'Wed','周四':'Thu','周五':'Fri','周六':'Sat','周日':'Sun','一':'M','二':'T','三':'W','四':'T','五':'F','六':'S','日':'S',
   '报名活动':'Register','加入候补':'Join waitlist','确认报名':'Confirm registration','提交申请':'Submit request','取消':'Cancel','完成':'Done','返回':'Back','保存':'Save','筛选':'Filter','查看':'View','关注者':'Followers',
   '发起方':'Host','大家说':'Community notes','活动介绍':'About this event','适合谁':'Who it is for','地点':'Location','时间':'Time','报名':'Register','推荐':'Recommend','评论':'Comments','分享':'Share',
+  '发起者':'Initiator','组织/品牌':'Organizer','空间节点':'Venue',
   '成员主页':'Member profile','组织':'Organization','空间':'Space','成员':'Members','管理员设置':'Admin settings','审核待办':'Review queue','活动审核':'Event review','审核进度':'Review status','审核中':'In review','当前进度':'Current status',
   '个人资料已保存':'Profile saved','空间资料已保存':'Space saved','活动系列已保存':'Series saved','已全部标为已读':'All messages marked as read','页面已重新加载':'Page refreshed','反馈入口将在正式版接入':'Feedback will be available in the full release',
   '已关注':'Following','＋ 关注':'＋ Follow','已取消关注':'Unfollowed','关注状态已更新':'Follow status updated','报名成功':'Registration complete','报名申请已提交':'Registration submitted','微信号已复制':'WeChat ID copied','支付成功，参与方式已解锁':'Payment complete — access unlocked'
@@ -102,6 +103,9 @@ function avatar(person,size=''){ return `<span class="avatar ${size}" style="--a
 function person(id){ return people.find(p=>p.id===id) || people[0]; }
 function eventBy(id){ return events.find(e=>e.id===id) || events[0]; }
 function displayCity(city){ return state.language==='en'?(cityNames[city]||city):city; }
+function eventSource(e,variant=''){
+  return `<div class="event-source ${variant}"><span><b>发起者</b><em>${e.host}</em></span><span><b>组织/品牌</b><em>${e.org}</em></span><span><b>空间节点</b><em>${e.venue}</em></span></div>`;
+}
 
 function nav(){
   const items=[['feed','动态'],['discover','发现'],['messages','消息'],['me','我的']];
@@ -119,6 +123,7 @@ function topbar(title,eyebrow='',right=''){
 function eventMini(e){
   return `<div class="event-mini" data-action="event" data-id="${e.id}" role="button" tabindex="0">
     <div class="event-cover" style="--cover:${e.color}"><span class="cover-tag">${e.venue}</span><div><h3>${e.title}</h3><p>${e.date} ${e.time.split('–')[0]} · ${e.spots?`余 ${e.spots} 个名额`:'名额已满'}</p></div></div>
+    ${eventSource(e,'on-dark')}
     <div class="event-mini-foot"><span>${e.price?`¥${e.price}`:'免费'} · ${e.joined} 人报名</span><span class="stack">${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}<span class="avatar xs" style="--avatar:#eee">+${Math.max(e.joined-2,1)}</span></span></div>
   </div>`;
 }
@@ -126,7 +131,7 @@ function eventMini(e){
 function eventRow(e){
   return `<article class="event-row" data-action="event" data-id="${e.id}">
     <div class="event-thumb" style="--cover:${e.color}"><div class="date-block"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div></div>
-    <div class="event-row-main"><div class="row-status"><span class="badge ${e.spots?'open':'ended'}">${e.spots?'报名中':'名额已满'}</span>${state.joined[e.id]?'<span class="badge upcoming">你已报名</span>':''}</div><h3>${e.title}</h3><p>${e.time} · ${e.venue}</p><p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人报名</span></div></div>
+    <div class="event-row-main"><div class="row-status"><span class="badge ${e.spots?'open':'ended'}">${e.spots?'报名中':'名额已满'}</span>${state.joined[e.id]?'<span class="badge upcoming">你已报名</span>':''}</div><h3>${e.title}</h3><p>${e.time}</p>${eventSource(e,'compact')}<p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人报名</span></div></div>
   </article>`;
 }
 

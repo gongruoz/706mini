@@ -78,6 +78,16 @@ button { -webkit-tap-highlight-color:transparent; }
 .event-cover h3 { margin:28px 0 4px; max-width:270px; position:relative; z-index:1; font-size:22px; line-height:1.15; letter-spacing:-.7px; }
 .event-cover p { margin:0; position:relative; z-index:1; color:rgba(255,255,255,.78); font-size:12px; }
 .event-mini-foot { padding:11px 13px; display:flex; align-items:center; justify-content:space-between; gap:8px; font-size:12px; }
+.event-source { display:grid; gap:5px; }
+.event-source span { min-width:0; display:flex; align-items:baseline; gap:7px; }
+.event-source b { flex:0 0 auto; color:var(--soft); font-size:9px; font-weight:700; white-space:nowrap; }
+.event-source em { min-width:0; overflow:hidden; color:var(--muted); font-size:10px; font-style:normal; text-overflow:ellipsis; white-space:nowrap; }
+.event-source.on-dark { padding:11px 13px 4px; border-top:1px solid rgba(255,255,255,.12); }
+.event-source.on-dark b { color:rgba(255,255,255,.48); }
+.event-source.on-dark em { color:rgba(255,255,255,.86); }
+.event-source.compact { margin:7px 0; padding:7px 8px; border-radius:10px; background:var(--surface); }
+.event-source.compact span { gap:5px; }
+.event-source.compact b { width:55px; }
 .stack { display:flex; align-items:center; }
 .stack .avatar { margin-left:-7px; }
 .stack .avatar:first-child { margin-left:0; }
