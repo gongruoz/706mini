@@ -54,9 +54,29 @@ const calendarWeeks = [
   {month:'十月',days:[['一','13','无'],['二','14','无'],['三','15','无'],['四','16','无'],['五','17','无'],['六','18','无'],['日','19','无']]}
 ];
 
+const cityNames={上海:'Shanghai',北京:'Beijing',广州:'Guangzhou',深圳:'Shenzhen',杭州:'Hangzhou',成都:'Chengdu'};
+const englishPhrases={
+  '发现有意思的人':'People you may like','换几个':'Refresh','动态':'Updates','发现':'Discover','消息':'Messages','我的':'Me','发布活动':'Create event','706 社区':'706 Community',
+  '关注':'Following','被关注':'Followers','编辑资料':'Edit profile','管理员待办':'Admin tasks','活动草稿':'Event drafts','我报名的活动':'My registrations','我发布的活动':'My events','我管理的组织':'Organizations I manage','我管理的空间':'Spaces I manage','更多':'More',
+  '城市':'City','语言':'Language','简体中文':'Simplified Chinese','通知设置':'Notifications','隐私与安全':'Privacy & safety','关于 706 社区':'About 706 Community','反馈与建议':'Feedback','当前城市':'Current city','选择城市':'Choose a city','选择语言':'Choose a language',
+  '选择界面语言':'Choose interface language','按你的语言和所在城市，提供更合适的活动与社区信息。':'Choose your language and city for more relevant events and community updates.','活动与推荐会优先显示这个城市的内容。':'Events and recommendations from this city will appear first.','切换后，界面导航、操作与系统提示会立即更新。':'Navigation, actions, and system messages update immediately.','通知设置将在正式版接入':'Notification settings will be available in the full release','隐私与安全设置将在正式版接入':'Privacy settings will be available in the full release','已切换至':'Switched to ',
+  '搜索活动、成员、组织或空间':'Search events, people, groups, or spaces','搜索':'Search','主要导航':'Primary navigation','活动系列':'Event series','活动筛选':'Event filters','城市研究 / 社区产品':'Urban research / community product',
+  '本周':'This week','下周':'Next week','日历':'Calendar','九月':'September','十月':'October','上一周':'Previous week','下一周':'Next week','全部空间':'All spaces','不限':'Any','免费':'Free','有名额':'Spots available','共读':'Reading','放映':'Screening','户外':'Outdoor',
+  '本周活动':'Events this week','下周活动':'Events next week','近期活动':'Upcoming events','名额已满':'Full','报名中':'Open','你已报名':'Registered','人报名':' registered','剩余 ':'','个名额':' spots left','余 ':'','查看系列':'View series','等城市同步发生':'across multiple cities',
+  '全部':'All','管理':'Admin','活动':'Events','互动':'Social','全部标为已读':'Mark all read','一场活动等待你审核':'An event is waiting for review','活动报名申请已通过':'Registration approved','阿乔关注了你':'Aqiao followed you','活动地点有更新':'Event location updated','你已成为空间管理员':'You are now a space admin','2 场活动正在等待审核':'2 events are waiting for review','新的审核都处理完了':'All reviews are up to date',
+  '「城市里的陌生人晚餐」申请使用 706 青年空间。':'“Dinner with Strangers in the City” requested to use 706 Youth Space.','下一步：完成付款并查看活动群或组织者联系方式。':'Next: complete payment and view the event group or organizer contact.','你们现在互相关注，可以在动态里看到彼此的活动。':'You now follow each other and can see each other’s events in Updates.','「苏州河慢走」集合点改为 M50 创意园 3 号门。':'The Suzhou Creek Walk meeting point changed to Gate 3 of M50 Creative Park.','现在可以管理 706 青年空间的信息与活动审核。':'You can now manage 706 Youth Space information and event reviews.',
+  '昨天':'Yesterday','今天':'Today','周一':'Mon','周二':'Tue','周三':'Wed','周四':'Thu','周五':'Fri','周六':'Sat','周日':'Sun','一':'M','二':'T','三':'W','四':'T','五':'F','六':'S','日':'S',
+  '报名活动':'Register','加入候补':'Join waitlist','确认报名':'Confirm registration','提交申请':'Submit request','取消':'Cancel','完成':'Done','返回':'Back','保存':'Save','筛选':'Filter','查看':'View','关注者':'Followers',
+  '发起方':'Host','大家说':'Community notes','活动介绍':'About this event','适合谁':'Who it is for','地点':'Location','时间':'Time','报名':'Register','推荐':'Recommend','评论':'Comments','分享':'Share',
+  '成员主页':'Member profile','组织':'Organization','空间':'Space','成员':'Members','管理员设置':'Admin settings','审核待办':'Review queue','活动审核':'Event review','审核进度':'Review status','审核中':'In review','当前进度':'Current status',
+  '个人资料已保存':'Profile saved','空间资料已保存':'Space saved','活动系列已保存':'Series saved','已全部标为已读':'All messages marked as read','页面已重新加载':'Page refreshed','反馈入口将在正式版接入':'Feedback will be available in the full release',
+  '已关注':'Following','＋ 关注':'＋ Follow','已取消关注':'Unfollowed','关注状态已更新':'Follow status updated','报名成功':'Registration complete','报名申请已提交':'Registration submitted','微信号已复制':'WeChat ID copied','支付成功，参与方式已解锁':'Payment complete — access unlocked'
+};
+
 const state = {
   view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao', activeEntity:'space',
   dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'本周', selectedSpace:'全部空间', calendarOpen:false, calendarWeek:1, peopleOffset:0, recommended:{}, joined:{}, unread:4,
+  language:localStorage.getItem('706-language')||'zh', city:localStorage.getItem('706-city')||'上海',
   publishStep:1, publishSubmitted:false, approvalDone:false,
   draftMedia:[{type:'image',label:'活动封面.jpg'}], activeRelation:'following', registrationFilter:'全部', myEventFilter:'全部', spacePickerOpen:false,
   draft:{ title:'周末共读：我们如何一起生活', summary:'选一篇不长的文章，一起读完再聊。', date:'2026-10-04', start:'14:00', end:'16:30', city:'上海', venue:'706 青年空间', identity:'以个人身份发布', org:'不关联组织', quota:'16', paid:false, price:'30', attendeeApproval:true, joinMethods:['group'], detail:'我们会提前一天把文章发到群里。不要求提前读完，也欢迎只带着问题来。' },
@@ -81,6 +101,7 @@ function icon(name){
 function avatar(person,size=''){ return `<span class="avatar ${size}" style="--avatar:${person.color}">${person.initial}</span>`; }
 function person(id){ return people.find(p=>p.id===id) || people[0]; }
 function eventBy(id){ return events.find(e=>e.id===id) || events[0]; }
+function displayCity(city){ return state.language==='en'?(cityNames[city]||city):city; }
 
 function nav(){
   const items=[['feed','动态'],['discover','发现'],['messages','消息'],['me','我的']];
@@ -105,7 +126,7 @@ function eventMini(e){
 function eventRow(e){
   return `<article class="event-row" data-action="event" data-id="${e.id}">
     <div class="event-thumb" style="--cover:${e.color}"><div class="date-block"><span>${e.date.includes('周')?e.date:'10月'}</span><strong>${e.day}</strong></div></div>
-    <div class="event-row-main"><h3>${e.title}</h3><p>${e.time} · ${e.venue}</p><p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人报名</span></div></div>
+    <div class="event-row-main"><div class="row-status"><span class="badge ${e.spots?'open':'ended'}">${e.spots?'报名中':'名额已满'}</span>${state.joined[e.id]?'<span class="badge upcoming">你已报名</span>':''}</div><h3>${e.title}</h3><p>${e.time} · ${e.venue}</p><p>${e.price?`¥${e.price}`:'免费'} · ${e.spots?`剩余 ${e.spots} 个名额`:'名额已满'}</p><div class="tiny-people">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}<span>${e.joined} 人报名</span></div></div>
   </article>`;
 }
 
@@ -114,9 +135,9 @@ function renderFeed(){
   const visiblePeople=Array.from({length:4},(_,i)=>people[(state.peopleOffset+i)%people.length]);
   const cards=visiblePeople.map(p=>`<article class="person-card" data-action="member" data-id="${p.id}">${avatar(p)}<strong>${p.name}</strong><p>${p.bio}</p><small class="relation-hint">${relations[p.id]}</small><button class="follow ${p.following||state.recommended[p.id]?'active':''}" data-action="follow" data-id="${p.id}">${p.following||state.recommended[p.id]?'已关注':'＋ 关注'}</button></article>`).join('');
   const e1=events[0],e2=events[2];
-  const body=`<section class="screen"><div class="main-toolbar"><button class="city-pill" data-action="city">上海⌄</button></div>
+  const body=`<section class="screen"><div class="main-toolbar"><button class="city-pill" data-action="city">${displayCity(state.city)}⌄</button></div>
     <section class="section tight"><div class="section-title"><h2>发现有意思的人</h2><button class="refresh-people" data-action="refresh-people">换几个</button></div><div class="h-scroll">${cards}</div></section>
-    <article class="post featured"><div class="post-head">${avatar(person('qiao'),'sm')}<div class="post-meta"><strong>阿乔推荐了一场活动</strong><span>18 分钟前 · 上海</span></div><button class="more">···</button></div><p class="post-copy">“周六晚上一起看一部关于城市与漂泊的电影，映后想聊聊我们为什么留在这里。”</p>${eventMini(e1)}</article>
+    <article class="post featured"><div class="post-head">${avatar(person('qiao'),'sm')}<div class="post-meta"><strong>阿乔推荐了一场活动</strong><span>18 分钟前 · ${displayCity(state.city)}</span></div><button class="more">···</button></div><p class="post-copy">“周六晚上一起看一部关于城市与漂泊的电影，映后想聊聊我们为什么留在这里。”</p>${eventMini(e1)}</article>
     <article class="post"><div class="post-head">${avatar(person('jiang'),'sm')}<div class="post-meta"><strong>Jiang、Shing 和 6 位同城成员报名了</strong><span>今天 09:12 · 合并动态</span></div><button class="more">···</button></div><p class="post-copy">大家正在一起设计 706 小程序的下一步。</p>${eventMini(e2)}</article>
     <div style="height:16px"></div></section>`;
   return shell(body,{fab:true});
@@ -132,7 +153,7 @@ function renderDiscover(){
   const dateTitle=['本周','下周'].includes(state.selectedDate)?state.selectedDate:state.selectedDate;
   const resultTitle=state.selectedSpace==='全部空间'?`${dateTitle}活动`:`${state.selectedSpace} · ${dateTitle}`;
   const visibleWeek=calendarWeeks[state.calendarWeek];
-  const body=`<section class="screen gray"><div class="discover-toolbar"><button class="city-pill" data-action="city">上海⌄</button><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
+  const body=`<section class="screen gray"><div class="discover-toolbar"><button class="city-pill" data-action="city">${displayCity(state.city)}⌄</button><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
     <div class="campaign-carousel compact" aria-label="活动系列"><article class="campaign-card" data-action="campaign"><small>${campaign.kicker}</small><h2>${campaign.title}</h2><p>${campaign.cities.slice(0,4).join(' · ')} 等城市同步发生</p><span>查看系列 ›</span></article><article class="campaign-card alt" data-action="campaign"><small>8 城联动 · 社区行动月</small><h2>把客厅打开</h2><p>从一次邻里晚餐开始认识附近的人</p><span>查看系列 ›</span></article></div>
     <section class="filter-stack" aria-label="活动筛选">
       <div class="filter-rail date-rail"><button class="rail-chip ${state.selectedDate==='本周'?'active':''}" data-action="date-filter" data-id="本周">本周</button><button class="rail-chip ${state.selectedDate==='下周'?'active':''}" data-action="date-filter" data-id="下周">下周</button><button class="rail-chip calendar-trigger ${state.calendarOpen?'open':''}" data-action="toggle-calendar">日历 <i>${state.calendarOpen?'⌃':'⌄'}</i></button></div>
@@ -164,13 +185,19 @@ function renderMessages(){
 
 function renderMe(){
   const body=`<section class="screen gray"><div class="main-safe-area"></div>
-    <section class="profile-hero"><div class="profile-top" data-action="member" data-id="jiang">${avatar(person('jiang'))}<div><h2>Jiang</h2><p>上海 · 城市研究 / 社区产品</p></div><button class="profile-edit" data-action="edit-profile">编辑资料</button></div><div class="stats two"><button class="stat" data-action="relations" data-id="following"><strong>18</strong><span>关注</span></button><button class="stat" data-action="relations" data-id="followers"><strong>42</strong><span>被关注</span></button></div></section>
+    <section class="profile-hero"><div class="profile-top" data-action="member" data-id="jiang">${avatar(person('jiang'))}<div><h2>Jiang</h2><p>${displayCity(state.city)} · 城市研究 / 社区产品</p></div><button class="profile-edit" data-action="edit-profile">编辑资料</button></div><div class="stats two"><button class="stat" data-action="relations" data-id="following"><strong>18</strong><span>关注</span></button><button class="stat" data-action="relations" data-id="followers"><strong>42</strong><span>被关注</span></button></div></section>
     <article class="admin-card" data-action="approvals"><div><strong>管理员待办</strong><p>${state.approvalDone?'新的审核都处理完了':'2 场活动正在等待审核'}</p></div><span class="count">${state.approvalDone?'0':'2'}</span></article>
     <div class="menu-group"><button class="menu-row" data-action="publish"><span class="row-icon">＋</span><span>发布活动</span><small>›</small></button><button class="menu-row" data-action="drafts"><span class="row-icon">稿</span><span>活动草稿</span><small>1 ›</small></button><button class="menu-row" data-action="my-registrations"><span class="row-icon">票</span><span>我报名的活动</span><small>3 场 ›</small></button><button class="menu-row" data-action="my-events"><span class="row-icon">旗</span><span>我发布的活动</span><small>2 场 ›</small></button></div>
     <div class="menu-group"><button class="menu-row" data-action="org"><span class="row-icon">组</span><span>我管理的组织</span><small>706 产品小组 ›</small></button><button class="menu-row" data-action="space"><span class="row-icon">屋</span><span>我管理的空间</span><small>706 青年空间 ›</small></button></div>
-    <div class="menu-group settings-group"><button class="menu-row" data-action="settings"><span class="row-icon">设</span><span>设置</span><small>›</small></button></div>
+    <div class="menu-group settings-group"><button class="menu-row" data-action="more"><span class="row-icon">•••</span><span>更多</span><small>›</small></button></div>
   </section>`;
   return shell(body);
+}
+
+function renderMore(){
+  const languageLabel=state.language==='zh'?'简体中文':'English';
+  const cityLabel=displayCity(state.city);
+  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>更多</h2><span></span></header><div class="settings-intro"><strong>706 社区</strong><p>按你的语言和所在城市，提供更合适的活动与社区信息。</p></div><div class="menu-group preference-group"><button class="menu-row preference-row" data-action="choose-city"><span class="row-icon">城</span><span><b>城市</b><em>当前城市</em></span><small>${cityLabel} ›</small></button><button class="menu-row preference-row" data-action="choose-language"><span class="row-icon">文</span><span><b>语言</b><em>选择界面语言</em></span><small>${languageLabel} ›</small></button></div><div class="menu-group"><button class="menu-row" data-action="notice-settings"><span class="row-icon">铃</span><span>通知设置</span><small>›</small></button><button class="menu-row" data-action="privacy"><span class="row-icon">盾</span><span>隐私与安全</span><small>›</small></button></div><div class="menu-group"><button class="menu-row" data-action="wx-about"><span class="row-icon">i</span><span>关于 706 社区</span><small>›</small></button><button class="menu-row" data-action="wx-feedback"><span class="row-icon">✎</span><span>反馈与建议</span><small>›</small></button></div></section>`;
 }
 
 function renderEvent(){
@@ -347,9 +374,12 @@ function render(){
     case 'my-events': html=renderMyEvents(); break;
     case 'drafts': html=renderDrafts(); break;
     case 'following': html=renderRelations(); break;
+    case 'more': html=renderMore(); break;
     default: html=renderFeed();
   }
   app.innerHTML=html;
+  localizeElement(app);
+  document.documentElement.lang=state.language==='en'?'en':'zh-CN';
 }
 
 function go(view,opts={}){
@@ -359,8 +389,28 @@ function go(view,opts={}){
 }
 function scrollTop(){ const s=app.querySelector('.screen'); if(s) s.scrollTop=0; }
 function back(){ state.view=state.history.pop()||state.tab; render(); scrollTop(); }
-function showToast(text){ toastEl.textContent=text; toastEl.classList.add('show'); clearTimeout(showToast.t); showToast.t=setTimeout(()=>toastEl.classList.remove('show'),1900); }
+function translateText(text){
+  if(state.language!=='en'||!text) return text;
+  const lead=text.match(/^\s*/)?.[0]||'',tail=text.match(/\s*$/)?.[0]||'',core=text.trim();
+  if(!core) return text;
+  if(englishPhrases[core]) return `${lead}${englishPhrases[core]}${tail}`;
+  let translated=core;
+  Object.entries(englishPhrases).filter(([key])=>key.length>=4).sort((a,b)=>b[0].length-a[0].length).forEach(([zh,en])=>{ translated=translated.split(zh).join(en); });
+  translated=translated.replace(/周一/g,'Mon').replace(/周二/g,'Tue').replace(/周三/g,'Wed').replace(/周四/g,'Thu').replace(/周五/g,'Fri').replace(/周六/g,'Sat').replace(/周日/g,'Sun');
+  translated=translated.replace(/剩余\s*(\d+)\s*个名额/g,'$1 spots left').replace(/余\s*(\d+)\s*个名额/g,'$1 spots left').replace(/(\d+)\s*人报名/g,'$1 registered').replace(/免费/g,'Free');
+  translated=translated.replace(/(\d+)\s*场/g,'$1 events').replace(/(\d+)\s*分钟前/g,'$1 min ago').replace(/(\d+)\s*个待办/g,'$1 pending');
+  return `${lead}${translated}${tail}`;
+}
+function localizeElement(root){
+  if(state.language!=='en'||!root) return;
+  const walker=document.createTreeWalker(root,NodeFilter.SHOW_TEXT); let node;
+  while((node=walker.nextNode())) node.nodeValue=translateText(node.nodeValue);
+  root.querySelectorAll('[placeholder],[aria-label]').forEach(el=>{ if(el.placeholder) el.placeholder=translateText(el.placeholder); if(el.getAttribute('aria-label')) el.setAttribute('aria-label',translateText(el.getAttribute('aria-label'))); });
+}
+function showToast(text){ toastEl.textContent=translateText(text); toastEl.classList.add('show'); clearTimeout(showToast.t); showToast.t=setTimeout(()=>toastEl.classList.remove('show'),1900); }
 function closeSheet(){ layer.innerHTML=''; }
+
+new MutationObserver(()=>localizeElement(layer)).observe(layer,{childList:true,subtree:true});
 
 function signupSheet(id){
   const e=eventBy(id);
@@ -377,6 +427,15 @@ function recommendSheet(id){
 
 function miniProgramSheet(){
   layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><div class="mini-program-head"><span class="mini-program-logo">706</span><div><h2>706 社区</h2><p>让活动更容易发生，也让人更容易彼此发现。</p></div></div><div class="menu-group sheet-menu"><button class="menu-row" data-action="wx-about"><span class="row-icon">i</span><span>关于 706 社区</span><small>›</small></button><button class="menu-row" data-action="wx-refresh"><span class="row-icon">↻</span><span>重新加载页面</span><small>›</small></button><button class="menu-row" data-action="wx-feedback"><span class="row-icon">✎</span><span>反馈与建议</span><small>›</small></button></div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
+}
+
+function citySheet(){
+  const cities=['上海','北京','广州','深圳','杭州','成都'];
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet preference-sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>选择城市</h2><p>活动与推荐会优先显示这个城市的内容。</p><div class="choice-list">${cities.map(city=>`<button class="choice setting-choice ${state.city===city?'active':''}" data-action="city-select" data-id="${city}"><span>城</span><div><strong>${displayCity(city)}</strong><small>${state.language==='en'?city:cityNames[city]}</small></div><b>${state.city===city?'✓':''}</b></button>`).join('')}</div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
+}
+
+function languageSheet(){
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet preference-sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>选择语言</h2><p>切换后，界面导航、操作与系统提示会立即更新。</p><div class="choice-list"><button class="choice setting-choice ${state.language==='zh'?'active':''}" data-action="language-select" data-id="zh"><span>中</span><div><strong>简体中文</strong><small>Chinese (Simplified)</small></div><b>${state.language==='zh'?'✓':''}</b></button><button class="choice setting-choice ${state.language==='en'?'active':''}" data-action="language-select" data-id="en"><span>EN</span><div><strong>English</strong><small>English</small></div><b>${state.language==='en'?'✓':''}</b></button></div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
 }
 
 function manageEntitySheet(){
@@ -433,6 +492,7 @@ document.addEventListener('click',e=>{
   else if(a==='save-profile'){ back(); showToast('个人资料已保存'); }
   else if(a==='save-campaign'){ back(); showToast('活动系列已保存'); }
   else if(a==='edit-profile') go('edit-profile');
+  else if(a==='more') go('more');
   else if(a==='member-more') memberMoreSheet();
   else if(a==='people-why') peopleWhySheet();
   else if(a==='relations'){ state.activeRelation=id||'following'; go('relations'); }
@@ -441,6 +501,12 @@ document.addEventListener('click',e=>{
   else if(a==='submit-recommend'){ state.recommended[id]=true; closeSheet(); render(); showToast('推荐已发布到动态'); }
   else if(a==='comment') commentSheet(); else if(a==='reply') commentSheet(id); else if(a==='post-comment'){ closeSheet(); showToast('回应已发布'); }
   else if(a==='share') showToast('已打开微信分享面板（模拟）');
+  else if(a==='city'||a==='choose-city') citySheet();
+  else if(a==='choose-language') languageSheet();
+  else if(a==='city-select'){ state.city=id; localStorage.setItem('706-city',id); closeSheet(); render(); showToast(state.language==='en'?`Switched to ${displayCity(id)}`:`已切换至${id}`); }
+  else if(a==='language-select'){ state.language=id; localStorage.setItem('706-language',id); closeSheet(); render(); showToast(id==='en'?'Language changed to English':'已切换为简体中文'); }
+  else if(a==='notice-settings') showToast('通知设置将在正式版接入');
+  else if(a==='privacy') showToast('隐私与安全设置将在正式版接入');
   else if(a==='wx-more'||a==='settings') miniProgramSheet();
   else if(a==='wx-home'){ closeSheet(); state.tab='feed'; state.view='feed'; state.history=[]; render(); showToast('已回到小程序首页'); }
   else if(a==='wx-about'){ closeSheet(); showToast('706 社区小程序 · MVP'); }

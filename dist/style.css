@@ -107,6 +107,9 @@ button { -webkit-tap-highlight-color:transparent; }
 .date-block strong { font-size:22px; line-height:1; }
 .date-block span { font-size:10px; font-weight:750; margin-bottom:3px; }
 .event-row-main { min-width:0; flex:1; }
+.row-status { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:6px; }
+.row-status .badge { padding:3px 6px; font-size:9px; }
+.badge.open { background:#e4f5ea; color:#237b50; }
 .event-row-main h3 { margin:1px 0 6px; font-size:15px; line-height:1.32; }
 .event-row-main p { margin:3px 0; color:var(--muted); font-size:11px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
 .tiny-people { margin-top:9px; display:flex; align-items:center; gap:6px; font-size:11px; color:var(--muted); }
@@ -152,6 +155,17 @@ button { -webkit-tap-highlight-color:transparent; }
 .menu-row .row-icon { width:31px; height:31px; display:grid; place-items:center; border-radius:10px; background:var(--surface); }
 .menu-row span:nth-child(2) { flex:1; font-size:14px; }
 .menu-row small { color:var(--muted); }
+.settings-intro { margin:2px 12px 12px; padding:16px; border-radius:19px; background:linear-gradient(135deg,#22211f,#383631); color:#fff; }
+.settings-intro strong { display:block; font-size:17px; }
+.settings-intro p { margin:5px 0 0; max-width:285px; color:rgba(255,255,255,.65); font-size:11px; line-height:1.5; }
+.preference-row>span:nth-child(2) { display:flex; flex-direction:column; align-items:flex-start; }
+.preference-row b { font-size:14px; }
+.preference-row em { margin-top:2px; color:var(--muted); font-size:10px; font-style:normal; }
+.preference-row small { max-width:125px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.preference-sheet .choice-list { max-height:360px; overflow:auto; }
+.setting-choice { align-items:center; }
+.setting-choice>span { width:34px; height:34px; display:grid; place-items:center; flex:0 0 auto; border-radius:11px; background:var(--surface); color:var(--ink); font-size:11px; font-weight:800; }
+.setting-choice b { color:var(--green); }
 .detail-hero { min-height:262px; color:#fff; padding:82px 19px 21px; display:flex; flex-direction:column; justify-content:flex-end; background:var(--cover); position:relative; overflow:hidden; }
 .detail-hero::after { content:""; position:absolute; right:-44px; top:30px; width:190px; height:190px; border-radius:38% 62% 50% 50%; transform:rotate(20deg); background:rgba(255,255,255,.12); }
 .detail-hero>* { position:relative; z-index:1; }
