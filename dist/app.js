@@ -48,7 +48,7 @@ const campaign = {
 
 const state = {
   view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao', activeEntity:'space',
-  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'全部', selectedSpace:'全部空间', recommended:{}, joined:{}, unread:4,
+  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'全部', selectedSpace:'全部空间', calendarOpen:false, recommended:{}, joined:{}, unread:4,
   publishStep:1, publishSubmitted:false, approvalDone:false,
   draftMedia:[{type:'image',label:'活动封面.jpg'}], activeRelation:'following', registrationFilter:'全部', myEventFilter:'全部', spacePickerOpen:false,
   draft:{ title:'周末共读：我们如何一起生活', summary:'选一篇不长的文章，一起读完再聊。', date:'2026-10-04', start:'14:00', end:'16:30', city:'上海', venue:'706 青年空间', identity:'以个人身份发布', org:'不关联组织', quota:'16', paid:false, price:'30', attendeeApproval:true, joinMethods:['group'], detail:'我们会提前一天把文章发到群里。不要求提前读完，也欢迎只带着问题来。' },
@@ -118,19 +118,23 @@ function renderFeed(){
 function renderDiscover(){
   const timeFilters=[{id:'全部',day:'全部',date:'近期'},{id:'周六',day:'周六',date:'26'},{id:'周日',day:'周日',date:'27'},{id:'周三',day:'周三',date:'30'},{id:'10月',day:'周六',date:'03'}];
   const spaceFilters=[{id:'全部空间',name:'全部空间',meta:'4 场活动'},{id:'706 青年空间',name:'706 青年空间',meta:'2 场活动'},{id:'M50 创意园门口',name:'M50 创意园',meta:'1 场活动'},{id:'徐汇滨江草坪',name:'徐汇滨江',meta:'1 场活动'}];
-  const inBrowseScope=e=>state.browseMode==='time'?(state.selectedDate==='全部'||e.date===state.selectedDate):(state.selectedSpace==='全部空间'||e.venue===state.selectedSpace);
-  const matchesQuick=e=>state.dateFilter==='全部'||state.dateFilter==='免费'&&e.price===0||state.dateFilter==='有名额'&&e.spots>0;
-  const filtered=events.filter(e=>inBrowseScope(e)&&matchesQuick(e));
+  const keywordFilters=['全部','免费','有名额','共读','放映','户外'];
+  const matchesDate=e=>state.selectedDate==='全部'||e.date===state.selectedDate;
+  const matchesSpace=e=>state.selectedSpace==='全部空间'||e.venue===state.selectedSpace;
+  const matchesKeyword=e=>state.dateFilter==='全部'||state.dateFilter==='免费'&&e.price===0||state.dateFilter==='有名额'&&e.spots>0||state.dateFilter==='共读'&&e.title.includes('共读')||state.dateFilter==='放映'&&e.title.includes('放映')||state.dateFilter==='户外'&&['walk','frisbee'].includes(e.id);
+  const filtered=events.filter(e=>matchesDate(e)&&matchesSpace(e)&&matchesKeyword(e));
   const timeLabel=timeFilters.find(x=>x.id===state.selectedDate);
-  const resultTitle=state.browseMode==='time'?(state.selectedDate==='全部'?'近期活动':`${timeLabel.day} ${timeLabel.date} 日`):(state.selectedSpace==='全部空间'?'全部空间':state.selectedSpace);
+  const dateTitle=state.selectedDate==='全部'?'近期':`${timeLabel.day} ${timeLabel.date} 日`;
+  const resultTitle=state.selectedSpace==='全部空间'?`${dateTitle}活动`:`${state.selectedSpace} · ${dateTitle}`;
   const body=`<section class="screen gray">${topbar('发现活动')}
     <div class="search-wrap discover-search"><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
     <div class="campaign-carousel compact" aria-label="活动系列"><article class="campaign-card" data-action="campaign"><small>${campaign.kicker}</small><h2>${campaign.title}</h2><p>${campaign.cities.slice(0,4).join(' · ')} 等城市同步发生</p><span>查看系列 ›</span></article><article class="campaign-card alt" data-action="campaign"><small>8 城联动 · 社区行动月</small><h2>把客厅打开</h2><p>从一次邻里晚餐开始认识附近的人</p><span>查看系列 ›</span></article></div>
-    <section class="browse-panel">
-      <div class="browse-tabs" aria-label="活动浏览方式"><button class="${state.browseMode==='time'?'active':''}" data-action="browse-mode" data-id="time"><span>日</span><div><strong>日历</strong><small>选择哪天</small></div></button><button class="${state.browseMode==='space'?'active':''}" data-action="browse-mode" data-id="space"><span>地</span><div><strong>空间</strong><small>选择去哪儿</small></div></button></div>
-      ${state.browseMode==='time'?`<div class="calendar-browser"><div class="browser-context"><strong>9月–10月</strong><span>选择日期查看当天活动</span></div><div class="date-picks">${timeFilters.map(x=>`<button class="date-pick ${state.selectedDate===x.id?'active':''}" data-action="browse-filter" data-id="${x.id}"><small>${x.day}</small><strong>${x.date}</strong></button>`).join('')}</div></div>`:`<div class="space-picks">${spaceFilters.map(x=>`<button class="space-pick ${state.selectedSpace===x.id?'active':''}" data-action="browse-filter" data-id="${x.id}"><span>${x.name}</span><small>${x.meta}</small></button>`).join('')}</div>`}
+    <section class="filter-stack" aria-label="活动筛选">
+      <div class="filter-rail date-rail"><button class="rail-label calendar-trigger ${state.calendarOpen?'open':''}" data-action="toggle-calendar"><span>日</span><strong>日历</strong><i>${state.calendarOpen?'⌃':'⌄'}</i></button>${timeFilters.map(x=>`<button class="rail-chip ${state.selectedDate===x.id?'active':''}" data-action="date-filter" data-id="${x.id}">${x.id==='全部'?'近期':`${x.day} ${x.date}`}</button>`).join('')}</div>
+      ${state.calendarOpen?`<div class="calendar-expand"><header><strong>2026 年 9 月</strong><span>圆点表示当天有活动</span></header><div class="calendar-weekdays">${['一','二','三','四','五','六','日'].map(x=>`<span>${x}</span>`).join('')}</div><div class="calendar-grid">${[['22','无'],['23','无'],['24','无'],['25','无'],['26','周六'],['27','周日'],['28','无'],['29','无'],['30','周三'],['1','无'],['2','无'],['3','10月'],['4','无'],['5','无']].map(([d,id])=>`<button class="${id!=='无'?'has-event':''} ${state.selectedDate===id?'active':''}" data-action="date-filter" data-id="${id}">${d}${id!=='无'?'<i></i>':''}</button>`).join('')}</div></div>`:''}
+      <div class="filter-rail"><span class="rail-label static"><span>地</span><strong>本地节点</strong></span>${spaceFilters.map(x=>`<button class="rail-chip ${state.selectedSpace===x.id?'active':''}" data-action="space-filter" data-id="${x.id}">${x.name}</button>`).join('')}</div>
+      <div class="filter-rail"><span class="rail-label static"><span>签</span><strong>活动</strong></span>${keywordFilters.map(x=>`<button class="rail-chip ${state.dateFilter===x?'active':''}" data-action="keyword-filter" data-id="${x}">${x==='全部'?'不限':x}</button>`).join('')}</div>
     </section>
-    <div class="quick-filter-bar"><span>只看</span>${['全部','免费','有名额'].map(x=>`<button class="chip ${state.dateFilter===x?'active':''}" data-action="filter" data-id="${x}">${x==='全部'?'不限':x}</button>`).join('')}<button class="chip more-filter" data-action="filters">更多⌄</button></div>
     <div class="section-title list-heading" style="padding:0 19px"><h2>${resultTitle}</h2><span>${filtered.length} 场</span></div>
     ${filtered.length?filtered.map(eventRow).join(''):`<div class="empty"><div class="empty-icon">⌕</div><h2>暂时没有活动</h2><p>换个时间看看，或者发起一场你想参加的活动。</p><button class="secondary" data-action="filter" data-id="全部">清除筛选</button></div>`}
   </section>`;
@@ -445,6 +449,10 @@ document.addEventListener('click',e=>{
   else if(a==='filter'){ state.dateFilter=id; render(); } else if(a==='message-filter'){ state.messageFilter=id; render(); }
   else if(a==='browse-mode'){ state.browseMode=id; render(); }
   else if(a==='browse-filter'){ if(state.browseMode==='time') state.selectedDate=id; else state.selectedSpace=id; render(); }
+  else if(a==='toggle-calendar'){ state.calendarOpen=!state.calendarOpen; render(); }
+  else if(a==='date-filter'){ if(id!=='无'){ state.selectedDate=id; state.calendarOpen=false; render(); } }
+  else if(a==='space-filter'){ state.selectedSpace=id; render(); }
+  else if(a==='keyword-filter'){ state.dateFilter=id; render(); }
   else if(a==='readall'){ state.unread=0; render(); showToast('已全部标为已读'); }
   else if(a==='approvals'){ closeSheet(); go('approvals'); } else if(a==='approval-detail') go('approval-detail');
   else if(a==='approve'){ state.approvalDone=true; back(); showToast('已通过审核，发起人将收到通知'); }
