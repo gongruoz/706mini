@@ -44,6 +44,9 @@ button { -webkit-tap-highlight-color:transparent; }
 .back { border:0; width:32px; height:32px; display:grid; place-items:center; border-radius:50%; background:rgba(255,255,255,.9); cursor:pointer; font-size:18px; }
 .page-action-row { min-height:38px; display:flex; justify-content:flex-end; align-items:center; gap:10px; padding:0 19px 10px; color:var(--muted); font-size:12px; }
 .page-action-row>span:first-child { margin-right:auto; }
+.entity-page-actions { justify-content:flex-start; min-height:46px; padding:2px 112px 12px 19px; }
+.entity-page-actions .toolbar-action { display:flex; align-items:center; gap:6px; }
+.entity-page-actions .toolbar-action::before { content:"⚙"; font-size:12px; line-height:1; }
 .toolbar-action { border:1px solid var(--line); border-radius:999px; padding:7px 11px; background:#fff; color:var(--ink); font-size:12px; }
 .toolbar-action.primary-tool { border-color:var(--ink); background:var(--ink); color:#fff; }
 .section { padding:10px 19px 18px; }
