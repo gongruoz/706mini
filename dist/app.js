@@ -142,7 +142,7 @@ function renderMe(){
 
 function renderEvent(){
   const e=eventBy(state.activeEvent); const isJoined=state.joined[e.id];
-  return `<section class="screen no-nav"><header class="topbar transparent"><button class="back" data-action="back">‹</button><button class="back" data-action="more-event">···</button></header>
+  return `<section class="screen no-nav"><header class="topbar transparent"><button class="back" data-action="back">‹</button><span></span></header>
     <section class="detail-hero" style="--cover:${e.color}"><span class="cover-tag">${e.spots?'报名中':'名额已满'}</span><h1>${e.title}</h1><p>${e.date} ${e.time} · ${e.city}</p></section>
     <div class="social-proof"><span class="stack">${avatar(person('qiao'),'xs')}${avatar(person('jiang'),'xs')}${avatar(person('shing'),'xs')}</span><span><strong>阿乔和 Jiang</strong> 等 ${e.joined} 人已经参加</span></div>
     <section class="detail-section"><div class="facts"><div class="fact"><span class="fact-icon">日</span><div><strong>${e.date} · ${e.time}</strong><span>活动开始前 2 小时停止报名</span></div></div><div class="fact"><span class="fact-icon">地</span><div><strong>${e.venue}</strong><span>${e.address}</span></div></div><div class="fact"><span class="fact-icon">票</span><div><strong>${e.price?`¥${e.price} / 人`:'免费参加'}</strong><span>${e.spots?`还剩 ${e.spots} 个名额`:'可以加入候补'}</span></div></div></div></section>
@@ -241,6 +241,10 @@ function recommendSheet(id){
   layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>推荐给社区</h2><p>你的推荐会出现在关注者的动态中，可以附上一句话。</p><textarea class="textarea" placeholder="为什么推荐这场活动？">这个主题很适合第一次来 706 的朋友，一起去吧。</textarea><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary" data-action="submit-recommend" data-id="${id}">发布推荐</button></div></section></div>`;
 }
 
+function miniProgramSheet(){
+  layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><div class="mini-program-head"><span class="mini-program-logo">706</span><div><h2>706 社区</h2><p>让活动更容易发生，也让人更容易彼此发现。</p></div></div><div class="menu-group sheet-menu"><button class="menu-row" data-action="wx-about"><span class="row-icon">i</span><span>关于 706 社区</span><small>›</small></button><button class="menu-row" data-action="wx-refresh"><span class="row-icon">↻</span><span>重新加载页面</span><small>›</small></button><button class="menu-row" data-action="wx-feedback"><span class="row-icon">✎</span><span>反馈与建议</span><small>›</small></button></div><button class="secondary sheet-close" data-action="close-sheet">取消</button></section></div>`;
+}
+
 function returnSheet(){
   layer.innerHTML=`<div class="sheet-backdrop" data-action="close-sheet"><section class="sheet" onclick="event.stopPropagation()"><div class="sheet-handle"></div><h2>退回修改</h2><p>请具体说明需要调整的地方，发起人会收到通知。</p><textarea class="textarea">空间 18:30 前还有其他活动，请将布置时间改为 18:40 以后。</textarea><div class="sheet-actions"><button class="secondary" data-action="close-sheet">取消</button><button class="primary dark" data-action="confirm-return">发送修改意见</button></div></section></div>`;
 }
@@ -264,6 +268,11 @@ document.addEventListener('click',e=>{
   else if(a==='submit-recommend'){ state.recommended[id]=true; closeSheet(); render(); showToast('推荐已发布到动态'); }
   else if(a==='comment') commentSheet(); else if(a==='post-comment'){ closeSheet(); showToast('评论已发布'); }
   else if(a==='share') showToast('已打开微信分享面板（模拟）');
+  else if(a==='wx-more'||a==='settings') miniProgramSheet();
+  else if(a==='wx-home'){ closeSheet(); state.tab='feed'; state.view='feed'; state.history=[]; render(); showToast('已回到小程序首页'); }
+  else if(a==='wx-about'){ closeSheet(); showToast('706 社区小程序 · MVP'); }
+  else if(a==='wx-refresh'){ closeSheet(); render(); showToast('页面已重新加载'); }
+  else if(a==='wx-feedback'){ closeSheet(); showToast('反馈入口将在正式版接入'); }
   else if(a==='signup') signupSheet(id); else if(a==='submit-signup'){ state.joined[id]=true; closeSheet(); render(); showToast(eventBy(id).approval?'报名申请已提交':'报名成功'); }
   else if(a==='close-sheet') closeSheet();
   else if(a==='filter'){ state.dateFilter=id; render(); } else if(a==='message-filter'){ state.messageFilter=id; render(); }
@@ -278,7 +287,7 @@ document.addEventListener('click',e=>{
   else if(a==='save-draft'){ showToast('草稿已保存'); }
   else if(a==='approval-progress') go('approval-progress');
   else if(a==='my-registrations') go('registrations'); else if(a==='my-events') go('my-events'); else if(a==='drafts') go('drafts'); else if(a==='following') go('following');
-  else if(['city','shuffle','date','filters','search','settings','more-event'].includes(a)) showToast('这是交互模型中的演示入口');
+  else if(['city','shuffle','date','filters','search'].includes(a)) showToast('这是交互模型中的演示入口');
 });
 
 document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ')&&e.target.matches('[data-action="event"]')) e.target.click(); });

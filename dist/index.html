@@ -12,7 +12,12 @@
 <body>
   <main class="stage">
     <section class="phone" aria-label="706 社区移动端交互模型">
-      <div class="statusbar"><span>9:41</span><span class="brand-mark">706</span><span>● ◒ ͟</span></div>
+      <div class="statusbar" aria-hidden="true"><span>9:41</span><span class="dynamic-island"></span><span class="ios-signals">▮▮▮ ᯤ ▰</span></div>
+      <div class="wx-capsule" aria-label="微信小程序操作">
+        <button data-action="wx-more" aria-label="更多选项"><span class="capsule-dots">•••</span></button>
+        <i></i>
+        <button data-action="wx-home" aria-label="回到小程序首页"><span class="capsule-ring">◎</span></button>
+      </div>
       <div id="app" class="app"></div>
       <div id="layer"></div>
       <div id="toast" class="toast" role="status" aria-live="polite"></div>
