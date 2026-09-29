@@ -36,18 +36,11 @@ button { -webkit-tap-highlight-color:transparent; }
 .discover-toolbar .city-pill { flex:0 0 auto; min-height:38px; }
 .discover-toolbar .search { flex:1; min-width:0; padding:9px 11px; background:#fff; border-color:var(--line); }
 .discover-toolbar .search input { min-width:0; font-size:12px; }
-.calendar-entry { width:calc(100% - 38px); min-height:116px; margin:0 19px 14px; padding:15px 40px 14px 15px; position:relative; display:grid; grid-template-columns:1fr 154px; align-items:center; gap:12px; overflow:hidden; border:0; border-radius:20px; background:#1d1d1b; color:#fff; text-align:left; box-shadow:0 8px 22px rgba(34,31,25,.1); }
+.calendar-entry { width:calc(100% - 38px); min-height:82px; margin:0 19px 14px; padding:15px 44px 15px 16px; position:relative; display:flex; align-items:center; overflow:hidden; border:0; border-radius:20px; background:#1d1d1b; color:#fff; text-align:left; box-shadow:0 8px 22px rgba(34,31,25,.1); }
 .calendar-entry>div:first-child { min-width:0; }
-.calendar-entry small,.calendar-entry strong,.calendar-entry>div:first-child>span { display:block; }
-.calendar-entry small { color:rgba(255,255,255,.56); font-size:9px; }
-.calendar-entry strong { margin:7px 0 5px; font-size:17px; line-height:1.15; }
+.calendar-entry strong,.calendar-entry>div:first-child>span { display:block; }
+.calendar-entry strong { margin:0 0 7px; font-size:18px; line-height:1.15; }
 .calendar-entry>div:first-child>span { color:rgba(255,255,255,.7); font-size:10px; }
-.calendar-entry-days { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
-.calendar-entry-days i { min-width:0; padding:6px 1px; position:relative; display:grid; place-items:center; gap:4px; border-radius:8px; background:rgba(255,255,255,.07); font-style:normal; }
-.calendar-entry-days i.busy { background:#fff; color:var(--ink); }
-.calendar-entry-days i.busy::after { content:""; position:absolute; left:50%; bottom:3px; width:3px; height:3px; transform:translateX(-50%); border-radius:50%; background:var(--orange); }
-.calendar-entry-days b { font-size:7px; font-weight:600; opacity:.62; }
-.calendar-entry-days em { font-size:10px; font-style:normal; font-weight:750; }
 .calendar-entry-arrow { position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:22px; }
 .eyebrow { color:var(--muted); font-size:12px; margin-bottom:3px; }
 .icon-btn,.city-pill,.plain-btn { border:1px solid var(--line); background:#fff; border-radius:13px; min-width:40px; min-height:40px; padding:8px 11px; cursor:pointer; }
@@ -435,13 +428,14 @@ button { -webkit-tap-highlight-color:transparent; }
 .calendar-filter-stack { display:grid; gap:7px; margin-bottom:12px; }
 .week-calendar-card,.month-calendar-card { margin:0 12px 13px; padding:12px; border:1px solid var(--line); border-radius:21px; background:#fff; box-shadow:0 8px 25px rgba(45,42,32,.045); }
 .week-overview { display:grid; grid-template-columns:repeat(7,1fr); gap:5px; }
-.week-overview button { min-width:0; min-height:70px; position:relative; display:grid; place-items:center; align-content:center; gap:5px; border:0; border-radius:13px; background:transparent; color:var(--muted); }
+.week-overview button { min-width:0; height:70px; position:relative; display:grid; grid-template-rows:14px 22px 8px; place-items:center; align-content:center; gap:3px; border:0; border-radius:13px; background:transparent; color:var(--muted); }
 .week-overview button span { font-size:9px; }
 .week-overview button strong { font-size:15px; }
-.week-overview button i { width:18px; height:18px; display:grid; place-items:center; border-radius:50%; background:var(--orange-soft); color:var(--orange); font-size:9px; font-style:normal; }
-.week-overview button.has-events { color:var(--ink); background:var(--surface); }
-.week-overview button.active { color:#fff; background:var(--ink); }
-.week-overview button.active i { background:var(--orange); color:#fff; }
+.week-overview button i { width:5px; height:5px; display:block; border-radius:50%; background:transparent; font-size:0; font-style:normal; }
+.week-overview button.has-events { color:var(--ink); }
+.week-overview button.has-events i { background:var(--orange); }
+.week-overview button.active { color:var(--ink); background:#fff; box-shadow:inset 0 0 0 1px var(--ink); }
+.week-overview button.active i { background:var(--orange); }
 .calendar-results-title { padding:1px 19px 8px; }
 .calendar-results-title button { border:0; background:transparent; color:var(--orange); font-size:11px; }
 .calendar-empty { margin:0 19px; padding:25px 16px; display:grid; gap:5px; border:1px dashed var(--line); border-radius:18px; color:var(--muted); text-align:center; }
@@ -454,12 +448,16 @@ button { -webkit-tap-highlight-color:transparent; }
 .month-grid button { padding:6px 2px; display:grid; place-items:center; align-content:center; gap:3px; }
 .month-grid button strong { font-size:12px; }
 .month-grid button span { color:var(--orange); font-size:7px; }
+.month-grid button span:empty { width:5px; height:5px; border-radius:50%; background:var(--orange); }
 .month-grid button.has-events { background:var(--surface); box-shadow:inset 0 0 0 1px #e5dfd3; }
 .month-legend { margin:0 19px 24px; display:flex; justify-content:space-between; color:var(--muted); font-size:10px; }
 .month-legend span { display:flex; align-items:center; gap:6px; }
 .month-legend i { width:7px; height:7px; border-radius:50%; background:var(--orange); }
 .month-legend b { color:var(--ink); }
-@media (max-width:380px){ .calendar-entry { grid-template-columns:1fr 132px; } .calendar-entry-days { gap:2px; } .week-overview { gap:3px; } }
+.poster-preview-sheet { max-height:88%; }
+.poster-preview-sheet .sheet-title-row p { margin:3px 0 0; color:var(--muted); font-size:11px; }
+.poster-preview-image { width:min(100%,280px); max-height:52vh; margin:0 auto 14px; display:block; border:1px solid var(--line); border-radius:16px; background:#f7f3e9; object-fit:contain; box-shadow:0 12px 30px rgba(45,42,32,.12); }
+@media (max-width:380px){ .week-overview { gap:3px; } }
 .draft-card { margin:0 12px; padding:14px; border:1px solid var(--line); border-radius:20px; background:#fff; }
 .draft-cover { height:125px; margin-bottom:13px; border-radius:15px; background:var(--cover); }
 .draft-card h3 { margin:9px 0 5px; font-size:17px; }
