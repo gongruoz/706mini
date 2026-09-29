@@ -72,6 +72,7 @@ const englishPhrases={
   '选择界面语言':'Choose interface language','按你的语言和所在城市，提供更合适的活动与社区信息。':'Choose your language and city for more relevant events and community updates.','活动与推荐会优先显示这个城市的内容。':'Events and recommendations from this city will appear first.','切换后，界面导航、操作与系统提示会立即更新。':'Navigation, actions, and system messages update immediately.','通知设置将在正式版接入':'Notification settings will be available in the full release','隐私与安全设置将在正式版接入':'Privacy settings will be available in the full release','已切换至':'Switched to ',
   '搜索活动、成员、组织或空间':'Search events, people, groups, or spaces','搜索':'Search','主要导航':'Primary navigation','活动系列':'Event series','活动筛选':'Event filters','城市研究 / 社区产品':'Urban research / community product',
   '本周':'This week','下周':'Next week','日历':'Calendar','九月':'September','十月':'October','上一周':'Previous week','下一周':'Next week','全部空间':'All spaces','不限':'Any','免费':'Free','有名额':'Spots available','共读':'Reading','放映':'Screening','户外':'Outdoor',
+  '活动日历':'Event calendar','本周活动日历':'This week’s calendar','查看日历':'View calendar','周视图':'Week','月视图':'Month','生成海报':'Export poster','活动概览':'Event overview','返回全部日期':'All dates','海报已生成':'Poster exported',
   '本周活动':'Events this week','下周活动':'Events next week','近期活动':'Upcoming events','名额已满':'Full','报名中':'Open','你已报名':'Registered','人报名':' registered','剩余 ':'','个名额':' spots left','余 ':'','查看系列':'View series','等城市同步发生':'across multiple cities',
   '全部':'All','管理':'Admin','活动':'Events','互动':'Social','全部标为已读':'Mark all read','一场活动等待你审核':'An event is waiting for review','活动报名申请已通过':'Registration approved','阿乔关注了你':'Aqiao followed you','活动地点有更新':'Event location updated','你已成为空间管理员':'You are now a space admin','2 场活动正在等待审核':'2 events are waiting for review','新的审核都处理完了':'All reviews are up to date',
   '「城市里的陌生人晚餐」申请使用 706 青年空间。':'“Dinner with Strangers in the City” requested to use 706 Youth Space.','下一步：完成付款并查看活动群或组织者联系方式。':'Next: complete payment and view the event group or organizer contact.','你们现在互相关注，可以在动态里看到彼此的活动。':'You now follow each other and can see each other’s events in Updates.','「苏州河慢走」集合点改为 M50 创意园 3 号门。':'The Suzhou Creek Walk meeting point changed to Gate 3 of M50 Creative Park.','现在可以管理 706 青年空间的信息与活动审核。':'You can now manage 706 Youth Space information and event reviews.',
@@ -86,7 +87,7 @@ const englishPhrases={
 
 const state = {
   view:'feed', tab:'feed', history:[], activeEvent:'film', activePerson:'qiao', activeEntity:'space',
-  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'本周', selectedSpace:'全部空间', calendarOpen:false, calendarWeek:1, peopleOffset:0, recommended:{}, joined:{}, unread:4,
+  dateFilter:'全部', messageFilter:'全部', browseMode:'time', selectedDate:'本周', selectedSpace:'全部空间', calendarOpen:false, calendarWeek:1, activityCalendarMode:'week', activityCalendarWeek:1, activityCalendarMonth:9, activityCalendarDate:'', activityCalendarSpace:'全部空间', activityCalendarTag:'不限', peopleOffset:0, recommended:{}, joined:{}, unread:4,
   language:localStorage.getItem('706-language')||'zh', city:localStorage.getItem('706-city')||'上海',
   publishStep:1, publishSubmitted:false, approvalDone:false, campaignApprovalDone:false,
   onboardingStep:1, onboardingComplete:false, onboardingInterests:['城市观察','线下共读'], onboardingSpaces:['706 青年空间'],
@@ -119,6 +120,12 @@ function displayCity(city){ return state.language==='en'?(cityNames[city]||city)
 function eventSource(e,variant=''){
   return `<div class="event-source ${variant}"><span><b>发起者：</b><em>${e.host} &amp; ${e.org}</em></span><span><b>地点：</b><em>${e.venue}</em></span></div>`;
 }
+
+function calendarFilteredEvents(){
+  return events.filter(e=>(state.activityCalendarSpace==='全部空间'||e.venue===state.activityCalendarSpace)&&(state.activityCalendarTag==='不限'||state.activityCalendarTag==='免费'&&e.price===0||state.activityCalendarTag==='有名额'&&e.spots>0||state.activityCalendarTag==='放映'&&e.title.includes('放映')||state.activityCalendarTag==='户外'&&['walk','frisbee'].includes(e.id)));
+}
+
+function eventsForCalendarDay(id){ return id==='无'?[]:calendarFilteredEvents().filter(e=>e.date===id); }
 
 function pendingAdminCount(){
   return (state.approvalDone?0:2)+(state.campaignApprovalDone?0:1);
@@ -175,6 +182,7 @@ function renderDiscover(){
   const resultTitle=state.selectedSpace==='全部空间'?`${dateTitle}活动`:`${state.selectedSpace} · ${dateTitle}`;
   const visibleWeek=calendarWeeks[state.calendarWeek];
   const body=`<section class="screen gray"><div class="discover-toolbar"><button class="city-pill" data-action="city">${displayCity(state.city)}⌄</button><label class="search"><span>⌕</span><input data-action="search" placeholder="搜索活动、成员、组织或空间" aria-label="搜索" /></label></div>
+    <button class="calendar-entry" data-action="activity-calendar"><div><small>9月22日—9月28日</small><strong>本周活动日历</strong><span>3 场活动 · 2 个空间</span></div><div class="calendar-entry-days" aria-hidden="true">${[['一','22',0],['二','23',0],['三','24',0],['四','25',0],['五','26',1],['六','27',1],['日','28',0]].map(d=>`<i class="${d[2]?'busy':''}"><b>${d[0]}</b><em>${d[1]}</em></i>`).join('')}</div><b class="calendar-entry-arrow">›</b></button>
     <div class="campaign-carousel compact" aria-label="活动系列"><article class="campaign-card" data-action="campaign"><small>${campaign.kicker}</small><h2>${campaign.title}</h2><p>${campaign.cities.slice(0,4).join(' · ')} 等城市同步发生</p><span>查看系列 ›</span></article><article class="campaign-card alt" data-action="campaign"><small>8 城联动 · 社区行动月</small><h2>把客厅打开</h2><p>从一次邻里晚餐开始认识附近的人</p><span>查看系列 ›</span></article></div>
     <section class="filter-stack" aria-label="活动筛选">
       <div class="filter-rail date-rail"><button class="rail-chip ${state.selectedDate==='本周'?'active':''}" data-action="date-filter" data-id="本周">本周</button><button class="rail-chip ${state.selectedDate==='下周'?'active':''}" data-action="date-filter" data-id="下周">下周</button><button class="rail-chip calendar-trigger ${state.calendarOpen?'open':''}" data-action="toggle-calendar">日历 <i>${state.calendarOpen?'⌃':'⌄'}</i></button></div>
@@ -346,8 +354,34 @@ function renderMyEvents(){
 }
 
 function renderCalendar(){
-  const days=[['26','六',2],['27','日',1],['28','一',0],['29','二',1],['30','三',2],['01','四',0],['02','五',1]];
-  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活动日历</h2><span></span></header><div class="calendar-toolbar"><button class="month-switch">‹</button><strong>2026 年 9 月</strong><button class="month-switch">›</button></div><div class="calendar-strip">${days.map((d,i)=>`<button class="calendar-day ${i===0?'active':''}"><span>周${d[1]}</span><strong>${d[0]}</strong>${d[2]?`<i>${d[2]}</i>`:''}</button>`).join('')}</div><div class="section-title" style="padding:4px 19px"><h2>9月26日 · 周六</h2><span>2 场</span></div>${eventRow(events[0])}${eventRow(events[2])}<div class="section-title" style="padding:15px 19px 4px"><h2>即将发生</h2></div>${eventRow(events[1])}</section>`;
+  const week=calendarWeeks[state.activityCalendarWeek];
+  const filters=calendarFilteredEvents();
+  const weekIds=week.days.map(d=>d[2]);
+  const weekEvents=filters.filter(e=>weekIds.includes(e.date));
+  const focused=state.activityCalendarDate?weekEvents.filter(e=>e.date===state.activityCalendarDate):weekEvents;
+  const spaces=['全部空间','706 青年空间','M50 创意园门口','徐汇滨江草坪'];
+  const tags=['不限','免费','有名额','放映','户外'];
+  const period=state.activityCalendarMode==='week'?`${week.month} · ${week.days[0][1]}—${week.days[6][1]}日`:`2026 年 ${state.activityCalendarMonth} 月`;
+  const monthDays=state.activityCalendarMonth===9?30:31;
+  const monthOffset=state.activityCalendarMonth===9?1:3;
+  const monthEventMap=state.activityCalendarMonth===9?{26:'周六',27:'周日',30:'周三'}:{3:'10月3日'};
+  const monthCells=[...Array(monthOffset).fill(null),...Array.from({length:monthDays},(_,i)=>i+1)];
+  const calendarView=state.activityCalendarMode==='week'?`<section class="week-calendar-card"><div class="week-overview">${week.days.map(([weekday,day,id])=>{const count=eventsForCalendarDay(id).length;return `<button class="${count?'has-events':''} ${state.activityCalendarDate===id?'active':''}" data-action="calendar-day-focus" data-id="${id}" ${id==='无'?'disabled':''}><span>${weekday}</span><strong>${day}</strong>${count?`<i>${count}</i>`:''}</button>`;}).join('')}</div></section><div class="section-title calendar-results-title"><h2>${state.activityCalendarDate==='周六'?'9月26日 · 周六':state.activityCalendarDate==='周日'?'9月27日 · 周日':state.activityCalendarDate==='周三'?'9月30日 · 周三':state.activityCalendarDate==='10月3日'?'10月3日 · 周六':'活动概览'}</h2>${state.activityCalendarDate?'<button data-action="calendar-day-focus" data-id="">返回全部日期</button>':`<span>${weekEvents.length} 场</span>`}</div>${focused.length?focused.map(eventRow).join(''):'<div class="calendar-empty"><strong>这一天还没有活动</strong><span>可以查看其他日期，或换一个筛选条件。</span></div>'}`:`<section class="month-calendar-card"><div class="month-weekdays">${['一','二','三','四','五','六','日'].map(x=>`<span>${x}</span>`).join('')}</div><div class="month-grid">${monthCells.map(day=>day?`<button class="${monthEventMap[day]?'has-events':''}" data-action="calendar-month-day" data-id="${monthEventMap[day]||'无'}"><strong>${day}</strong>${monthEventMap[day]?`<span>${eventsForCalendarDay(monthEventMap[day]).length} 场</span>`:''}</button>`:'<i></i>').join('')}</div></section><div class="month-legend"><span><i></i> 有活动</span><b>${filters.filter(e=>state.activityCalendarMonth===9?!e.date.startsWith('10月'):e.date.startsWith('10月')).length} 场活动</b></div>`;
+  return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活动日历</h2><span></span></header><div class="calendar-page-tools"><div class="calendar-view-tabs"><button class="${state.activityCalendarMode==='week'?'active':''}" data-action="calendar-view" data-id="week">周视图</button><button class="${state.activityCalendarMode==='month'?'active':''}" data-action="calendar-view" data-id="month">月视图</button></div><button class="poster-export" data-action="export-calendar">生成海报</button></div><div class="calendar-period"><button data-action="calendar-period" data-id="prev" aria-label="上一周">‹</button><strong>${period}</strong><button data-action="calendar-period" data-id="next" aria-label="下一周">›</button></div><div class="calendar-filter-stack"><div class="filter-rail">${spaces.map(x=>`<button class="rail-chip ${state.activityCalendarSpace===x?'active':''}" data-action="calendar-space-filter" data-id="${x}">${x}</button>`).join('')}</div><div class="filter-rail">${tags.map(x=>`<button class="rail-chip ${state.activityCalendarTag===x?'active':''}" data-action="calendar-tag-filter" data-id="${x}">${x}</button>`).join('')}</div></div>${calendarView}</section>`;
+}
+
+function exportCalendarPoster(){
+  const canvas=document.createElement('canvas'); canvas.width=1080; canvas.height=1440;
+  const ctx=canvas.getContext('2d'); const list=calendarFilteredEvents();
+  ctx.fillStyle='#f7f3e9'; ctx.fillRect(0,0,1080,1440);
+  ctx.fillStyle='#171714'; ctx.font='700 42px system-ui'; ctx.fillText(state.city==='上海'?'706 上海社区':'706 社区',72,100);
+  ctx.font='800 86px system-ui'; ctx.fillText(state.activityCalendarMode==='week'?'本周活动日历':`${state.activityCalendarMonth} 月活动日历`,72,210);
+  ctx.fillStyle='#7c776c'; ctx.font='400 31px system-ui'; ctx.fillText(state.activityCalendarMode==='week'?'9 月 22 日—9 月 28 日':'2026 年 · 上海',74,265);
+  ctx.strokeStyle='#d9d1c1'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(72,310); ctx.lineTo(1008,310); ctx.stroke();
+  const visible=list.filter(e=>state.activityCalendarMode==='week'?calendarWeeks[state.activityCalendarWeek].days.some(d=>d[2]===e.date):(state.activityCalendarMonth===9?!e.date.startsWith('10月'):e.date.startsWith('10月')));
+  visible.slice(0,6).forEach((e,i)=>{ const y=360+i*175; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.roundRect(72,y,936,145,28); ctx.fill(); ctx.fillStyle=e.id==='film'?'#3657cf':e.id==='walk'?'#25745f':e.id==='workshop'?'#ee784b':'#8c6c1a'; ctx.beginPath(); ctx.roundRect(72,y,18,145,[28,0,0,28]); ctx.fill(); ctx.fillStyle='#171714'; ctx.font='700 34px system-ui'; ctx.fillText(e.title,120,y+48); ctx.fillStyle='#6f6a61'; ctx.font='400 26px system-ui'; ctx.fillText(`${e.date} ${e.time} · ${e.venue}`,120,y+88); ctx.font='400 24px system-ui'; ctx.fillText(`发起者：${e.host} & ${e.org}`,120,y+122); });
+  ctx.fillStyle='#8e887c'; ctx.font='400 25px system-ui'; ctx.fillText('活动信息以 706 社区小程序内最新内容为准',72,1370);
+  const link=document.createElement('a'); link.download=`706-${state.activityCalendarMode==='week'?'本周':'本月'}活动日历.png`; link.href=canvas.toDataURL('image/png'); link.click(); showToast('海报已生成');
 }
 
 function renderSpaces(){
@@ -474,6 +508,7 @@ function translateText(text){
   let translated=core;
   Object.entries(englishPhrases).filter(([key])=>key.length>=4).sort((a,b)=>b[0].length-a[0].length).forEach(([zh,en])=>{ translated=translated.split(zh).join(en); });
   translated=translated.replace(/周一/g,'Mon').replace(/周二/g,'Tue').replace(/周三/g,'Wed').replace(/周四/g,'Thu').replace(/周五/g,'Fri').replace(/周六/g,'Sat').replace(/周日/g,'Sun');
+  translated=translated.replace(/九月/g,'September').replace(/十月/g,'October').replace(/2026 年 (\d+) 月/g,'$1 / 2026').replace(/(\d+)月(\d+)日/g,'$1/$2');
   translated=translated.replace(/剩余\s*(\d+)\s*个名额/g,'$1 spots left').replace(/余\s*(\d+)\s*个名额/g,'$1 spots left').replace(/(\d+)\s*人报名/g,'$1 registered').replace(/免费/g,'Free');
   translated=translated.replace(/(\d+)\s*场活动/g,'$1 events').replace(/(\d+)\s*场/g,'$1 events').replace(/(\d+)\s*分钟前/g,'$1 min ago').replace(/(\d+)\s*个待办/g,'$1 pending');
   return `${lead}${translated}${tail}`;
@@ -627,6 +662,18 @@ document.addEventListener('click',e=>{
   else if(a==='date-filter'){ if(id!=='无'){ state.selectedDate=id; state.calendarOpen=false; render(); } }
   else if(a==='space-filter'){ state.selectedSpace=id; render(); }
   else if(a==='keyword-filter'){ state.dateFilter=id; render(); }
+  else if(a==='activity-calendar'){ go('calendar'); }
+  else if(a==='calendar-view'){ state.activityCalendarMode=id; state.activityCalendarDate=''; render(); }
+  else if(a==='calendar-period'){
+    if(state.activityCalendarMode==='week') state.activityCalendarWeek=Math.max(0,Math.min(calendarWeeks.length-1,state.activityCalendarWeek+(id==='next'?1:-1)));
+    else state.activityCalendarMonth=Math.max(9,Math.min(10,state.activityCalendarMonth+(id==='next'?1:-1)));
+    state.activityCalendarDate=''; render();
+  }
+  else if(a==='calendar-day-focus'){ if(id!=='无'){ state.activityCalendarDate=id; render(); } }
+  else if(a==='calendar-month-day'){ if(id==='无') showToast('这一天还没有活动'); else { state.activityCalendarDate=id; state.activityCalendarMode='week'; const index=calendarWeeks.findIndex(w=>w.days.some(d=>d[2]===id)); if(index>=0) state.activityCalendarWeek=index; render(); } }
+  else if(a==='calendar-space-filter'){ state.activityCalendarSpace=id; render(); }
+  else if(a==='calendar-tag-filter'){ state.activityCalendarTag=id; render(); }
+  else if(a==='export-calendar'){ exportCalendarPoster(); }
   else if(a==='readall'){ state.unread=0; render(); showToast('已全部标为已读'); }
   else if(a==='refresh-people'){ state.peopleOffset=(state.peopleOffset+2)%people.length; render(); }
   else if(a==='approvals'){ closeSheet(); go('approvals'); } else if(a==='approval-detail') go('approval-detail');
@@ -650,7 +697,8 @@ document.addEventListener('click',e=>{
   else if(a==='save-draft'){ showToast('草稿已保存'); }
   else if(a==='approval-progress') go('approval-progress');
   else if(a==='edit-draft'){ state.publishStep=1; state.publishSubmitted=false; go('publish'); }
-  else if(a==='calendar'||a==='date') { state.tab='discover'; state.view='discover'; state.browseMode='time'; render(); }
+  else if(a==='calendar') go('calendar');
+  else if(a==='date') { state.tab='discover'; state.view='discover'; state.browseMode='time'; render(); }
   else if(a==='spaces') { state.tab='discover'; state.view='discover'; state.browseMode='space'; render(); }
   else if(a==='campaign') go('campaign'); else if(a==='campaign-edit') go('campaign-edit'); else if(a==='activity-preview') go('activity-preview');
   else if(a==='campaign-create'){ state.campaignStep=1; state.campaignSubmitted=false; go('campaign-create'); }
