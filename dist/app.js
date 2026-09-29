@@ -263,8 +263,8 @@ function renderMember(){
 function renderEntity(type){
   const isSpace=type==='space';
   state.activeEntity=type;
-  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>${isSpace?'空间':'组织'}</h2><span></span></header><div class="page-action-row entity-page-actions"><button class="toolbar-action" data-action="manage-entity">管理${isSpace?'空间':'组织'}</button></div>
-    <section class="member-hero" style="background:${isSpace?'linear-gradient(145deg,#523915,#a56b25)':'linear-gradient(145deg,#202750,#6c4bc5)'}"><span class="avatar" style="--avatar:${isSpace?'#ffe0b0':'#eadfff'}">${isSpace?'屋':'组'}</span><h1>${isSpace?'706 青年空间':'Sola 放映组'}</h1><p>${isSpace?'上海 · 静安区愚园路 1088 号':'上海 · 关注城市、空间与人的独立放映小组'}<br>${isSpace?'一个欢迎活动、讨论和偶遇发生的共享空间。':'用电影打开现实里的讨论，也认识一起看电影的人。'}</p><div class="member-actions"><button class="secondary" data-action="follow-entity">＋ 关注${isSpace?'空间':'组织'}</button><button class="secondary" data-action="share">分享${isSpace?'空间':'组织'}</button></div></section>
+  return `<section class="screen no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>${isSpace?'空间':'组织'}</h2><span></span></header>
+    <section class="member-hero entity-hero" style="background:${isSpace?'linear-gradient(145deg,#523915,#a56b25)':'linear-gradient(145deg,#202750,#6c4bc5)'}"><div class="entity-hero-top"><span class="avatar" style="--avatar:${isSpace?'#ffe0b0':'#eadfff'}">${isSpace?'屋':'组'}</span><button class="entity-manage" data-action="manage-entity">管理${isSpace?'空间':'组织'}</button></div><h1>${isSpace?'706 青年空间':'Sola 放映组'}</h1><p>${isSpace?'上海 · 静安区愚园路 1088 号':'上海 · 关注城市、空间与人的独立放映小组'}<br>${isSpace?'一个欢迎活动、讨论和偶遇发生的共享空间。':'用电影打开现实里的讨论，也认识一起看电影的人。'}</p><div class="member-actions"><button class="secondary" data-action="follow-entity">＋ 关注${isSpace?'空间':'组织'}</button><button class="secondary" data-action="share">分享${isSpace?'空间':'组织'}</button></div></section>
     <section class="detail-section"><div class="section-title"><h2>近期活动</h2><button data-action="entity-events">查看全部 ›</button></div>${eventRow(events[0])}${eventRow(isSpace?events[2]:events[1])}</section>
     <section class="detail-section"><div class="section-title"><h2>最近活跃的成员</h2><button data-action="entity-members">查看全部 ›</button></div><div class="h-scroll">${people.slice(0,4).map(p=>`<article class="person-card" data-action="member" data-id="${p.id}">${avatar(p)}<strong>${p.name}</strong><p>${p.bio}</p></article>`).join('')}</div></section>
   </section>`;
@@ -372,16 +372,49 @@ function renderCalendar(){
   return `<section class="screen gray no-nav"><header class="topbar slim"><button class="back" data-action="back">‹</button><h2>活动日历</h2><span></span></header><div class="calendar-page-tools"><div class="calendar-view-tabs"><button class="${state.activityCalendarMode==='week'?'active':''}" data-action="calendar-view" data-id="week">本周</button><button class="${state.activityCalendarMode==='month'?'active':''}" data-action="calendar-view" data-id="month">本月</button></div><button class="poster-export" data-action="export-calendar">生成海报</button></div><div class="calendar-period"><button data-action="calendar-period" data-id="prev" aria-label="上一周期">‹</button><strong>${period}</strong><button data-action="calendar-period" data-id="next" aria-label="下一周期">›</button></div><div class="calendar-filter-stack"><div class="filter-rail">${spaces.map(x=>`<button class="rail-chip ${state.activityCalendarSpace===x?'active':''}" data-action="calendar-space-filter" data-id="${x}">${x}</button>`).join('')}</div><div class="filter-rail">${tags.map(x=>`<button class="rail-chip ${state.activityCalendarTag===x?'active':''}" data-action="calendar-tag-filter" data-id="${x}">${x}</button>`).join('')}</div></div>${calendarView}</section>`;
 }
 
+function posterEventColor(event){
+  return event.id==='film'?'#3657cf':event.id==='walk'?'#25745f':event.id==='workshop'?'#ee784b':'#8c6c1a';
+}
+
+function drawPosterCode(ctx,x,y,size){
+  const cells=21; const unit=size/cells;
+  ctx.save(); ctx.fillStyle='#fff'; ctx.beginPath(); ctx.roundRect(x-14,y-14,size+28,size+28,24); ctx.fill();
+  ctx.fillStyle='#171714';
+  const inFinder=(row,col)=>((row<7&&col<7)||(row<7&&col>13)||(row>13&&col<7));
+  for(let row=0;row<cells;row++) for(let col=0;col<cells;col++){
+    if(inFinder(row,col)) continue;
+    if(((row*11+col*7+row*col)%13)<5) ctx.fillRect(x+col*unit,y+row*unit,Math.ceil(unit),Math.ceil(unit));
+  }
+  const finder=(col,row)=>{
+    ctx.fillStyle='#171714'; ctx.fillRect(x+col*unit,y+row*unit,7*unit,7*unit);
+    ctx.fillStyle='#fff'; ctx.fillRect(x+(col+1)*unit,y+(row+1)*unit,5*unit,5*unit);
+    ctx.fillStyle='#171714'; ctx.fillRect(x+(col+2)*unit,y+(row+2)*unit,3*unit,3*unit);
+  };
+  finder(0,0); finder(14,0); finder(0,14); ctx.restore();
+}
+
 function createCalendarPoster(){
   const canvas=document.createElement('canvas'); canvas.width=1080; canvas.height=1440;
   const ctx=canvas.getContext('2d'); const list=calendarFilteredEvents();
   ctx.fillStyle='#f7f3e9'; ctx.fillRect(0,0,1080,1440);
   ctx.fillStyle='#171714'; ctx.font='700 42px system-ui'; ctx.fillText(state.city==='上海'?'706 上海社区':'706 社区',72,100);
-  ctx.font='800 86px system-ui'; ctx.fillText(state.activityCalendarMode==='week'?'本周活动日历':`${state.activityCalendarMonth} 月活动日历`,72,210);
-  ctx.fillStyle='#7c776c'; ctx.font='400 31px system-ui'; ctx.fillText(state.activityCalendarMode==='week'?'9 月 22 日—9 月 28 日':'2026 年 · 上海',74,265);
-  ctx.strokeStyle='#d9d1c1'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(72,310); ctx.lineTo(1008,310); ctx.stroke();
+  ctx.font='800 76px system-ui'; ctx.fillText(state.activityCalendarMode==='week'?'本周活动日历':`${state.activityCalendarMonth} 月活动日历`,72,198);
+  ctx.fillStyle='#7c776c'; ctx.font='400 29px system-ui'; ctx.fillText(state.activityCalendarMode==='week'?'2026 年 9 月 22 日—9 月 28 日':'2026 年 · 上海',74,255);
+  drawPosterCode(ctx,862,62,126); ctx.fillStyle='#6f6a61'; ctx.font='500 20px system-ui'; ctx.textAlign='center'; ctx.fillText('扫码进入小程序',925,222); ctx.textAlign='left';
+  ctx.strokeStyle='#d9d1c1'; ctx.lineWidth=2; ctx.beginPath(); ctx.moveTo(72,300); ctx.lineTo(1008,300); ctx.stroke();
   const visible=list.filter(e=>state.activityCalendarMode==='week'?calendarWeeks[state.activityCalendarWeek].days.some(d=>d[2]===e.date):(state.activityCalendarMonth===9?!e.date.startsWith('10月'):e.date.startsWith('10月')));
-  visible.slice(0,6).forEach((e,i)=>{ const y=360+i*175; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.roundRect(72,y,936,145,28); ctx.fill(); ctx.fillStyle=e.id==='film'?'#3657cf':e.id==='walk'?'#25745f':e.id==='workshop'?'#ee784b':'#8c6c1a'; ctx.beginPath(); ctx.roundRect(72,y,18,145,[28,0,0,28]); ctx.fill(); ctx.fillStyle='#171714'; ctx.font='700 34px system-ui'; ctx.fillText(e.title,120,y+48); ctx.fillStyle='#6f6a61'; ctx.font='400 26px system-ui'; ctx.fillText(`${e.date} ${e.time} · ${e.venue}`,120,y+88); ctx.font='400 24px system-ui'; ctx.fillText(`发起者：${e.host} & ${e.org}`,120,y+122); });
+  const shown=visible.slice(0,5); const startY=350; const rowGap=194;
+  if(shown.length){ ctx.strokeStyle='#c8c0b1'; ctx.lineWidth=5; ctx.beginPath(); ctx.moveTo(112,startY+25); ctx.lineTo(112,startY+(shown.length-1)*rowGap+145); ctx.stroke(); }
+  shown.forEach((e,i)=>{
+    const y=startY+i*rowGap; const color=posterEventColor(e); const dateParts=e.date.replace('月','/').replace('日','').split('/');
+    ctx.fillStyle='#6f6a61'; ctx.textAlign='center'; ctx.font='700 24px system-ui'; ctx.fillText(dateParts.length>1?`${dateParts[0]}/${dateParts[1]}`:e.date,68,y+42); ctx.font='500 19px system-ui'; ctx.fillText(e.time.split('–')[0],68,y+72);
+    ctx.fillStyle=color; ctx.beginPath(); ctx.arc(112,y+36,12,0,Math.PI*2); ctx.fill(); ctx.strokeStyle='#f7f3e9'; ctx.lineWidth=6; ctx.stroke(); ctx.textAlign='left';
+    ctx.fillStyle='#fff'; ctx.beginPath(); ctx.roundRect(145,y,863,166,28); ctx.fill();
+    ctx.fillStyle='#171714'; ctx.font='700 31px system-ui'; ctx.fillText(e.title,180,y+48,620);
+    ctx.fillStyle='#6f6a61'; ctx.font='400 23px system-ui'; ctx.fillText(`${e.time} · ${e.venue}`,180,y+88,620); ctx.font='400 21px system-ui'; ctx.fillText(`发起者：${e.host} & ${e.org}`,180,y+124,620);
+    ctx.fillStyle=color; ctx.beginPath(); ctx.roundRect(855,y+13,124,140,20); ctx.fill(); ctx.globalAlpha=.2; ctx.fillStyle='#fff'; ctx.beginPath(); ctx.arc(966,y+26,43,0,Math.PI*2); ctx.fill(); ctx.globalAlpha=1;
+    ctx.fillStyle='#fff'; ctx.font='700 19px system-ui'; ctx.fillText(dateParts.length>1?`${dateParts[0]}月`:'活动',872,y+112); ctx.font='800 34px system-ui'; ctx.fillText(dateParts.length>1?dateParts[1]:e.day,872,y+142);
+  });
   ctx.fillStyle='#8e887c'; ctx.font='400 25px system-ui'; ctx.fillText('活动信息以 706 社区小程序内最新内容为准',72,1370);
   return canvas.toDataURL('image/png');
 }
