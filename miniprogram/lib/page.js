@@ -2,6 +2,15 @@ const api=require('./api'),prefs=require('./preferences'),i18n=require('./i18n')
 const tabs=['feed','discover','messages','me'];
 // Pure presentation rules share the existing page module's lazy-load boundary.
 const editorial={
+ nodeBanners(cityNodes,followed,city,cityName,locale){
+  const en=locale==='en',unique=[...new Map(followed.filter(x=>x.kind==='SPACE'&&(!x.status||x.status==='ACTIVE')).map(x=>[x.id,x])).values()].sort((a,b)=>Number(b.city===city)-Number(a.city===city)),suggestions=unique.length?unique:cityNodes.filter(x=>x.kind==='SPACE').slice(0,2);
+  return suggestions.slice(0,4).map(x=>({...x,cityLabel:en?(String(x.city||'').charAt(0).toUpperCase()+String(x.city||'').slice(1)):({shanghai:'上海',hangzhou:'杭州',beijing:'北京',chengdu:'成都',guangzhou:'广州',shenzhen:'深圳'}[x.city]||x.city),route:'space',title:x.name,context:unique.length?(en?'Following':'已关注'):(en?'In your city':'同城探索'),summary:x.introduction||x.address||''}));
+ },
+ entityLinks(record){
+  const links=Array.isArray(record.public_links)?record.public_links:[],accounts=links.filter(x=>x.kind==='official_account'&&x.label),recaps=links.filter(x=>x.kind==='recap'&&x.label&&(x.demo||editorial.articleUrl(x.url)));
+  return {hosts:links.filter(x=>x.kind==='host'&&typeof x.user_id==='string'&&x.user_id),account:accounts[0]||null,recaps:[...new Map(recaps.map(x=>[x.url||x.id||x.label,x])).values()]};
+ },
+ articleUrl(url){return typeof url==='string'&&/^https:\/\/mp\.weixin\.qq\.com\/s(?:\/[^\s]+|\?[^\s]+)$/.test(url)?url:'';},
  periodLabel(range,mode,locale){
   const first=dates.localDate(new Date(range.from)),last=dates.localDate(new Date(Date.parse(range.to)-86400000)),[year,month,day]=first.split('-').map(Number),[endYear,endMonth,endDay]=last.split('-').map(Number),months=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   if(mode==='month')return locale==='en'?months[month-1]+' '+year:year+'年'+month+'月';
@@ -38,7 +47,7 @@ const formKinds={publish:'event','campaign-create':'campaign','campaign-edit':'c
 function eventHost(e){const person=e.initiator?.display_name||e.host_display||'',org=e.organization_name||'';return org&&!['个人发起','Personal','Independent'].includes(org)&&!person.includes(org)?[person,org].filter(Boolean).join(' & '):person||org;}
 function normalizeBase(item,t,locale){const e=item.event||item,phase=require('./mine-phase')(item);const notificationMatch=String(item.description||'').match(/^(.*?)(「[^」]+」)(.*)$/);const registered=Number(e.registered)||0,total=e.capacity==null?null:Number(e.capacity),known=Number.isFinite(total);return {...item,hostLine:eventHost(e),capacityDisplay:known?registered+'/'+total:registered+(locale==='en'?' going':' 人参加'),capacityLabel:known?(locale==='en'?registered+' registered out of '+total+' places':'已报名 '+registered+' 人，共 '+total+' 个名额'):(locale==='en'?registered+' registered, unlimited capacity':'已报名 '+registered+' 人，不限名额'),notificationTime:item.display_time||dates.format(item.created_at,locale),notificationParts:notificationMatch?notificationMatch.slice(1):null,notificationIcon:item.category==='ADMIN'?'review':item.category==='SOCIAL'?'new':'ticket',phase,phaseLabel:phase==='ENDED'?(locale==='en'?'Ended':'已结束'):phase==='UPCOMING'?(locale==='en'?'Upcoming':'即将开始'):t[phase]||phase,cityLabel:locale==='en'?item.city:({shanghai:'上海',beijing:'北京',guangzhou:'广州',shenzhen:'深圳',hangzhou:'杭州',chengdu:'成都'}[item.city]||item.city),activeRegistration:item.registration&&!['CANCELLED','REJECTED','EXPIRED','REFUNDED'].includes(item.registration.status),title:item.title||item.event?.title||item.display_name||item.name||t[item.key]||'',statusLabel:t[item.status]||item.status||'',dateLabel:dates.format(e.starts_at,locale),dateOnly:dates.format(e.starts_at,locale).slice(0,10),timeOnly:dates.format(e.starts_at,locale).slice(11,16),endTime:dates.format(e.ends_at,locale).slice(11,16),participantNames:(e.participants||[]).slice().sort((a,b)=>Number(b.owner===e.owner)-Number(a.owner===e.owner)).slice(0,2).map(x=>x.display_name).join(locale==='en'?' and ':'和 '),detailParticipants:(e.participants||[]).slice().sort((a,b)=>Number(b.owner===e.owner)-Number(a.owner===e.owner)).slice(0,3),participantOverflow:Math.max(0,(e.registered||0)-(e.participants||[]).length),feeLabel:e.price_minor===0?t.free:e.price_minor!=null?'¥'+(e.price_minor/100).toFixed(2):'',route:item.route||(['event','campaign'].includes(item.type)?item.type:item.type==='registration'?'event-access':item.type==='review'?(item.subject_type==='campaign'?'campaign-approval-detail':'approval-detail'):item.type==='entity'?(item.kind==='SPACE'?'space':'org'):'member'),event:item.event?normalize(item.event,t,locale):null};}
 module.exports=function createPage(route){return {
- data:{route,isMainTab:tabs.includes(route),headerHeight:96,menuTop:48,menuHeight:32,menuRightInset:116,theme:theme.style(),icons,t:{},sheetCopy:{},loading:true,busy:false,error:'',items:[],people:[],campaigns:[],spaces:[],organizations:[],form:{},fields:[],step:1,formKind:formKinds[route]||'',sheet:'',sheetForm:{},filters:{},offset:0,calendarMode:'week',days:[],record:null,cityName:'',selectedDate:'',hasMore:false,nextCursor:null,consent:false,shareContact:false},
+ data:{route,nodeCards:[],nodeIndex:0,entityContent:{hosts:[],recaps:[],account:null},externalContent:null,isMainTab:tabs.includes(route),headerHeight:96,menuTop:48,menuHeight:32,menuRightInset:116,theme:theme.style(),icons,t:{},sheetCopy:{},loading:true,busy:false,error:'',items:[],people:[],campaigns:[],spaces:[],organizations:[],form:{},fields:[],step:1,formKind:formKinds[route]||'',sheet:'',sheetForm:{},filters:{},offset:0,calendarMode:'week',days:[],record:null,cityName:'',selectedDate:'',hasMore:false,nextCursor:null,consent:false,shareContact:false},
  onLoad(options){this.options=options||{};this.updateNavigationLayout();if(pendingTabPreview?.route===route){this.options=pendingTabPreview.options;pendingTabPreview=null;}this.setData({optionsId:this.options.id||'',reviewIndex:api.isMock()&&this.options.reviewIndex!==undefined?Number(this.options.reviewIndex):-1});this.filters={};this.calendarSelectionInitialized=false;this.commandKeys={};this.refreshLanguage();const kind=formKinds[route];if(kind){const cached=wx.getStorageSync(this.draftKey());this.setData({form:cached||forms.toForm({city:prefs.get().city,price_minor:0,capacity:'',approval_required:false,waitlist_enabled:true,event_ids:[],interests:[]}),step:api.isMock()&&Number(this.options.step)||wx.getStorageSync(this.draftKey()+'.step')||1});this.updateFields();}},
  onShow(){this.updateNavigationLayout();this.setData({access:null,reviewCount:0,needsLogin:false,canRegister:false,contact:null});this.refreshLanguage();this.load();},
  onUnload(){clearTimeout(this.saveTimer);},
@@ -56,6 +65,11 @@ module.exports=function createPage(route){return {
  draftKey(){return '706.draft.'+api.mode()+'.'+(api.isMock()?api.mock.state().version+'.':'')+route+'.'+(this.options.id||'new')+'.'+(api.session()?.id||'anonymous');},
  read(op,params={}){return api.call('read',{op,params});},
  async allMine(kind){let items=[],cursor;do{const r=await this.read('mine',{kind,cursor});items.push(...r.items);cursor=r.has_more?r.next_cursor:null;}while(cursor);return items;},
+ async allRead(op,params={}){let items=[],cursor;const seen=new Set();do{const r=await this.read(op,{...params,cursor});items.push(...(r.items||[]));cursor=r.has_more?r.next_cursor:null;if(cursor&&seen.has(cursor))throw Error('CURSOR_INVALID');if(cursor)seen.add(cursor);}while(cursor);return [...new Map(items.map(x=>[x.id||x.owner,x])).values()];},
+ async loadNodes(){
+  const city=this.data.city,en=this.data.locale==='en',settled=await Promise.allSettled([this.allRead('entities',{kind:'SPACE',city,directory:true}),api.session()?this.allRead('relations',{mode:'following'}):Promise.resolve([])]),cityNodes=settled[0].status==='fulfilled'?settled[0].value:[],followed=settled[1].status==='fulfilled'?settled[1].value.filter(x=>x.kind==='SPACE'):[];
+  this.setData({nodeCards:editorial.nodeBanners(cityNodes,followed,city,this.data.cityName,this.data.locale),nodeIndex:0,nodesError:settled.some(x=>x.status==='rejected')?(en?'Some spaces could not load.':'部分节点暂未加载。'):'',followedNodeCount:followed.length});
+ },
  async write(op,params={}){const fingerprint=op+JSON.stringify(params);const key=this.commandKeys[fingerprint]||(this.commandKeys[fingerprint]='cmd-'+Date.now()+'-'+Math.random().toString(36).slice(2));const r=await api.call('write',{op,params,key});delete this.commandKeys[fingerprint];return r;},
  async load(append=false){
   append=append===true;
@@ -70,7 +84,7 @@ module.exports=function createPage(route){return {
   if(!this.config){this.config=await this.read('config');this.setData({cities:this.config.cities,cityName:this.config.cities.find(c=>c.id===p.city)?.[p.locale==='en'?'en':'zh']});}
   if(route==='calendar'&&this.options.scene&&!this.shareLoaded){const share=await this.read('calendarShare',{id:decodeURIComponent(this.options.scene)});this.filters=share.params;this.shareLoaded=true;this.calendarSelectionInitialized=true;const start=share.params.from;this.sharedRange={from:start,to:share.params.to};const month=Date.parse(share.params.to)-Date.parse(start)>7*86400000;const base=dates.range(month?'month':'week');const a=dates.localDate(new Date(start)).split('-').map(Number),b=dates.localDate(new Date(base.from)).split('-').map(Number);const offset=month?(a[0]-b[0])*12+a[1]-b[1]:Math.floor((Date.parse(start)-Date.parse(base.from))/604800000);this.setData({calendarMode:month?'month':'week',offset,selectedDate:Date.parse(share.params.to)-Date.parse(start)===86400000?dates.localDate(new Date(start)):'',city:share.params.city,cityName:this.config.cities.find(c=>c.id===share.params.city)?.[p.locale==='en'?'en':'zh']});}
   const params={...this.filters,city:this.filters.city||p.city,cursor:append?this.data.nextCursor:null};this.setData({city:params.city,cityName:this.config.cities.find(c=>c.id===params.city)?.[p.locale==='en'?'en':'zh']});
-  if(route==='feed'){result=await this.read('feed',{...params,prototype:api.isMock()});const people=await this.read('people',api.isMock()?{prototype:true,offset:this.peopleOffset||0}:{city:p.city,exclude:[this.data.currentUser]});this.setData({people:editorial.people(people.items,this.data.currentUser)});}
+  if(route==='feed'){result=await this.read('feed',{...params,prototype:api.isMock()});const people=await this.read('people',api.isMock()?{prototype:true,offset:this.peopleOffset||0}:{city:p.city,exclude:[this.data.currentUser]});this.setData({people:editorial.people(people.items,this.data.currentUser)});if(!append)await this.loadNodes();}
   else if(route==='discover'||route==='calendar'){
    let range=dates.range(this.data.calendarMode,this.data.offset,this.data.selectedDate);if(this.sharedRange){const days=[];for(let n=Date.parse(this.sharedRange.from);n<Date.parse(this.sharedRange.to);n+=86400000){const date=dates.localDate(new Date(n));days.push({date,label:Number(date.slice(-2))});}range={...this.sharedRange,days,label:days[0].date+' — '+days[days.length-1].date};}this.setData({rangeLabel:editorial.periodLabel(range,'week',p.locale),monthLabel:editorial.periodLabel(range,'month',p.locale)});
    const all=await this.read('calendar',{...params,from:range.from,to:range.to});
@@ -85,9 +99,18 @@ module.exports=function createPage(route){return {
   else if(route==='event'){const r=await this.read('event',{id});this.setData({record:normalize(r,t,p.locale),comments:r.comments,detailThreads:(r.comments||[]).filter(x=>!x.reply_to&&x.source_surface!=='sheet').map(x=>({...x,replies:(r.comments||[]).filter(y=>y.reply_to===x.id)})),commentThreads:(r.comments||[]).filter(x=>!x.reply_to&&x.source_surface!=='detail').map(x=>({...x,replies:(r.comments||[]).filter(y=>y.reply_to===x.id)})),items:[],canRegister:r.can_register});return;}
   else if(route==='campaign'){const r=await this.read('campaign',{id});this.setData({record:{...r,citySummary:(r.cities||[]).join(' · ')}});result={items:(r.items||[]).map(event=>({...event,type:'event',route:'event'}))};}
   else if(['member','space','org','entity-events','entity-members'].includes(route)){
-   const r=await this.read(route==='member'?'member':'entity',{id});this.setData({record:normalize(r,t,p.locale),memberLinks:route==='member'?['work','social'].map((kind,i)=>(r.public_links||[]).find(x=>x.kind===kind||(!x.kind&&x.label===(i?'社交媒体':'作品与项目')))).filter(Boolean):[]});result={items:route==='entity-members'?r.members.map(x=>({...x,id:x.owner,route:'member'})):r.items};
+   const r=await this.read(route==='member'?'member':'entity',{id});this.setData({record:normalize(r,t,p.locale),memberLinks:route==='member'?['work','social'].map((kind,i)=>(r.public_links||[]).find(x=>x.kind===kind||(!x.kind&&x.label===(i?'社交媒体':'作品与项目')))).filter(Boolean):[]});result={items:route==='entity-members'?(r.members||[]).map(x=>({...x,id:x.owner,route:'member'})):r.items};
+   if(route==='space'||route==='org'){
+    const links=editorial.entityLinks(r),hosts=await Promise.all(links.hosts.map(async link=>{try{const host=await this.read('member',{id:link.user_id});return {...host,roleLabel:p.locale==='en'?(link.role_en||'Host'):(link.role||'负责人')};}catch{return null;}}));
+    const upcoming=(r.items||[]).filter(x=>Date.parse(x.ends_at)>Date.now()).sort((a,b)=>String(a.starts_at).localeCompare(String(b.starts_at)));
+    this.setData({entityContent:{...links,hosts:hosts.filter(Boolean)},upcomingCount:upcoming.length,showAllRecaps:false});result={items:upcoming.slice(0,3)};
+   }
   }
-  else if(route==='spaces')result=await this.read('entities',{...params,kind:'SPACE',directory:true});
+  else if(route==='spaces'){
+   const following=this.options.scope==='following';this.setData({spacesScope:following?'following':'city',title:following?(p.locale==='en'?'Spaces I follow':'我关注的节点'):(p.locale==='en'?this.data.cityName+' spaces':this.data.cityName+'的节点')});
+   if(following){if(!api.session())throw Error('LOGIN_REQUIRED');result={items:(await this.allRead('relations',{mode:'following'})).filter(x=>x.kind==='SPACE').sort((a,b)=>Number(b.city===p.city)-Number(a.city===p.city))};}
+   else result=await this.read('entities',{...params,kind:'SPACE',directory:true});
+  }
   else if(route==='messages')result=await this.read('notifications',{category:this.data.category||'',cursor:params.cursor});
   else if(route==='me'){
    const [r,e,events,registrations,campaigns]=await Promise.all([this.read('me'),this.read('managed'),this.allMine('event'),this.allMine('registration'),this.allMine('campaign')]);const counts=require('./personal-summary')(events,registrations,campaigns);const en=p.locale==='en';
@@ -129,6 +152,22 @@ module.exports=function createPage(route){return {
  openEvent(e){go('event',e.currentTarget.dataset.id);},
  mineFilter(e){this.setData({minePhase:e.currentTarget.dataset.phase});this.load();},
  bannerChange(e){this.setData({bannerIndex:e.detail.current});},
+ nodeChange(e){this.setData({nodeIndex:e.detail.current});},
+ nodeScope(e){this.options.scope=e.currentTarget.dataset.scope;this.setData({items:[],nextCursor:null});return this.load();},
+ retryNodes(){return this.run(()=>this.loadNodes());},
+ toggleRecaps(){this.setData({showAllRecaps:!this.data.showAllRecaps});},
+ openOfficial(){
+  const account=this.data.entityContent?.account;if(!account)return;
+  const fallback=()=>{this.setData({sheet:'official',externalContent:account});};
+  if(api.isMock()||account.demo||!/^gh_[a-zA-Z0-9_]+$/.test(account.username||'')||typeof wx.openOfficialAccountProfile!=='function')return fallback();
+  try{wx.openOfficialAccountProfile({username:account.username,fail:fallback});}catch{fallback();}
+ },
+ openRecap(e){
+  const article=this.data.entityContent?.recaps[Number(e.currentTarget.dataset.index)];if(!article)return;
+  const fallback=()=>this.setData({sheet:'recap',externalContent:article}),url=editorial.articleUrl(article.url);
+  if(api.isMock()||article.demo||!url||typeof wx.openOfficialAccountArticle!=='function')return fallback();
+  try{wx.openOfficialAccountArticle({url,fail:fallback});}catch{fallback();}
+ },
  bannerMove(e){const total=this.data.campaigns.length;this.setData({bannerIndex:((this.data.bannerIndex||0)+Number(e.currentTarget.dataset.delta)+total)%total});},
  async run(fn){if(this.data.busy)return;this.setData({busy:true,error:''});try{return await fn();}catch(e){this.setData({error:i18n.message(e,this.data.t),needsLogin:/LOGIN_REQUIRED|VERIFIED_LOGIN/.test(e.message||'')});}finally{this.setData({busy:false});}},
  login(){go('login');},

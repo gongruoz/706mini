@@ -16,7 +16,9 @@ function state(){if(!db)db=wx.getStorageSync(KEY);if(!db||db.version!==fixtures.
   const c=db.rows.find(r=>r.id==='demo-open-living-room'),theme=db.rows.find(r=>r.id==='demo-campaign-review');
   if(c&&Array.isArray(c.event_ids)&&!c.event_ids.length)c.event_ids=(theme?.event_ids||['demo-film','demo-walk','demo-workshop','demo-frisbee']).filter(id=>db.rows.some(r=>r.id===id&&r.type==='event'));
   db.navigationReviewRevision='links-r1';persist();
- }return db;}
+ }
+ if(db.nodeContentRevision!=='nodes-r2'){fixtures.nodeContent(db.rows);db.nodeContentRevision='nodes-r2';persist();}
+ return db;}
 function persist(){wx.setStorageSync(KEY,db);}
 function rows(type){return state().rows.filter(r=>r.type===type);}
 function get(id,type){return state().rows.find(r=>r.id===id&&(!type||r.type===type))||fail('NOT_FOUND');}
