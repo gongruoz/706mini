@@ -42,19 +42,21 @@
     "pages/review-lab/index"
   ],
   "window": {
+    "navigationStyle": "custom",
     "navigationBarTitleText": "706",
-    "navigationBarBackgroundColor": "#F3F3F3",
+    "navigationBarBackgroundColor": "#FAF9F5",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#F3F3F3"
+    "backgroundColor": "#FAF9F5"
   },
   "tabBar": {
+    "custom": true,
     "color": "#999999",
-    "selectedColor": "#222222",
-    "backgroundColor": "#FFFFFF",
+    "selectedColor": "#282822",
+    "backgroundColor": "#FAF9F5",
     "list": [
       {
         "pagePath": "pages/feed/index",
-        "text": "动态",
+        "text": "关注",
         "iconPath": "assets/tab-icons/feed-default.png",
         "selectedIconPath": "assets/tab-icons/feed-selected.png"
       },

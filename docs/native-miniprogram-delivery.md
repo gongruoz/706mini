@@ -2,6 +2,8 @@
 
 > 2026-10-09 更新：新增默认离线演示及第 40 页评审目录。当前导入、模式切换、覆盖与验证以 [同事评审指南](colleague-review.md) 为准；下文保留此前真实模式实现和工具验证历史。
 
+> 2026-10-16 当前界面：以 [706 Paper 当前规范](design-system-paper.md) 为准。发现筛选为时间/地点/参与，免费与有名额可组合；移除批量已读和专题数字/箭头。菜单、详情下一步、表单和审核信息层级已同步修订；不新增后端接口或权限。文末 2026-10-08 的 AppID、域名与工具配置描述是当时记录，不代表当前本机配置状态。
+
 
 2026-10-08 · SID-95。工程已实现并部署服务端，尚未完成真实微信账号端到端验收。`dist/` 是保留的网页原型，HTTP 200 不代表原生小程序验收。
 
@@ -22,9 +24,9 @@
 | 路由 | 界面与动作 | 服务接口/状态 |
 |---|---|---|
 | feed | 同城成员、推荐、获同意的报名动态、关注、搜索、发布 | feed / people / follow；share_activity 默认不公开 |
-| discover | 搜索、专题、日期/地点/标签/免费/名额筛选 | calendar / campaigns / search；筛选 AND，全局搜索跨城同城优先 |
-| messages | 管理/活动/互动分类、单条与全部已读 | notifications / read；UNREAD → READ |
-| me | 资料、关注/粉丝、待审提醒、报名/草稿/发布与管理入口 | me / managed / reviews |
+| discover | 搜索、专题、时间/地点/参与筛选，独立日历入口 | calendar / campaigns / search；筛选 AND，免费与名额可同时生效 |
+| messages | 管理/活动/互动分类、待处理/普通分组、打开单条后已读 | notifications / read；UNREAD → READ，无批量入口 |
+| me | 参与/发起/管理/偏好分组，直接切城市/语言，开发入口按环境可见 | me / managed / reviews；服务端权限不变 |
 | event | 详情、推荐、评论、报名、分享、复用、取消、审核与名单入口 | event / recommend / comment / register / clone / cancelEvent |
 | member | 公开资料、活动、关注、屏蔽、举报 | member / follow / mute / report |
 | space | 空间介绍、活动、成员、管理 | entity / follow |
@@ -36,7 +38,7 @@
 | edit-profile | 资料与头像、私密微信号、报名动态开关 | profile；联系方式加密保存 |
 | relations | 关注/粉丝列表及跳转 | relations，mode=followers/following |
 | onboarding | 三步资料、兴趣、关注空间、隐私确认 | profile；本机草稿和步骤恢复 |
-| calendar | 周/月视图、点日进入周、计数、筛选、海报预览保存 | calendar / calendarCode / calendarShare |
+| calendar | 本周/本月与列表、点日筛选不切视图、组合条件、海报预览保存 | calendar / calendarCode / calendarShare |
 | spaces | 同城空间列表 | entities，kind=SPACE |
 | campaign | 专题资料、关联活动、审核进度 | campaign |
 | campaign-edit | 编辑专题草稿并提交 | draft / saveCampaign / submitCampaign |
@@ -75,9 +77,9 @@
 
 ## 视觉依据与主题
 
-选型为用户确认的 Sola Figma。主色与画布、文字、边线、圆角集中在 `miniprogram/lib/theme.js`，布局在 `app.wxss`；后续换色只需调整主题。
+当前视觉系统为 2026-10-16 用户确认的 706 Paper。外层动态浅轮廓、内层活动深轮廓；头像与海报有细线，人数状态只读，人物贴纸固定文字区左右对齐并排除本人。黄色用于操作/选择，紫色用于关系/便笺，绿色用于可用状态。详情首屏收敛，事实优先，主操作对应报名下一步；表单有命名步骤和字段校验；审核说明身份、范围、关联活动与下一步。主 tab 无重复页眉和调试横幅，顶部实际控制区域稳定遮挡、边缘柔和渐变，底部不跳动。开发者入口仅演示/develop/trial 可见。颜色与几何参数集中在 `miniprogram/lib/theme.js`，当前样式在 `styles/editorial.wxss`，导航在 `custom-tab-bar/`。尺寸、交互和验证边界见 [706 Paper 当前规范](design-system-paper.md)。
 
-已读取主页面与 Component 页面，参考白卡、灰底、参与者胶囊、右侧海报与 light/dark 组件结构。主页面画布 `#F3F3F3` 来自源属性；薄荷色 `#A4EFCC` 为已渲染主页面截图采样值，尚未核实为 Figma 命名变量。未声称完整提取所有设计 token 或逐像素一致。私有设计截图留在私有后端证据目录，不放公开仓库。
+此前读取 Sola Figma 的主页面与 Component 页面，参考其参与者胶囊、右侧海报及信息组织。原灰底/薄荷主题已由新系统替代；新颜色为本次设计选择，不声称来自 Figma 命名变量或逐像素复制。私有设计截图留在私有后端证据目录，不放公开仓库。
 
 ## 验证与外部配置
 

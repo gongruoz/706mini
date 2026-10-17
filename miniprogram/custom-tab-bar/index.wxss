@@ -1,0 +1,7 @@
+.navigation-shell{position:fixed;left:0;right:0;bottom:0;z-index:8;padding:36rpx var(--pageGutter) calc(12rpx + env(safe-area-inset-bottom));background:linear-gradient(to bottom,var(--chromeClear) 0,var(--canvas) 36rpx,var(--canvas) 100%);color:var(--ink);pointer-events:none}
+.navigation-capsule{box-sizing:border-box;position:relative;display:flex;padding:8rpx 12rpx;border:var(--stroke) solid var(--outline);border-radius:var(--pill);background:var(--surface);pointer-events:auto}
+.navigation-selection{position:absolute;top:16rpx;bottom:16rpx;left:12rpx;width:calc((100% - 24rpx) / 4);box-sizing:border-box;border:var(--stroke) solid var(--line);border-radius:var(--pill);background:var(--accent);pointer-events:none}
+.navigation-capsule>.navigation-tab{box-sizing:border-box;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10rpx;flex:1;min-width:0;min-height:var(--tabHeight);width:auto;margin:0;padding:16rpx 2rpx;background:transparent;border-radius:var(--pill);color:var(--muted);font-size:24rpx;line-height:1.4;font-weight:400}
+.navigation-tab::after{border:0}.navigation-tab.is-current{color:var(--ink);font-weight:600}
+.navigation-emoji{display:block;width:76rpx;height:64rpx;line-height:64rpx;text-align:center;font-family:'Apple Color Emoji','Segoe UI Emoji',sans-serif;font-size:var(--tabIconSize);font-weight:400}
+.navigation-pressed{opacity:.65}

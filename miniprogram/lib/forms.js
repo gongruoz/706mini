@@ -1,7 +1,7 @@
 const definitions={
-event:[['title','text',1],['summary','area',1],['media','media',1],['starts_at','datetime',1],['ends_at','datetime',1],['city','city',1],['space_id','space',1],['venue_name','text',1],['address','text',1],['organization_id','organization',1],['capacity','number',2],['paid','switch',2],['price_minor','number',2],['approval_required','switch',2],['join_methods','methods',2],['description','area',2]],
+event:[['title','text',1],['summary','area',1],['description','area',1],['media','media',1],['starts_at','datetime',2],['ends_at','datetime',2],['city','city',2],['space_id','space',2],['venue_name','text',2],['address','text',2],['organization_id','organization',2],['capacity','number',2],['paid','switch',2],['price_minor','number',2],['approval_required','switch',2],['join_methods','methods',2]],
 campaign:[['title','text',1],['kicker','text',1],['media','media',1],['introduction','area',1],['organization_id','organization',1],['event_ids','events',2],['resource_links','area',2]],
-profile:[['avatar_url','image',1],['display_name','text',1],['wechat','text',3],['city','city',1],['bio','text',1],['interests','interests',2],['introduction','area',2],['work_links','links',4],['social_links','links',4],['frequent_spaces','spaces',4]],
+profile:[['avatar_url','image',1],['display_name','text',1],['city','city',1],['interests','interests',2],['bio','text',2],['introduction','area',2],['wechat','text',4],['work_links','links',4],['social_links','links',4],['frequent_spaces','spaces',4]],
 entity:[['cover_url','image',1],['name','text',1],['city','city',1],['opening_hours','text',1],['address','text',1],['introduction','area',1],['public_contact','text',1],['allow_event_requests','switch',1]]
 };
 function fields(kind,step,t,values){return definitions[kind].filter(x=>(!step||x[2]===step)&&!(x[0]==='price_minor'&&!values.paid)&&!(['venue_name','address'].includes(x[0])&&kind==='event'&&values.space_id)).map(([key,type])=>({key,type,label:t[key]||key,value:values[key]===undefined?'':values[key]}));}
@@ -13,4 +13,24 @@ function payload(kind,f){const p={...f};for(const k of ['access_type','access_va
  if(kind==='event'||kind==='campaign')p.cover_url=(f.media||[]).find(x=>x.type==='image')?.url||f.cover_url||'';
  return p;
 }
-module.exports={fields,toForm,payload};
+function stepInfo(kind,locale){const en=locale==='en',copy={event:en?['Tell the story','Plan the gathering','Preview & submit']:['介绍活动','安排参与','预览提交'],campaign:en?['Introduce the series','Connect events','Preview & submit']:['介绍专题','关联活动','预览提交'],profile:en?['Say hello','Find your interests','Make yourself at home']:['打个招呼','找到同好','准备出发']};const tips={event:en?['A clear title and introduction help people decide. Images are optional.','Set the time, place, capacity and participation details.','Review the public information. Private access stays hidden.']:['用名称和介绍让大家理解这次相聚。海报可以稍后补充。','确认时间、地点、名额，以及报名成功后的参与方式。','核对公开内容。群二维码和联系方式不会出现在公开预览中。'],campaign:en?['Explain what connects these events.','Select relevant events and add optional resources.','Check the series before sending it for review.']:['说清这个专题想讨论什么，以及活动之间的联系。','选择相关活动，按需补充参与资料。','检查图文与活动关联，再提交给相应审核方。'],profile:en?['Your name and city are enough to start. A photo is optional.','Pick 2–5 interests. Your bio and introduction are optional.','Check your public profile. Contact and portfolio can wait.']:['先告诉大家怎么称呼你、你在哪座城市。头像可稍后补充。','选择 2–5 个兴趣；身份介绍和个人介绍可以稍后再写。','看看你的公开资料。微信号和作品链接可以之后在编辑资料中补充。']};return (copy[kind]||[]).map((title,index)=>({number:index+1,title,description:tips[kind][index]}));}
+function validate(kind,f,{step=0,submit=false,consent=false,locale='zh-CN',now=Date.now()}={}){
+ const errors={},en=locale==='en',check=key=>submit||!step||definitions[kind].some(x=>x[0]===key&&x[2]===step),empty=value=>!String(value||'').trim();
+ const requireText=(key,zh,english)=>{if(check(key)&&empty(f[key]))errors[key]=en?english:zh;};
+ if(kind==='profile'){requireText('display_name','请填写昵称','Enter a name');requireText('city','请选择城市','Choose a city');if(check('interests')&&(!Array.isArray(f.interests)||f.interests.length<2||f.interests.length>5))errors.interests=en?'Choose 2–5 interests':'请选择 2–5 个兴趣';if(submit&&!consent)errors.privacy=en?'Please accept the privacy notice':'请阅读并同意隐私说明';}
+ if(kind==='event'||kind==='campaign')requireText('title','请填写名称','Enter a title');
+ if(kind==='campaign'){requireText('introduction','请介绍专题想讨论的内容','Introduce the series');if(check('event_ids')&&!(f.event_ids||[]).length)errors.event_ids=en?'Select at least one event':'请至少选择一场相关活动';}
+ if(kind==='event'){
+  requireText('description','请补充活动介绍','Add an event description');requireText('city','请选择城市','Choose a city');
+  if(check('starts_at')&&(!Number.isFinite(Date.parse(f.starts_at))||Date.parse(f.starts_at)<=now))errors.starts_at=en?'Choose a future start time':'请选择未来的开始时间';
+  if(check('ends_at')&&(!Number.isFinite(Date.parse(f.ends_at))||Date.parse(f.ends_at)<=Date.parse(f.starts_at)))errors.ends_at=en?'End time must be after the start':'结束时间应晚于开始时间';
+  if(!f.space_id){requireText('venue_name','请填写地点名称','Enter a venue');requireText('address','请填写详细地址','Enter the address');}
+  if(check('capacity')&&f.capacity!==''&&f.capacity!=null&&(!Number.isInteger(Number(f.capacity))||Number(f.capacity)<1))errors.capacity=en?'Use a positive whole number or leave empty':'填写正整数，或留空表示不限人数';
+  if(check('price_minor')&&f.paid&&(!Number.isFinite(Number(f.price_minor))||Number(f.price_minor)<=0))errors.price_minor=en?'Enter a price greater than zero':'请填写大于 0 的费用';
+  if(check('join_methods')&&!(f.join_methods||[]).length)errors.join_methods=en?'Choose how participants will join':'请选择至少一种参与方式';
+ }
+ return errors;
+}
+function fieldStep(kind,key){return definitions[kind].find(x=>x[0]===key)?.[2]||3;}
+function interestOptions(values=[],locale){const labels=[['城市观察','Urban life','city'],['线下共读','Reading together','reading'],['独立放映','Independent film','screening'],['户外散步','Outdoor walks','outdoor'],['桌游','Board games','games'],['社区营造','Community building','community'],['公共空间','Public spaces','spaces'],['一起吃饭','Shared meals','food']];return labels.map(([value,en,key])=>({value,label:locale==='en'?en:value,selected:values.includes(value)||values.includes(key)}));}
+module.exports={fields,toForm,payload,stepInfo,validate,fieldStep,interestOptions};
