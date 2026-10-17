@@ -29,7 +29,7 @@
 |---|---|---|
 | feed | 同城成员、推荐、获同意的报名动态、关注、搜索、发布 | feed / people / follow；share_activity 默认不公开 |
 | discover | 搜索、专题、时间/地点/参与筛选，独立日历入口 | calendar / campaigns / search；筛选 AND，免费与名额可同时生效 |
-| messages | 管理/活动/互动分类、待处理/普通分组、打开单条后已读 | notifications / read；UNREAD → READ，无批量入口 |
+| messages | 管理/活动/互动分类、仅待处理分组提示、普通消息直接起列、打开单条后已读 | notifications / read；UNREAD → READ，无批量入口 |
 | me | 参与/发起/管理/偏好分组，直接切城市/语言，开发入口按环境可见 | me / managed / reviews；服务端权限不变 |
 | event | 详情、推荐、评论、报名、分享、复用、取消、审核与名单入口 | event / recommend / comment / register / clone / cancelEvent |
 | member | 公开资料、活动、关注、屏蔽、举报 | member / follow / mute / report |

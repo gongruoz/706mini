@@ -279,6 +279,7 @@ page{background:#FAF9F5;color:#282822}
 .message-group-title,.menu-group-title{display:block;font-size:24rpx;font-weight:500;line-height:1.5;margin:36rpx 0 20rpx;color:var(--muted)}
 .screen .notification-card{margin:0 0 20rpx;padding:28rpx;border-color:var(--line)}
 .screen .notification-quiet{background:transparent;border:0;border-bottom:var(--stroke) solid var(--line);border-radius:0;padding:24rpx 4rpx;margin:0}
+.page-messages .notification-card.is-first{margin-top:-24rpx;padding-top:12rpx}
 .screen .notification-top{gap:12rpx;margin-bottom:12rpx;font-size:21rpx}
 .screen .notification-avatar{width:36rpx;height:36rpx;border:var(--stroke) solid var(--line)}
 .screen .notification-title{font-size:27rpx;line-height:1.5;margin-bottom:10rpx;font-weight:600}
