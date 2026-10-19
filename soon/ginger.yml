@@ -1,0 +1,132 @@
+service: soon
+image: registry.sola.day/sola/soon
+
+# Default stack, stated explicitly: Nomad schedules the container, Traefik picks
+# it up from the container labels and routes to it. Only nomad+traefik and
+# docker+kamal-proxy are valid pairs.
+runner: nomad
+egress: traefik
+
+servers:
+  web:
+    hosts: [homepod.sola.day]
+    primary: true
+
+# 自建 registry（yatch）。2026-08-02 起不再经 ghcr。registry.sola.day is the
+# home-registry.sola.day instance under its new domain (added 2026-08-21) —
+# same host, same data. It syncs pushed tags to registry.juluo.xyz itself
+# (SYNC_TARGET_REGISTRY, opt-in per repo via /_admin/sync — see yatch's
+# Sync.fs), which is what lets ginger.cn.yml deploy with --skip-push instead
+# of building a second time.
+registry:
+  server: registry.sola.day
+  username: sola
+  password: YATCH_TOKEN
+
+proxy:
+  # During the cutover this is the staging domain only. Step 16 of
+  # design/MIGRATION_PLAN.md §7 changes it to [api.sola.day, soon-api.sola.day]
+  # AFTER sails has released api.sola.day — Traefik routes by Host rule, and a
+  # rule claimed by two services at once resolves unpredictably.
+  hosts: [api.sola.day, soon-api.sola.day]
+  app_port: 8080
+  ssl: true
+  health_check_path: /up
+
+resources:
+  cpu: 256
+  memory: 640
+
+ssh:
+  user: ubuntu
+  command_timeout: 600
+
+builder:
+  arch: amd64
+  # Builds here already ran on homepod itself before the registry-topology
+  # change; capped at 3 GB via a dedicated `docker-container`-driver buildx
+  # builder (not a ginger setting — see DEPLOYMENT.md's build section) so a
+  # heavy build can't starve the production containers sharing this host.
+  remote: ssh://ubuntu@homepod
+  # ginger defaults to mode=min, which exports only the FINAL stage to
+  # <image>:buildcache. This Dockerfile has three, and everything expensive is
+  # in the throwaway `build` stage: `bundle install` — which compiles
+  # rbsecp256k1's vendored libsecp256k1 from source via autotools — plus
+  # `bun install` and two bootsnap precompiles. None of it reached the registry
+  # cache, so it lived only in the wamo builder's local buildkit store, one
+  # container recreate or `buildx prune` from a full cold rebuild. max exports
+  # every stage.
+  cache: max
+
+env:
+  RAILS_ENV: production
+  # WEB_CONCURRENCY is deliberately NOT set. Puma treats any value — including
+  # "1" — as a request for CLUSTER mode, and config/puma.rb has no `workers`
+  # directive, so leaving it unset gives single mode.
+  #
+  # This is not just a memory tweak. GoodJob runs in-process
+  # (execution_mode :async, config/initializers/good_job.rb). Under cluster mode
+  # its scheduler and LISTEN connection start in the Puma MASTER, before the
+  # worker forks; the forked worker then hangs forever on the first request that
+  # touches the database — no SQL issued, no error, no timeout. Setting
+  # WEB_CONCURRENCY=1 reproduced exactly that on the first soon deploy.
+  RAILS_MAX_THREADS: "3"
+  # The Postgres instance is shared with sola_sails_db and loop_prod and has
+  # max_connections=25 (22 once superuser reservations are taken out), so
+  # config/database.yml's pool — RAILS_MAX_THREADS + GOOD_JOB_MAX_THREADS + 2 —
+  # is a claim on a genuinely scarce budget. soon's only background work is
+  # transactional email, so one job thread is enough and the two connections
+  # saved matter more than the concurrency.
+  GOOD_JOB_MAX_THREADS: "1"
+  THRUSTER_HTTP_PORT: "8080"
+  THRUSTER_TARGET_PORT: "3000"
+  # Stripe card payments are SG-only (design/PAYMENTS_PLAN.md decision #13):
+  # this flag exists here and deliberately NOT in ginger.cn.yml. API_URL is
+  # the backend's own public origin, used to build per-key webhook URLs
+  # (WEB_URL is the frontend and would 404 them).
+  STRIPE_ENABLED: "true"
+  API_URL: "https://api.sola.day"
+  # Discussion boards (design/DISCUSSION_PLAN.md). Without this every
+  # /api/v1/{categories,topics,replies} endpoint 404s. Switching it on does
+  # not make a forum appear anywhere: groups.discussion_enabled defaults to
+  # false, so each group still has to opt in from its settings.
+  DISCUSSION_ENABLED: "true"
+  # Polls (design/POLL_MODULE.md): same two-switch gate, groups.poll_enabled
+  # defaults to false.
+  POLL_ENABLED: "true"
+  # Hackathons (design/HACKATHON_MODULE.md): same gate, groups.hackathon_enabled.
+  HACKATHON_ENABLED: "true"
+
+secrets:
+  load: [.env.production]
+  inject:
+    - DATABASE_URL
+    - SECRET_KEY_BASE
+    - JWT_SECRET
+    - NEXT_TOKEN
+    # Was NOT injected before, so SG silently ran on the controller's hardcoded
+    # default and the value in .env.production had no effect.
+    - ALLOWED_SIWE_DOMAINS
+    # Same trap: both were present in .env.production but not injected, so SG
+    # ran on the code defaults instead. Injected as of the 2026-08-15 sola.day
+    # cutover so the file is actually authoritative. WEB_URL is every outbound
+    # mail link; APP_HOST is action_mailer's default_url_options host.
+    # MAIL_FROM stays uninjected on purpose — see ApplicationMailer::FROM.
+    - WEB_URL
+    - APP_HOST
+    - RESEND_API_KEY
+    # Image uploads go to the R2 bucket behind datastore.sola.day, where every
+    # pre-existing image already lives — see app/services/object_store.rb.
+    - AWS_ACCESS_KEY_ID
+    - AWS_SECRET_ACCESS_KEY
+    - AWS_HOST
+    - AWS_BUCKET
+    - S3_URL
+    # OAuth provider. Both are required together: a key in secrets.inject with
+    # no value in .env fails the deploy outright ("secrets.inject keys not
+    # set"), and a value with no inject entry is silently ignored — the trap
+    # ALLOWED_SIWE_DOMAINS and WEB_URL were both caught by.
+    - OAUTH_ISSUER
+    - OAUTH_RSA_PRIVATE_KEY
+
+retain_containers: 5
