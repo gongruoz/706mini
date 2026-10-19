@@ -1,11 +1,11 @@
+@import "../custom-tab-bar/index.wxss";
 /* 706 Paper — light editorial refinement, 2026-10-17.
    Geometry and semantic colors live in lib/theme.js. A single 1px contour,
    8rpx unit; 56rpx section / 32rpx heading, inset and list gaps.
    32rpx panels and capsule controls set the common rhythm.
    Photos keep their own colors; yellow belongs to actions and selection. */
 page{background:#FAF9F5;color:#282822}
-.screen{padding-top:32rpx;padding-left:var(--pageGutter);padding-right:var(--pageGutter);font-size:var(--typeBody)}
-.page-feed,.page-discover,.page-messages,.page-me{padding-bottom:calc(var(--tabBarSpace) + env(safe-area-inset-bottom))}
+.screen{padding-top:32rpx;padding-left:var(--pageGutter);padding-right:var(--pageGutter);padding-bottom:calc(var(--tabBarSpace) + env(safe-area-inset-bottom));font-size:var(--typeBody)}
 .screen button{font-weight:500;transition:opacity 140ms ease-out,background-color 140ms ease-out}
 .screen .primary,.screen .secondary,.screen .small{border:var(--stroke) solid var(--outline);border-radius:var(--pill);color:var(--ink)}
 .screen .primary,.screen .small{background:var(--accent)}
@@ -101,7 +101,7 @@ page{background:#FAF9F5;color:#282822}
 .screen.page-calendar .week-calendar .day.selected{color:var(--ink)}
 
 /* Detail: editorial title, framed facts, capsule actions, restrained dividers. */
-.screen.has-bottom{padding-bottom:calc(180rpx + env(safe-area-inset-bottom))}
+.screen.has-bottom{padding-bottom:calc(160rpx + var(--tabBarSpace) + env(safe-area-inset-bottom))}
 .screen.has-bottom .detail-cover{height:320rpx;border:var(--stroke) solid var(--outline);border-radius:var(--radius)}
 .screen .detail-intro{padding:32rpx 0 16rpx}
 .screen .detail-intro>.hero-title{font-size:42rpx;margin:24rpx 0;line-height:1.5}
@@ -124,10 +124,10 @@ page{background:#FAF9F5;color:#282822}
 .screen .event-secondary-actions{padding:32rpx 0 16rpx;gap:20rpx}
 .screen .comment{padding:32rpx 0;border-color:var(--line)}
 .screen .comment-reply{background:var(--control);border-radius:20rpx;padding:24rpx;line-height:1.8}
-.screen .bottom-actions{background:linear-gradient(to bottom,var(--chromeClear) 0,var(--canvas) 36rpx,var(--canvas) 100%);border-top:0;box-shadow:none;padding:40rpx var(--pageGutter) calc(20rpx + env(safe-area-inset-bottom));gap:20rpx;pointer-events:none}
+.screen .bottom-actions{bottom:calc(var(--tabBarSpace) + env(safe-area-inset-bottom));background:linear-gradient(to bottom,var(--chromeClear) 0,var(--canvas) 24rpx,var(--canvas) 100%);border-top:0;box-shadow:none;padding:24rpx var(--pageGutter) 12rpx;gap:20rpx;pointer-events:none}
 .screen .bottom-actions>button{pointer-events:auto}
 .screen .bottom-actions>button{min-height:88rpx}
-.screen .fab{border:var(--stroke) solid var(--outline);border-radius:50%;background:var(--accent);color:var(--ink);box-shadow:none;width:80rpx;min-width:80rpx;height:80rpx;line-height:58rpx;font-size:36rpx;bottom:calc(224rpx + env(safe-area-inset-bottom));right:var(--pageGutter)}
+.screen .fab{border:var(--stroke) solid var(--outline);border-radius:50%;background:var(--accent);color:var(--ink);box-shadow:none;width:80rpx;min-width:80rpx;height:80rpx;line-height:58rpx;font-size:36rpx;bottom:calc(var(--tabBarSpace) + 16rpx + env(safe-area-inset-bottom));right:var(--pageGutter)}
 
 /* Member pages share one edit action inside the profile and a clear section rhythm. */
 .screen .member-hero{padding:36rpx;border:var(--stroke) solid var(--line);border-radius:var(--radius);margin-bottom:var(--sectionGap)}

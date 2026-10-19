@@ -12,7 +12,7 @@ const tokens={
  itemGap:'32rpx',panelInset:'32rpx',sectionInset:'40rpx',controlHeight:'88rpx',
  eventRadius:'44rpx',eventArtRadius:'36rpx',eventArtSize:'216rpx',eventInset:'28rpx',
  stickerWidth:'368rpx',stickerHeight:'160rpx',stickerAvatar:'112rpx',
- tabHeight:'132rpx',tabIconSize:'50rpx',tabBarSpace:'248rpx',
+ tabHeight:'104rpx',tabIconSize:'42rpx',tabBarSpace:'188rpx',
  typeTitle:'40rpx',typeSection:'30rpx',typeBody:'28rpx',typeMeta:'24rpx',typeLabel:'20rpx',
  calendarGrid:'#D8D5C9',calendarAxis:'#706F65',calendarEvent:'#EDF2E4',
  calendarEventInk:'#282822',calendarMonthInk:'#282822',calendarSelected:'#FFF5A3',

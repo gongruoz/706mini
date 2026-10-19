@@ -191,4 +191,13 @@
  <button wx:if="{{route === 'feed' || route === 'discover'}}" class="fab" data-route="publish" bindtap="navigate" aria-label="{{t.publish}}">{{icons.publish}}</button>
  <include src="sheets.wxml"/>
  <canvas wx:if="{{route === 'calendar'}}" canvas-id="poster" class="poster-canvas" style="width:{{posterWidth}}px;height:{{posterHeight}}px"/>
+ <view wx:if="{{!sheet}}" class="navigation-shell" style="{{theme}}">
+  <view class="navigation-capsule" role="tablist">
+   <view class="navigation-selection" style="transform:translateX({{tabIndex * 100}}%)"/>
+   <view wx:for="{{tabItems}}" wx:key="key" class="navigation-tab {{tab === item.key ? 'is-current' : ''}}" role="tab" aria-selected="{{tab === item.key}}" aria-label="{{item.label}}" data-route="{{item.key}}" bindtap="navigate" hover-class="navigation-pressed">
+    <text class="navigation-emoji" aria-hidden="true">{{item.emoji}}</text>
+    <text>{{item.label}}</text>
+   </view>
+  </view>
+ </view>
 </view>

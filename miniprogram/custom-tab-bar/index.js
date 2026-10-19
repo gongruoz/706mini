@@ -20,7 +20,7 @@ Component({
    const index = Number(e.currentTarget.dataset.index);
    if (index === this.data.selected || this.data.switching || !routes[index]) return;
    this.setData({switching: true});
-   wx.switchTab({
+   wx.reLaunch({
     url: '/pages/' + routes[index] + '/index',
     success: () => this.setData({selected: index}),
     complete: () => this.setData({switching: false})
