@@ -8,4 +8,13 @@ function range(mode,offset=0,selected=''){
  return {from:start.toISOString(),to:end.toISOString(),days,label:localDate(start)+' — '+localDate(new Date(+end-DAY))};
 }
 function format(value,locale){if(!value)return '';const d=new Date(value);if(!Number.isFinite(+d))return value;const s=new Date(+d+8*3600000).toISOString();return s.slice(0,10)+' '+s.slice(11,16);}
-module.exports={localDate,range,format};
+// Tomorrow at the current Shanghai clock time, rounded to the nearest hour.
+function eventWindow(now=new Date()){
+ const shifted=new Date(+now+8*3600000+DAY);
+ const fraction=shifted.getUTCMinutes()+shifted.getUTCSeconds()/60+shifted.getUTCMilliseconds()/60000;
+ shifted.setUTCMinutes(0,0,0);
+ if(fraction>=30)shifted.setUTCHours(shifted.getUTCHours()+1);
+ const start=new Date(+shifted-8*3600000);
+ return {starts_at:start.toISOString(),ends_at:new Date(+start+3600000).toISOString()};
+}
+module.exports={localDate,range,format,eventWindow};

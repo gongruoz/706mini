@@ -5,7 +5,7 @@ module.exports = {
  calendar:'🗓️',location:'📍',group:'🎪',person:'🧑‍🚀',star:'🌟',
  publish:'➕',draft:'📝',ticket:'🎟️',flag:'🎏',series:'🧵',review:'🧐',
  org:'🎪',home:'🏡',more:'🧰',new:'🐣',city:'🏙️',language:'🌐',
- bell:'📮',shield:'🔒',info:'📖',feedback:'💌',activity:'🪁',
+ bell:'📮',shield:'🔒',info:'📖',feedback:'💌',activity:'🪁',logout:'🚪',
  social:'🪩',projects:'🧩',search:'🔎',refresh:'🎲',developer:'🛠️',
  empty:'🌙',success:'🎉',waiting:'⏳',close:'✖️',remove:'🗑️',
  reasons:['🫶','🎟️','🏡','🧲']

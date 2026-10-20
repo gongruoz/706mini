@@ -12,6 +12,9 @@
 - 独立模型Page：`../../data-integration-review/model.html`；含物理层图、身份/活动/专题审核三组关系图、关键字段和可检索的36类完整模型。
 - 字段/需求/接口/Gap页：`../../data-integration-review/storage.html`；原内容保留。
 - 关系箭头标具体ID字段及单值/数组含义；业务关系是应用文本引用，不能画成已声明SQL外键或把逻辑类型当物理表。
+- 706mini 设计契约：[design-schema.md](design-schema.md)。先写设计对象、关系字段和单值/数组，再写关键字段、完整字段、页面派生值，以及 Montana 逻辑类型与 soon 源码 schema 的覆盖。该文不替换上面的 Montana 讨论页，也不表示生产库或本地空库已按设计落成。
+- 706mini 调用 soon：[soon-call.md](soon-call.md)。屏幕动作落到 soon 已有 `/api/v1`、blueprint 和列上。复审已通过。该文不批准改表、接线、测试或部署。
+- 平行接口清单：[rest-api.md](rest-api.md)。65 个按页面调用整理的 `/api/v1` 形状，留下作动作对照。目标协议以 soon-call.md 为准。
 
 ## 字段与接口视图：按真实存储结构讨论
 

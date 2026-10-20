@@ -4,6 +4,8 @@
     "pages/discover/index",
     "pages/messages/index",
     "pages/me/index",
+    "pages/manage/index",
+    "pages/create-space/index",
     "pages/event/index",
     "pages/member/index",
     "pages/space/index",
