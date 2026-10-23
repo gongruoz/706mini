@@ -1,7 +1,9 @@
-.navigation-shell{position:fixed;left:0;right:0;bottom:0;z-index:15;padding:16rpx var(--pageGutter) calc(8rpx + env(safe-area-inset-bottom));background:linear-gradient(to bottom,var(--chromeClear) 0,var(--canvas) 16rpx,var(--canvas) 100%);color:var(--ink);pointer-events:none}
-.navigation-capsule{box-sizing:border-box;position:relative;display:flex;padding:6rpx 10rpx;border:var(--stroke) solid var(--outline);border-radius:var(--pill);background:var(--surface);pointer-events:auto}
-.navigation-selection{position:absolute;top:10rpx;bottom:10rpx;left:10rpx;width:calc((100% - 20rpx) / 4);box-sizing:border-box;border:var(--stroke) solid var(--line);border-radius:var(--pill);background:var(--accent);pointer-events:none}
-.navigation-capsule>.navigation-tab{box-sizing:border-box;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rpx;flex:1;min-width:0;min-height:var(--tabHeight);width:auto;margin:0;padding:8rpx 2rpx;background:transparent;border-radius:var(--pill);color:var(--muted);font-size:22rpx;line-height:1.2;font-weight:400}
-.navigation-tab::after{border:0}.navigation-tab.is-current{color:var(--ink);font-weight:600}
-.navigation-emoji{display:block;width:64rpx;height:48rpx;line-height:48rpx;text-align:center;font-family:'Apple Color Emoji','Segoe UI Emoji',sans-serif;font-size:var(--tabIconSize);font-weight:400}
+/* One shared light capsule on every route. The active item owns its outline;
+   equal transparent borders keep every tab still when the selection changes.
+   Translucency is the fallback when a native renderer cannot blur the content. */
+.navigation-shell{position:fixed;left:0;right:0;bottom:0;z-index:15;padding:24rpx var(--navigationGutter) calc(12rpx + env(safe-area-inset-bottom));background:linear-gradient(to bottom,var(--chromeClear),var(--chromeSoft) 78%);color:var(--navigationInk);pointer-events:none}
+.navigation-capsule{box-sizing:border-box;position:relative;display:flex;padding:5rpx;border:1rpx solid rgba(35,35,35,.16);border-radius:var(--pill);background:var(--navigationSurface);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:0 10rpx 32rpx rgba(0,0,0,.045),0 2rpx 6rpx rgba(0,0,0,.018);pointer-events:auto}
+.navigation-capsule>.navigation-tab{box-sizing:border-box;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6rpx;flex:1;min-width:0;min-height:var(--tabHeight);width:auto;margin:0;padding:12rpx 4rpx;border:var(--stroke) solid transparent;background:transparent;border-radius:var(--pill);color:var(--navigationInk);font-size:22rpx;line-height:1.25;font-weight:400;transition:none}
+.navigation-tab::after{border:0}.navigation-tab.is-current{background:var(--navigationAccent);border-color:var(--navigationInk);color:var(--navigationInk);font-weight:600}
+.navigation-illustration{display:block;flex:none;width:var(--tabIconSize);height:var(--tabIconSize)}
 .navigation-pressed{opacity:.65}

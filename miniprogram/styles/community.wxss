@@ -1,0 +1,112 @@
+/* 706 / community publication. A firm grid holds varied public expression.
+   White surfaces hold colored people and posters; yellow marks a few actions.
+   The 3:4 poster sits inside a narrow white rim. Glass belongs to navigation,
+   never to the carousel. Shared components apply to every route. */
+.screen.community-edition{background:var(--canvas);font-size:28rpx}
+.community-edition .main-navigation .city{padding:0 22rpx;background:var(--surface);border:0;font-size:26rpx;font-weight:600}
+.community-edition .search-capsule{padding:2px;border:0;background:var(--surface)}
+.community-edition .search-capsule input{padding-left:18rpx;font-size:var(--typeFact)}
+.screen.community-edition .search-capsule>.search-submit{width:var(--search-button-size)!important;min-width:0;height:var(--search-button-size);border:1rpx solid rgba(35,35,35,.2);border-radius:50%;background:var(--surface);box-shadow:0 2rpx 6rpx rgba(0,0,0,.06);font-size:0}
+.search-illustration{width:34rpx;height:34rpx}
+
+/* Feature is a small editorial cover: words have a field, image has a field.
+   Locally authored geometry replaces demo media only; real covers stay real. */
+.screen.community-edition .banner-pages{margin-bottom:48rpx}
+.screen.community-edition .campaign-swiper{height:288rpx;border:0;border-radius:32rpx;background:var(--surface)}
+.screen.community-edition .campaign-slide{height:288rpx;background:var(--surface)}
+.screen.community-edition .campaign-background{left:auto;right:0;width:33.333%;height:100%;border:0}
+.screen.community-edition .campaign-shade{display:none}
+.screen.community-edition .campaign-copy{width:66.667%;padding:28rpx 28rpx 36rpx;color:var(--ink)}
+.screen.community-edition .banner-kicker{display:block;width:100%;margin:0;padding:0;background:transparent;border:0;border-radius:0;font-size:var(--typeLabel);font-weight:500;line-height:1.4;transform:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink)}
+.screen.community-edition .banner-title{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;text-wrap:balance;font-size:40rpx;line-height:1.2;font-weight:700;letter-spacing:-.8rpx;margin:14rpx 0 14rpx}
+.screen.community-edition .banner-description{font-size:22rpx;line-height:1.5;max-width:100%;color:var(--ink);-webkit-line-clamp:2}
+.community-edition .node-shelf{margin:0 0 56rpx}
+.screen.community-edition .node-shelf .banner-pages{margin-bottom:0}
+.feature-geometry{position:absolute;right:0;top:0;width:33.333%;height:100%;overflow:hidden;background:var(--control);border:0}
+.geometry-disc{position:absolute;width:150rpx;height:150rpx;top:-50rpx;right:-20rpx;border-radius:50%;background:var(--accent)}
+.geometry-arch{position:absolute;left:26rpx;bottom:0;width:118rpx;height:180rpx;border-radius:60rpx 60rpx 0 0;background:var(--ink)}
+.geometry-table{position:absolute;left:0;bottom:44rpx;width:100%;height:40rpx;background:var(--surface)}
+.geometry-dot{display:none}
+.geometry-1 .geometry-disc{top:24rpx;right:34rpx;width:120rpx;height:120rpx}
+.geometry-1 .geometry-arch{left:auto;right:-30rpx;bottom:-35rpx;width:180rpx;height:170rpx;border-radius:0}
+.geometry-1 .geometry-table{bottom:55rpx;width:66.667%;height:40rpx}
+
+/* The small visible follow pill is subordinate to the portrait and name.
+   Its transparent 44px button retains a forgiving, separate hit area. */
+.screen.community-edition .people-heading{font-size:var(--typeSection);font-weight:600;line-height:1.4;margin:0 0 24rpx}
+.screen.community-edition .people-heading>.people-refresh{position:relative;padding:4rpx 14rpx;font-size:var(--typeMeta);line-height:1.45;border:0;border-radius:999rpx;background:var(--surface);color:var(--ink)}
+.screen.community-edition .discovery-people{margin-bottom:72rpx}
+.screen.community-edition .discovery-people .person-capsule{width:500rpx;height:auto;min-height:200rpx;margin:0 16rpx 8rpx 0;padding:52rpx 24rpx 24rpx;border:0;border-radius:32rpx;background:var(--peopleSurface)}
+.screen.community-edition .discovery-people .person-capsule:first-child{margin-left:var(--pageGutter)}
+.screen.community-edition .discovery-people .person-capsule:last-child{margin-right:var(--pageGutter)}
+.screen.community-edition .person-capsule>.person-reason{left:24rpx;max-width:452rpx;top:18rpx;padding:0;background:transparent;color:var(--muted);border:0;border-radius:0;font-size:20rpx;line-height:1.4;transform:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.screen.community-edition .person-capsule .person-content{gap:18rpx}
+.screen.community-edition .person-capsule .avatar{width:84rpx;height:84rpx;margin:0;border:0}
+.community-edition .person-copy{position:relative;flex:1;min-width:0;min-height:44px;padding-right:116rpx}
+.community-edition .person-name-row{width:100%;justify-content:space-between;gap:16rpx}
+.community-edition .person-name{font-size:28rpx;line-height:36rpx;font-weight:600}
+.screen.community-edition .person-name-row>.person-follow{position:absolute;right:0;top:50%;transform:translateY(-50%);display:flex;align-items:center;justify-content:center;width:100rpx!important;min-width:44px;min-height:44px;max-width:none;font-size:22rpx;line-height:1.35;padding:0;border:0;background:transparent;color:var(--ink)}
+.community-edition.is-english .person-copy{padding-right:156rpx}
+.screen.community-edition.is-english .person-follow{width:140rpx!important}
+.screen.community-edition .person-name-row>.person-follow.is-following{border:0;background:transparent;color:var(--muted)}
+.community-edition .person-follow-label{display:flex;align-items:center;justify-content:center;flex:none;width:100%;height:56rpx;padding:0 10rpx;border:var(--stroke) solid var(--outline);border-radius:var(--pill);background:var(--accent);font-weight:500;white-space:nowrap}
+.community-edition .is-following .person-follow-label{border-color:transparent;background:var(--control);font-weight:400}
+.community-edition .person-follow-pressed .person-follow-label{opacity:.7}
+.screen.community-edition .person-follow::before{display:none}
+.screen.community-edition .person-capsule .meta{height:56rpx;margin-top:6rpx;font-size:22rpx;line-height:28rpx;color:var(--muted)}
+
+/* Continuous posts: the person's identity is strong, the action is quiet.
+   Independent posts are separated by space, without an enclosing post card. */
+.screen.community-edition .feed-entry{margin:0 0 88rpx;padding:0;border:0;background:transparent}
+.screen.community-edition .feed-entry:last-of-type{border-bottom:0}
+.screen.community-edition .feed-entry>.row{gap:16rpx}
+.screen.community-edition .feed-entry>.row .avatar{width:64rpx;height:64rpx;border:0}
+/* Type follows the information role, never the recommendation/rollup kind. */
+.screen.community-edition .feed-entry>.row .section-title{font-size:var(--typeBody);line-height:1.5;font-weight:400}
+.community-edition .feed-person-name{font-size:inherit;font-weight:600;color:var(--ink)}
+.community-edition .feed-action-label{font-size:inherit;font-weight:400;color:var(--muted)}
+.screen.community-edition .feed-entry>.row .meta{font-size:var(--typeMeta);margin-top:4rpx}
+.screen.community-edition .feed-quote{display:block;font-size:var(--typeBody);font-weight:400;line-height:1.7;margin:28rpx 0 32rpx;color:var(--ink)}
+.community-edition .feed-author+.event-card{margin-top:32rpx}
+
+/* The image stays 264:352, with its own rounded corners and a 6rpx white rim.
+   Long text can grow the card without stretching the original poster. */
+.screen.community-edition .event-card{padding:var(--eventRim);border:0;border-radius:var(--eventRadius);overflow:hidden;background:var(--invitation);margin-bottom:32rpx}
+.screen.community-edition .feed-entry .event-card{margin-bottom:0;background:var(--invitation)}
+.screen.community-edition .event-main{gap:0;align-items:stretch}
+.screen.community-edition .event-info{flex:1;min-width:0;min-height:var(--eventArtHeight);padding:22rpx 18rpx;display:flex;flex-direction:column;align-self:stretch}
+.screen.community-edition .event-title{flex:none;min-height:0;font-size:var(--typeEvent);line-height:1.3;font-weight:700;letter-spacing:-.5rpx;margin:0 0 14rpx}
+.screen.community-edition .event-side{display:flex;align-items:center;flex:0 0 var(--eventArtWidth);width:var(--eventArtWidth);min-height:var(--eventArtHeight);background:transparent}
+.screen.community-edition .event-cover{width:var(--eventArtWidth);height:var(--eventArtHeight);border:0;border-radius:var(--eventArtRadius)}
+.screen.community-edition .event-art{overflow:hidden;border-radius:var(--eventArtRadius)}
+.screen.community-edition .event-badges{flex:none;gap:8rpx;margin:0 0 12rpx}
+.screen.community-edition .event-capacity{padding:2rpx 9rpx;border:0;border-radius:999rpx;font-size:var(--typeLabel);line-height:1.4;color:var(--muted);background:var(--control)}
+.screen.community-edition .state-available .event-capacity{background:var(--accentSoft);color:var(--ink)}
+.screen.community-edition .state-waitlist .event-capacity{background:var(--infoSoft);color:var(--info)}
+.screen.community-edition .state-cancelled .event-capacity{background:transparent;color:var(--muted)}
+.screen.community-edition .card-fact{flex:none;align-items:flex-start;font-size:var(--typeFact);line-height:1.5;gap:7rpx;margin-top:7rpx;color:var(--ink)}
+.screen.community-edition .card-fact .fact-illustration{flex:0 0 23rpx;width:23rpx;height:23rpx;margin-top:3rpx}
+.screen.community-edition .card-fact>text{flex:1;min-width:0}
+.screen.community-edition .card-fee{display:block;flex:none;font-size:28rpx;line-height:1.4;font-weight:600;margin-top:auto;padding-top:16rpx}
+
+/* A white calendar entry; only the small icon field carries action yellow. */
+.screen.community-edition .calendar-entry{display:flex;align-items:center;gap:20rpx;padding:28rpx;margin:0 0 48rpx;border:0;border-radius:32rpx;background:var(--surface)}
+.community-edition .calendar-sticker{display:flex;align-items:center;justify-content:center;flex:none;width:64rpx;height:64rpx;border-radius:50%;background:var(--accentSoft);transform:none}
+.calendar-sticker>image{width:44rpx;height:44rpx}
+.screen.community-edition .calendar-entry .section-title{font-size:var(--typeSection);line-height:1.4;font-weight:600}
+.screen.community-edition .calendar-entry .meta{font-size:22rpx;margin-top:6rpx}
+.community-edition .calendar-chevron{font-size:30rpx;color:var(--ink)}
+.screen.community-edition .filters{padding:0;margin:0 0 56rpx;border:0}
+.screen.community-edition .filter-group{min-height:60rpx;gap:12rpx;margin:12rpx 0}
+.screen.community-edition .filter-options{margin:0}
+.screen.community-edition .filter-options .chip{font-size:24rpx;line-height:1.4;padding:9rpx 18rpx;border:0;background:var(--surface)}
+.screen.community-edition .filter-options .chip.selected{border:0;background:var(--ink);color:var(--surface);font-weight:500}
+.screen.community-edition .filter-clear{font-size:var(--typeMeta)}
+.screen.community-edition.page-discover .section-heading{font-size:var(--typeSection);line-height:1.4;font-weight:600;margin:0 0 28rpx}
+
+/* Navigation uses the shared light capsule; no edition-specific geometry. */
+.screen.community-edition .fab{display:flex;align-items:center;justify-content:center;width:76rpx!important;min-width:76rpx;height:76rpx;right:32rpx;bottom:calc(176rpx + env(safe-area-inset-bottom));padding:0;border:0;border-radius:50%;background:var(--accent);box-shadow:none}
+.community-edition .fab>image{width:36rpx;height:36rpx}
+.screen.community-edition .empty{padding:60rpx 24rpx;font-size:26rpx}
+.screen.community-edition .empty-illustration{display:block;width:80rpx;height:80rpx;margin-bottom:20rpx}
+.screen.community-edition .empty .body-text{font-size:24rpx}

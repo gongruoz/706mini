@@ -46,9 +46,9 @@
   "window": {
     "navigationStyle": "custom",
     "navigationBarTitleText": "706",
-    "navigationBarBackgroundColor": "#FAF9F5",
+    "navigationBarBackgroundColor": "#F5F5F2",
     "navigationBarTextStyle": "black",
-    "backgroundColor": "#FAF9F5"
+    "backgroundColor": "#F5F5F2"
   },
   "sitemapLocation": "sitemap.json",
   "style": "v2",
