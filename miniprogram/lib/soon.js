@@ -104,7 +104,7 @@ async function ensurePlace(groupId, { name, address, city, spaceId }) {
 function eventBody(form, groupId, placeId) {
   return {
     event: {
-      title: form.title, content: form.description || '', notes: form.summary || '', image_url: form.cover_url || '',
+      title: form.title, content: map.encodeEventContent(form), notes: form.summary || '', image_url: form.cover_url || '',
       start_time: form.starts_at, end_time: form.ends_at, timezone: 'Asia/Shanghai', city: form.city || '',
       status: 'draft', visibility: 'normal', group_id: groupId, place_id: placeId, max_participant: form.capacity,
       require_approval: !!form.approval_required, tags: form.tags || []

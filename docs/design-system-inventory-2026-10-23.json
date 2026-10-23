@@ -1,0 +1,5639 @@
+{
+  "date": "2026-10-23",
+  "scope": "Static source inventory, not computed styles or native visual acceptance. Dynamic loops/branches are source declarations, not rendered control counts.",
+  "summary": {
+    "routes": 42,
+    "interactiveDeclarations": 230,
+    "buttonDeclarations": 169,
+    "nonButtonTapDeclarations": 19,
+    "tags": {
+      "view": 15,
+      "button": 169,
+      "swiper": 2,
+      "input": 9,
+      "image": 4,
+      "text": 1,
+      "textarea": 6,
+      "switch": 2,
+      "picker": 6,
+      "checkbox-group": 8,
+      "checkbox": 8
+    },
+    "buttonHoverExplicit": 2,
+    "nonButtonTapWithRole": 3,
+    "cssFiles": 4,
+    "repeatedExactSelectors": {
+      "text": 2,
+      "button": 2,
+      "input": 3,
+      "textarea": 3,
+      ".screen": 2,
+      ".topbar": 2,
+      ".section-heading": 2,
+      ".event-card": 3,
+      ".event-main": 2,
+      ".event-title": 2,
+      ".event-cover": 2,
+      ".participant": 2,
+      ".calendar-grid": 2,
+      ".day": 2,
+      ".screen.has-bottom": 2,
+      ".screen .city": 3,
+      ".screen .icon-button": 3,
+      ".screen .text-button": 2,
+      ".screen .small": 4,
+      ".screen .chip": 2,
+      ".screen .fab": 2,
+      ".screen .bottom-actions>.primary": 2,
+      ".screen .demo-banner": 2,
+      ".attendance-status": 2,
+      ".campaign-swiper": 2,
+      ".campaign-shade": 2,
+      ".campaign-copy": 2,
+      ".banner-kicker": 2,
+      ".banner-title": 2,
+      ".banner-description": 2,
+      ".banner-link": 2,
+      ".day-number": 2,
+      ".timeline-event": 2,
+      ".notification-card": 2,
+      ".notification-top": 2,
+      ".detail-social": 2,
+      ".space-directory-shade": 2,
+      ".venue-mark": 2,
+      ".settings-icon": 2,
+      ".settings-label": 2,
+      ".settings-logout": 2,
+      ".settings-glyph": 2,
+      ".notification-system-icon": 2,
+      ".notification-time": 2,
+      ".screen .settings-row": 3,
+      ".screen .admin-summary": 3,
+      ".screen.has-bottom .detail-cover": 2,
+      ".screen button.detail-location": 3,
+      ".series-tint": 2,
+      ".screen .member-actions button": 2,
+      ".screen .member-link": 3,
+      ".member-link .meta": 2,
+      ".screen input": 3,
+      ".screen .search input": 2,
+      ".screen textarea": 3,
+      ".screen .entity-share": 2,
+      ".screen .primary": 4,
+      ".screen .secondary": 3,
+      ".screen .self-profile": 2,
+      ".screen .notification-card": 2,
+      ".screen .my-event-card": 2,
+      ".screen .registration-card": 2,
+      ".screen .event-status": 2,
+      ".screen .attendance-status": 3,
+      ".screen .status": 2,
+      ".screen .stack-avatar.overflow": 2,
+      ".screen .detail-facts": 2,
+      ".screen .member-row .section-title": 2,
+      ".screen .venue-mark": 2,
+      ".screen .event-secondary-actions": 2,
+      ".screen .comment-reply": 2,
+      ".screen .bottom-actions>button": 2,
+      ".screen .member-link .section-title": 2,
+      ".screen .sheet-handle": 2,
+      ".screen .picker": 2,
+      ".screen .form .field>input": 2,
+      ".screen .form .picker": 2,
+      ".screen .form .field>textarea": 2,
+      ".screen .field": 2,
+      ".screen .label": 2,
+      ".screen .sheet .choice-row": 2,
+      ".screen .interest-choice": 2,
+      ".screen .interest-choice.is-selected": 2,
+      ".screen .settings-icon": 2,
+      ".screen .notification-top": 3,
+      ".screen .notification-title": 3,
+      ".screen .notification-body": 2,
+      ".screen .series-tint": 2,
+      ".screen .card-fact>text:not(.emoji-icon)": 2,
+      ".screen .reason-icon": 2,
+      ".screen .settings-chevron": 2,
+      ".screen .comment-compose": 2,
+      ".screen .comment-compose::before": 2,
+      ".screen .unread-dot": 2,
+      ".screen.page-calendar .day": 2,
+      ".screen .detail-series-links": 2,
+      ".screen .detail-series-links>.text-button": 2,
+      ".screen .notification-quiet": 2,
+      ".screen .form-intro .hero-title": 2,
+      ".screen .form-intro .body-text": 2,
+      ".screen .review-step": 2,
+      ".screen .sheet-error": 2,
+      ".screen .error": 2,
+      ".screen .skeleton>view": 2,
+      ".screen .review-event-link": 2,
+      ".screen .entity-host": 2,
+      ".screen .entity-account": 2,
+      ".screen .entity-recap": 3,
+      ".screen .my-event-card>.row": 2,
+      ".screen.page-event .event-discussion .comment>.body-text": 2,
+      ".screen.page-event .event-discussion .comment-reply": 2,
+      ".screen.page-event .event-discussion .comment-actions": 2
+    },
+    "rawDeclarationCounts": {
+      "border-radius": 189,
+      "font-size": 295,
+      "font-weight": 98,
+      "background": 262,
+      "border": 108,
+      "box-shadow": 17,
+      "padding": 239,
+      "gap": 102
+    },
+    "distinctRawValues": {
+      "border-radius": 34,
+      "font-size": 37,
+      "font-weight": 6,
+      "background": 44,
+      "border": 15,
+      "box-shadow": 9,
+      "padding": 120,
+      "gap": 14
+    },
+    "selectorEntries": 1099
+  },
+  "controls": [
+    {
+      "id": 1,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 2,
+      "tag": "view",
+      "classes": "event-card {{large ? 'event-card-large' : ''}} state-{{e.bookingState}}",
+      "handlers": {
+        "bindtap": "{{previewOnly ? '' : 'openEvent'}}"
+      },
+      "conditions": [],
+      "target": {
+        "data-id": "{{e.id}}",
+        "data-route": "{{cardRoute || 'event'}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 2,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 5,
+      "tag": "button",
+      "classes": "event-title event-title-link",
+      "handlers": {
+        "catchtap": "openEvent"
+      },
+      "conditions": [
+        "{{interactiveTitle}}"
+      ],
+      "target": {
+        "data-id": "{{e.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 3,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 9,
+      "tag": "view",
+      "classes": "event-art",
+      "handlers": {
+        "catchtap": "previewImage"
+      },
+      "conditions": [
+        "{{e.cover_url}}"
+      ],
+      "target": {
+        "data-url": "{{e.cover_url}}"
+      },
+      "role": "button",
+      "ariaLabel": "{{t.preview}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 4,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 15,
+      "tag": "swiper",
+      "classes": "campaign-swiper",
+      "handlers": {
+        "bindchange": "{{isNodes ? 'nodeChange' : 'bannerChange'}}"
+      },
+      "conditions": [],
+      "target": {},
+      "role": null,
+      "ariaLabel": "{{isNodes ? (locale === 'en' ? 'City and followed spaces' : '城市与已关注节点') : (locale === 'en' ? 'Event series' : '活动专题')}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 5,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 16,
+      "tag": "view",
+      "classes": "campaign-slide",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [],
+      "target": {
+        "data-route": "{{isNodes ? 'space' : 'campaign'}}",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 6,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 24,
+      "tag": "button",
+      "classes": "header-back",
+      "handlers": {
+        "bindtap": "back"
+      },
+      "conditions": [
+        "{{!isMainTab}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": "{{locale === 'en' ? 'Back' : '返回'}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 7,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 24,
+      "tag": "button",
+      "classes": "city",
+      "handlers": {
+        "bindtap": "chooseCity"
+      },
+      "conditions": [
+        "{{route === 'feed' || route === 'discover'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": "{{locale === 'en' ? 'Change city: ' + cityName : '切换城市：' + cityName}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 8,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 24,
+      "tag": "input",
+      "classes": "",
+      "handlers": {
+        "bindconfirm": "search"
+      },
+      "conditions": [
+        "{{route === 'discover'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 9,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 24,
+      "tag": "button",
+      "classes": "search-submit",
+      "handlers": {
+        "bindtap": "search"
+      },
+      "conditions": [
+        "{{route === 'discover'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": "{{t.search}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 10,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 24,
+      "tag": "button",
+      "classes": "chip {{(category || '') === item ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "category"
+      },
+      "conditions": [
+        "{{route === 'messages'}}"
+      ],
+      "target": {
+        "data-value": "{{item}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 11,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 25,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "reviewNext"
+      },
+      "conditions": [
+        "{{demo && reviewIndex >= 0}}"
+      ],
+      "target": {
+        "data-delta": "-1"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 12,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 25,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "reviewScroll"
+      },
+      "conditions": [
+        "{{demo && reviewIndex >= 0}}"
+      ],
+      "target": {
+        "data-delta": "-1"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 13,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 25,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "reviewScroll"
+      },
+      "conditions": [
+        "{{demo && reviewIndex >= 0}}"
+      ],
+      "target": {
+        "data-delta": "1"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 14,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 25,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "reviewNext"
+      },
+      "conditions": [
+        "{{demo && reviewIndex >= 0}}"
+      ],
+      "target": {
+        "data-delta": "1"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 15,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 26,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "labMode"
+      },
+      "conditions": [
+        "{{route === 'review-lab'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 16,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 26,
+      "tag": "button",
+      "classes": "chip {{currentUser === item.id ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "labPersona"
+      },
+      "conditions": [
+        "{{route === 'review-lab'}}",
+        "{{demo}}"
+      ],
+      "target": {
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 17,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 27,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "labMode"
+      },
+      "conditions": [
+        "{{route === 'review-lab'}}",
+        "{{!demo}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 18,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 27,
+      "tag": "button",
+      "classes": "menu-item catalog-button",
+      "handlers": {
+        "bindtap": "labOpen"
+      },
+      "conditions": [
+        "{{route === 'review-lab'}}",
+        "{{demo}}"
+      ],
+      "target": {
+        "data-index": "{{item.index}}",
+        "data-pending": "{{true}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 19,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 29,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "{{needsLogin ? 'login' : 'load'}}"
+      },
+      "conditions": [
+        "{{error && !sheet}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 20,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 34,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "retryNodes"
+      },
+      "conditions": [
+        "{{route === 'feed'}}",
+        "{{nodeCards.length || nodesError}}",
+        "{{nodesError}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 21,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 36,
+      "tag": "button",
+      "classes": "text-button people-refresh",
+      "handlers": {
+        "bindtap": "refreshPeople"
+      },
+      "conditions": [
+        "{{route === 'feed'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 22,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 37,
+      "tag": "view",
+      "classes": "person-content",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'feed'}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{item.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 23,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 37,
+      "tag": "button",
+      "classes": "small person-follow {{item.following ? 'is-following' : ''}}",
+      "handlers": {
+        "catchtap": "personFollow"
+      },
+      "conditions": [
+        "{{route === 'feed'}}"
+      ],
+      "target": {
+        "data-id": "{{item.owner}}",
+        "data-enabled": "{{!item.following}}"
+      },
+      "role": null,
+      "ariaLabel": "{{(item.following ? t.unfollow : t.follow) + ' ' + item.display_name}}",
+      "hoverClass": "person-follow-pressed",
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 24,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 41,
+      "tag": "view",
+      "classes": "calendar-entry",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{route === 'discover'}}"
+      ],
+      "target": {
+        "data-route": "calendar"
+      },
+      "role": "button",
+      "ariaLabel": "{{t.calendar}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 25,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 43,
+      "tag": "button",
+      "classes": "chip {{calendarMode === 'week' && offset === 0 ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "filter"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}"
+      ],
+      "target": {
+        "data-key": "date",
+        "data-value": "week"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 26,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 43,
+      "tag": "button",
+      "classes": "chip {{offset === 1 ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "filter"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{route === 'discover'}}"
+      ],
+      "target": {
+        "data-key": "date",
+        "data-value": "next"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 27,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 43,
+      "tag": "button",
+      "classes": "chip {{calendarMode === 'month' ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "calendarMode"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}"
+      ],
+      "target": {
+        "data-mode": "month"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 28,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 43,
+      "tag": "button",
+      "classes": "small calendar-export",
+      "handlers": {
+        "bindtap": "poster"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{route === 'calendar'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 29,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 44,
+      "tag": "button",
+      "classes": "icon-button",
+      "handlers": {
+        "bindtap": "period"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{route === 'calendar'}}"
+      ],
+      "target": {
+        "data-delta": "-1"
+      },
+      "role": null,
+      "ariaLabel": "{{t.previous}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 30,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 44,
+      "tag": "button",
+      "classes": "icon-button",
+      "handlers": {
+        "bindtap": "period"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{route === 'calendar'}}"
+      ],
+      "target": {
+        "data-delta": "1"
+      },
+      "role": null,
+      "ariaLabel": "{{t.next}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 31,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 45,
+      "tag": "button",
+      "classes": "chip {{!filters.space_id ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "filter"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}"
+      ],
+      "target": {
+        "data-key": "space_id",
+        "data-value": ""
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 32,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 45,
+      "tag": "button",
+      "classes": "chip {{filters.space_id === item.id ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "filter"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}"
+      ],
+      "target": {
+        "data-key": "space_id",
+        "data-value": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 33,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 46,
+      "tag": "button",
+      "classes": "chip {{filters.free_only ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "filter"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}"
+      ],
+      "target": {
+        "data-key": "free_only",
+        "data-value": "{{!filters.free_only}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 34,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 46,
+      "tag": "button",
+      "classes": "chip {{filters.has_capacity ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "filter"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}"
+      ],
+      "target": {
+        "data-key": "has_capacity",
+        "data-value": "{{!filters.has_capacity}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 35,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 46,
+      "tag": "button",
+      "classes": "text-button filter-clear",
+      "handlers": {
+        "bindtap": "clearFilters"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{filters.space_id || filters.free_only || filters.has_capacity || filters.tag}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 36,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 49,
+      "tag": "button",
+      "classes": "day-number",
+      "handlers": {
+        "bindtap": "selectDay"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{route === 'calendar'}}"
+      ],
+      "target": {
+        "data-date": "{{item.date}}"
+      },
+      "role": null,
+      "ariaLabel": "{{item.date}}",
+      "hoverClass": null,
+      "disabled": "{{item.disabled}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 37,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 51,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "clearDate"
+      },
+      "conditions": [
+        "{{route === 'discover' || route === 'calendar'}}",
+        "{{route === 'calendar'}}",
+        "{{selectedDate}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 38,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 56,
+      "tag": "view",
+      "classes": "self-identity",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'me'}}",
+        "{{record}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{currentUser}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 39,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 56,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'me'}}",
+        "{{record}}"
+      ],
+      "target": {
+        "data-route": "edit-profile"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 40,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 56,
+      "tag": "button",
+      "classes": "",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'me'}}",
+        "{{record}}"
+      ],
+      "target": {
+        "data-route": "relations"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 41,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 56,
+      "tag": "button",
+      "classes": "",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'me'}}",
+        "{{record}}"
+      ],
+      "target": {
+        "data-route": "relations",
+        "data-extra": "{{ {mode: 'followers'} }}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 42,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 57,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "menuEntry"
+      },
+      "conditions": [
+        "{{route === 'me'}}"
+      ],
+      "target": {
+        "data-route": "{{entry.route}}",
+        "data-id": "{{entry.id}}",
+        "data-kind": "{{entry.kind}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 43,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 58,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'me'}}",
+        "{{developerVisible}}"
+      ],
+      "target": {
+        "data-route": "review-lab"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 44,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 59,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "logout"
+      },
+      "conditions": [
+        "{{route === 'me'}}",
+        "{{record}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 45,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 63,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'manage' && canManage}}"
+      ],
+      "target": {
+        "data-route": "create-space"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 46,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 64,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'manage' && canManage}}",
+        "{{managed.length}}"
+      ],
+      "target": {
+        "data-route": "{{item.kind === 'SPACE' ? 'space' : 'org'}}",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 47,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 68,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {
+        "data-route": "onboarding"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 48,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 69,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "chooseCity"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 49,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 69,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {
+        "data-kind": "language"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 50,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 70,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {
+        "data-kind": "notifications"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 51,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 70,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {
+        "data-route": "privacy"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 52,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 71,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {
+        "data-kind": "about"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 53,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 71,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {
+        "data-route": "feedback"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 54,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 72,
+      "tag": "button",
+      "classes": "settings-logout",
+      "handlers": {
+        "bindtap": "logout"
+      },
+      "conditions": [
+        "{{route === 'more'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 55,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 75,
+      "tag": "swiper",
+      "classes": "event-gallery-swiper",
+      "handlers": {
+        "bindchange": "galleryChange"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{record.galleryUrls.length}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": "{{locale === 'en' ? 'Event photos' : '活动图片'}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 56,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 75,
+      "tag": "image",
+      "classes": "event-gallery-image",
+      "handlers": {
+        "bindtap": "previewImage"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{record.galleryUrls.length}}"
+      ],
+      "target": {
+        "data-gallery": "{{true}}",
+        "data-index": "{{index}}",
+        "data-url": "{{item}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 57,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 81,
+      "tag": "view",
+      "classes": "detail-fact detail-location",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}"
+      ],
+      "target": {
+        "data-route": "space",
+        "data-id": "{{record.space_id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 58,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 84,
+      "tag": "button",
+      "classes": "member-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{record.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 59,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 85,
+      "tag": "button",
+      "classes": "detail-social",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-kind": "participants"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 60,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 86,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{record.campaigns.length}}"
+      ],
+      "target": {
+        "data-route": "campaign",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 61,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 87,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {},
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": "share"
+    },
+    {
+      "id": 62,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 87,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}",
+        "{{record.recommended}}"
+      ],
+      "target": {
+        "data-op": "withdrawRecommendation"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 63,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 87,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-op": "clone"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 64,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 88,
+      "tag": "button",
+      "classes": "small comment-compose",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-kind": "comment"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 65,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 88,
+      "tag": "image",
+      "classes": "avatar",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{item.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 66,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 88,
+      "tag": "text",
+      "classes": "section-title",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{item.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 67,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 88,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-kind": "comment",
+        "data-reply": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 68,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 88,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}",
+        "{{item.owner === currentUser}}"
+      ],
+      "target": {
+        "data-op": "deleteComment",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 69,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 89,
+      "tag": "button",
+      "classes": "secondary management-link",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event' && (record.can_edit || record.can_check_in)}}"
+      ],
+      "target": {
+        "data-route": "attendees",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 70,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 89,
+      "tag": "button",
+      "classes": "secondary management-link",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event' && (record.can_edit || record.can_check_in)}}",
+        "{{record.can_edit}}"
+      ],
+      "target": {
+        "data-route": "approval-progress",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 71,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 89,
+      "tag": "button",
+      "classes": "danger management-cancel",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event' && (record.can_edit || record.can_check_in)}}",
+        "{{record.can_edit}}"
+      ],
+      "target": {
+        "data-op": "cancelEvent"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 72,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 90,
+      "tag": "button",
+      "classes": "secondary detail-recommend",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-kind": "recommend"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 73,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 90,
+      "tag": "button",
+      "classes": "primary grow",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}",
+        "{{record.activeRegistration}}"
+      ],
+      "target": {
+        "data-route": "event-access",
+        "data-id": "{{record.registration.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 74,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 90,
+      "tag": "button",
+      "classes": "primary grow",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event' || route === 'activity-preview'}}",
+        "{{record}}",
+        "{{route === 'event'}}"
+      ],
+      "target": {
+        "data-kind": "register"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{!canRegister || (record.remaining === 0 && !record.waitlist_enabled)}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 75,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 95,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {},
+      "conditions": [
+        "{{route === 'campaign' && record}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": "share"
+    },
+    {
+      "id": 76,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 95,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'campaign' && record}}",
+        "{{record.can_edit}}"
+      ],
+      "target": {
+        "data-route": "campaign-edit",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 77,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 96,
+      "tag": "button",
+      "classes": "series-resource",
+      "handlers": {
+        "bindtap": "copy"
+      },
+      "conditions": [
+        "{{route === 'campaign' && record}}"
+      ],
+      "target": {
+        "data-value": "{{item}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 78,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 100,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'member' && record}}",
+        "{{record.owner === currentUser}}"
+      ],
+      "target": {
+        "data-route": "edit-profile"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 79,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 100,
+      "tag": "button",
+      "classes": "{{record.following ? 'secondary' : 'primary'}}",
+      "handlers": {
+        "bindtap": "personFollow"
+      },
+      "conditions": [
+        "{{route === 'member' && record}}"
+      ],
+      "target": {
+        "data-id": "{{record.owner}}",
+        "data-enabled": "{{!record.following}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 80,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 100,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {},
+      "conditions": [
+        "{{route === 'member' && record}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": "share"
+    },
+    {
+      "id": 81,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 100,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'member' && record}}",
+        "{{record.owner !== currentUser}}"
+      ],
+      "target": {
+        "data-kind": "member"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 82,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 101,
+      "tag": "button",
+      "classes": "",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'member' && record}}"
+      ],
+      "target": {
+        "data-route": "relations",
+        "data-id": "{{record.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 83,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 101,
+      "tag": "button",
+      "classes": "",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'member' && record}}"
+      ],
+      "target": {
+        "data-route": "relations",
+        "data-id": "{{record.owner}}",
+        "data-extra": "{{ {mode: 'followers'} }}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 84,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 103,
+      "tag": "button",
+      "classes": "member-link",
+      "handlers": {
+        "bindtap": "copy"
+      },
+      "conditions": [
+        "{{route === 'member' && record}}"
+      ],
+      "target": {
+        "data-value": "{{item.url}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 85,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 104,
+      "tag": "button",
+      "classes": "member-link",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'member' && record}}"
+      ],
+      "target": {
+        "data-route": "{{item.kind === 'SPACE' ? 'space' : 'org'}}",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 86,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 108,
+      "tag": "image",
+      "classes": "detail-cover entity-cover",
+      "handlers": {
+        "bindtap": "previewImage"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}",
+        "{{record.cover_url}}"
+      ],
+      "target": {
+        "data-url": "{{record.cover_url}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 87,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 109,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}",
+        "{{record.can_manage}}"
+      ],
+      "target": {
+        "data-kind": "manage"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 88,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 110,
+      "tag": "button",
+      "classes": "small entity-follow {{record.following ? 'is-following' : ''}}",
+      "handlers": {
+        "bindtap": "personFollow"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}"
+      ],
+      "target": {
+        "data-id": "{{record.id}}",
+        "data-enabled": "{{!record.following}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 89,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 110,
+      "tag": "button",
+      "classes": "text-button entity-share",
+      "handlers": {},
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": "share"
+    },
+    {
+      "id": 90,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 113,
+      "tag": "button",
+      "classes": "entity-host",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{item.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 91,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 115,
+      "tag": "button",
+      "classes": "entity-account",
+      "handlers": {
+        "bindtap": "openOfficial"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}",
+        "{{entityContent.account}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 92,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 118,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "toggleRecaps"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}",
+        "{{entityContent.recaps.length > 2}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 93,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 118,
+      "tag": "button",
+      "classes": "entity-recap",
+      "handlers": {
+        "bindtap": "openRecap"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}",
+        "{{showAllRecaps || index < 2}}"
+      ],
+      "target": {
+        "data-index": "{{index}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 94,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 119,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record}}"
+      ],
+      "target": {
+        "data-route": "entity-events",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 95,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 126,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event-access' && record}}",
+        "{{record.status === 'CONFIRMED' || record.status === 'APPROVED_AWAITING_PAYMENT'}}",
+        "{{record.status === 'APPROVED_AWAITING_PAYMENT'}}"
+      ],
+      "target": {
+        "data-kind": "payment"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 96,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 127,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event-access' && record}}",
+        "{{record.status === 'CONFIRMED' || record.status === 'APPROVED_AWAITING_PAYMENT'}}",
+        "{{accessHasGroup || record.status === 'APPROVED_AWAITING_PAYMENT'}}"
+      ],
+      "target": {
+        "data-kind": "group"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{record.status !== 'CONFIRMED'}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 97,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 128,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event-access' && record}}",
+        "{{record.status === 'CONFIRMED' || record.status === 'APPROVED_AWAITING_PAYMENT'}}",
+        "{{accessHasContact || record.status === 'APPROVED_AWAITING_PAYMENT'}}"
+      ],
+      "target": {
+        "data-kind": "group"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{record.status !== 'CONFIRMED'}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 98,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 129,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'event-access' && record}}",
+        "{{record.status === 'CONFIRMED' || record.status === 'APPROVED_AWAITING_PAYMENT'}}",
+        "{{accessWillContact}}"
+      ],
+      "target": {
+        "data-kind": "group"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 99,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 131,
+      "tag": "button",
+      "classes": "secondary access-cancel",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{route === 'event-access' && record}}",
+        "{{record.status !== 'CANCELLED' && record.status !== 'EXPIRED'}}"
+      ],
+      "target": {
+        "data-op": "cancelRegistration"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 100,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 136,
+      "tag": "image",
+      "classes": "review-cover",
+      "handlers": {
+        "bindtap": "previewImage"
+      },
+      "conditions": [
+        "{{route === 'approval-detail' || route === 'campaign-approval-detail'}}",
+        "{{record}}",
+        "{{subject.cover_url}}"
+      ],
+      "target": {
+        "data-url": "{{subject.cover_url}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 101,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 139,
+      "tag": "button",
+      "classes": "review-event-link",
+      "handlers": {
+        "bindtap": "openEvent"
+      },
+      "conditions": [
+        "{{route === 'approval-detail' || route === 'campaign-approval-detail'}}",
+        "{{record}}",
+        "{{linkedReviewEvents.length}}"
+      ],
+      "target": {
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 102,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 141,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'approval-detail' || route === 'campaign-approval-detail'}}",
+        "{{record}}",
+        "{{record.status === 'PENDING' && subject.status === 'IN_REVIEW'}}"
+      ],
+      "target": {
+        "data-kind": "return"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 103,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 141,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{route === 'approval-detail' || route === 'campaign-approval-detail'}}",
+        "{{record}}",
+        "{{record.status === 'PENDING' && subject.status === 'IN_REVIEW'}}"
+      ],
+      "target": {
+        "data-op": "review",
+        "data-approve": "{{true}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 104,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 143,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'approval-progress' || route === 'campaign-review-progress'}}",
+        "{{record.status === 'CHANGES_REQUESTED' || record.status === 'DRAFT'}}"
+      ],
+      "target": {
+        "data-route": "{{route === 'campaign-review-progress' ? 'campaign-edit' : 'publish'}}",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 105,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 144,
+      "tag": "button",
+      "classes": "chip {{relationMode === 'following' ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "relationTab"
+      },
+      "conditions": [
+        "{{route === 'relations' || route === 'following'}}"
+      ],
+      "target": {
+        "data-mode": "following"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 106,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 144,
+      "tag": "button",
+      "classes": "chip {{relationMode === 'followers' ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "relationTab"
+      },
+      "conditions": [
+        "{{route === 'relations' || route === 'following'}}"
+      ],
+      "target": {
+        "data-mode": "followers"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 107,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 145,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{formKind && submitted}}",
+        "{{formKind !== 'profile'}}"
+      ],
+      "target": {
+        "data-route": "{{formKind === 'event' ? 'approval-progress' : 'campaign-review-progress'}}",
+        "data-id": "{{submittedId || optionsId}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 108,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 145,
+      "tag": "button",
+      "classes": "{{formKind === 'profile' ? 'primary' : 'secondary'}}",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{formKind && submitted}}"
+      ],
+      "target": {
+        "data-route": "feed"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 109,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 145,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "restartForm"
+      },
+      "conditions": [
+        "{{formKind && submitted}}",
+        "{{formKind === 'profile'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 110,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 151,
+      "tag": "textarea",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'area'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 111,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 152,
+      "tag": "switch",
+      "classes": "",
+      "handlers": {
+        "bindchange": "switchInput"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'switch'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 112,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 153,
+      "tag": "picker",
+      "classes": "",
+      "handlers": {
+        "bindchange": "dateInput"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'datetime'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-part": "date"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 113,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 153,
+      "tag": "picker",
+      "classes": "",
+      "handlers": {
+        "bindchange": "dateInput"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'datetime'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-part": "time"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 114,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 154,
+      "tag": "picker",
+      "classes": "",
+      "handlers": {
+        "bindchange": "select"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'city'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-type": "city"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 115,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 155,
+      "tag": "picker",
+      "classes": "",
+      "handlers": {
+        "bindchange": "select"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'space'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-type": "space"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 116,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 156,
+      "tag": "picker",
+      "classes": "",
+      "handlers": {
+        "bindchange": "select"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'organization'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-type": "organization"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 117,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 157,
+      "tag": "picker",
+      "classes": "",
+      "handlers": {
+        "bindchange": "select"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'access'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-type": "access"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 118,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 158,
+      "tag": "checkbox-group",
+      "classes": "",
+      "handlers": {
+        "bindchange": "eventSelection"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'events'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 119,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 158,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'events'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 120,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 159,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "upload"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'image'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 121,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 160,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'links'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-index": "{{linkIndex}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 122,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 160,
+      "tag": "button",
+      "classes": "icon-button",
+      "handlers": {
+        "bindtap": "listRemove"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'links'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}",
+        "data-index": "{{linkIndex}}"
+      },
+      "role": null,
+      "ariaLabel": "{{t.delete}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 123,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 160,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "listAdd"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'links'}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 124,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 161,
+      "tag": "checkbox-group",
+      "classes": "",
+      "handlers": {
+        "bindchange": "spaceSelection"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'spaces'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 125,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 161,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'spaces'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 126,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 162,
+      "tag": "checkbox-group",
+      "classes": "interest-grid",
+      "handlers": {
+        "bindchange": "interestsChange"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'interests'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 127,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 162,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'interests'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{form.interests.length >= 5 && !item.selected}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 128,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 163,
+      "tag": "checkbox-group",
+      "classes": "",
+      "handlers": {
+        "bindchange": "methodsChange"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'methods'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 129,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 163,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'methods'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 130,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 163,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "upload"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'methods'}}",
+        "{{item.selected}}",
+        "{{item.value === 'GROUP_QR'}}"
+      ],
+      "target": {
+        "data-key": "access_values.GROUP_QR"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 131,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 163,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'methods'}}",
+        "{{item.selected}}"
+      ],
+      "target": {
+        "data-type": "{{item.value}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 132,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 164,
+      "tag": "view",
+      "classes": "media-tile {{route === 'campaign-edit' && assetIndex === 0 ? 'series-cover-tile' : ''}} {{dragIndex === assetIndex ? 'is-dragging' : ''}} {{dragIndex >= 0 && dragTarget === assetIndex && dragIndex !== assetIndex ? 'is-drop-target' : ''}}",
+      "handlers": {
+        "bindtouchstart": "mediaTouchStart",
+        "bindlongpress": "mediaDragStart",
+        "catchtouchmove": "mediaDragMove"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'media'}}"
+      ],
+      "target": {
+        "data-index": "{{assetIndex}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 133,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 164,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'media'}}"
+      ],
+      "target": {
+        "data-index": "{{assetIndex}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 134,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 164,
+      "tag": "button",
+      "classes": "media-remove",
+      "handlers": {
+        "catchtouchstart": "mediaIgnoreDrag",
+        "catchlongpress": "mediaIgnoreDrag",
+        "bindtap": "mediaRemove"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'media'}}"
+      ],
+      "target": {
+        "data-index": "{{assetIndex}}"
+      },
+      "role": null,
+      "ariaLabel": "{{t.delete}}",
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 135,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 164,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "upload"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'media'}}",
+        "{{route === 'campaign-edit'}}"
+      ],
+      "target": {
+        "data-key": "media",
+        "data-type": "image",
+        "data-replace": "{{true}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 136,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 164,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "upload"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'media'}}"
+      ],
+      "target": {
+        "data-key": "media",
+        "data-type": "image"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 137,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 164,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "mediaLink"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{item.type === 'media'}}",
+        "{{formKind === 'event'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 138,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 165,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}"
+      ],
+      "target": {
+        "data-key": "{{item.key}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 139,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 166,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "toggleEventPicker"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{route === 'campaign-edit' && item.key === 'event_ids'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 140,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 171,
+      "tag": "checkbox-group",
+      "classes": "",
+      "handlers": {
+        "bindchange": "spaceSelection"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{route === 'onboarding' && step === 3}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 141,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 171,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{route === 'onboarding' && step === 3}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 142,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 171,
+      "tag": "checkbox-group",
+      "classes": "",
+      "handlers": {
+        "bindchange": "consent"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{route === 'onboarding' && step === 3}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 143,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 171,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{route === 'onboarding' && step === 3}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 144,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 171,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{route === 'onboarding' && step === 3}}"
+      ],
+      "target": {
+        "data-route": "privacy"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 145,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 174,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "step"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{step > 1}}"
+      ],
+      "target": {
+        "data-delta": "-1"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 146,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 174,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "{{route === 'onboarding' ? 'saveDraft' : 'saveForm'}}"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{route === 'publish' || route === 'campaign-create' || route === 'onboarding'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 147,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 174,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "saveForm"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 148,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 174,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "step"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{step < 3 && (route === 'publish' || route === 'campaign-create' || route === 'onboarding')}}"
+      ],
+      "target": {
+        "data-delta": "1"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 149,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 174,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "saveForm"
+      },
+      "conditions": [
+        "{{formKind && !submitted}}",
+        "{{step === 3}}"
+      ],
+      "target": {
+        "data-submit": "{{true}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 150,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 176,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{route === 'login'}}"
+      ],
+      "target": {
+        "data-key": "address"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 151,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 176,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "sendCode"
+      },
+      "conditions": [
+        "{{route === 'login'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 152,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 176,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{route === 'login'}}"
+      ],
+      "target": {
+        "data-key": "code"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 153,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 176,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "verifyCode"
+      },
+      "conditions": [
+        "{{route === 'login'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 154,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 176,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "loginMode"
+      },
+      "conditions": [
+        "{{route === 'login'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 155,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 176,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "wechatLogin"
+      },
+      "conditions": [
+        "{{route === 'login'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 156,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 177,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "preference"
+      },
+      "conditions": [
+        "{{route === 'privacy'}}"
+      ],
+      "target": {
+        "data-kind": "share_activity"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 157,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 177,
+      "tag": "button",
+      "classes": "settings-row",
+      "handlers": {
+        "bindtap": "preference"
+      },
+      "conditions": [
+        "{{route === 'privacy'}}"
+      ],
+      "target": {
+        "data-kind": "visibility"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 158,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 178,
+      "tag": "textarea",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{route === 'feedback'}}"
+      ],
+      "target": {
+        "data-key": "reason"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 159,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 178,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'feedback'}}"
+      ],
+      "target": {
+        "data-kind": "report"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 160,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 179,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{route === 'admins'}}"
+      ],
+      "target": {
+        "data-kind": "invite"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 161,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 180,
+      "tag": "button",
+      "classes": "chip {{(minePhase || '') === item ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "mineFilter"
+      },
+      "conditions": [
+        "{{route === 'registrations' || route === 'my-events'}}"
+      ],
+      "target": {
+        "data-phase": "{{item}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 162,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 183,
+      "tag": "button",
+      "classes": "chip {{spacesScope === 'city' ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "nodeScope"
+      },
+      "conditions": [
+        "{{route === 'spaces'}}"
+      ],
+      "target": {
+        "data-scope": "city"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 163,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 183,
+      "tag": "button",
+      "classes": "chip {{spacesScope === 'following' ? 'selected' : ''}}",
+      "handlers": {
+        "bindtap": "nodeScope"
+      },
+      "conditions": [
+        "{{route === 'spaces'}}"
+      ],
+      "target": {
+        "data-scope": "following"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 164,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 185,
+      "tag": "view",
+      "classes": "row feed-author",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'feed' && !searching}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{item.author.owner || item.author.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 165,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 186,
+      "tag": "view",
+      "classes": "member-row",
+      "handlers": {
+        "bindtap": "openItem"
+      },
+      "conditions": [
+        "{{route === 'relations' || route === 'following' || route === 'entity-members'}}"
+      ],
+      "target": {
+        "data-index": "{{index}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 166,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 186,
+      "tag": "button",
+      "classes": "small {{item.following ? 'is-following' : 'primary'}}",
+      "handlers": {
+        "catchtap": "personFollow"
+      },
+      "conditions": [
+        "{{route === 'relations' || route === 'following' || route === 'entity-members'}}",
+        "{{item.owner !== currentUser}}"
+      ],
+      "target": {
+        "data-id": "{{item.owner || item.id}}",
+        "data-enabled": "{{!item.following}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 167,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 187,
+      "tag": "view",
+      "classes": "space-directory-card",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'spaces'}}"
+      ],
+      "target": {
+        "data-route": "space",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 168,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 188,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'my-events' || route === 'drafts'}}",
+        "{{item.phase === 'IN_REVIEW'}}"
+      ],
+      "target": {
+        "data-route": "approval-progress",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 169,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 188,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'my-events' || route === 'drafts'}}",
+        "{{item.phase === 'IN_REVIEW' || item.phase === 'DRAFT' || item.phase === 'CHANGES_REQUESTED'}}"
+      ],
+      "target": {
+        "data-route": "publish",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 170,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 188,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'my-events' || route === 'drafts'}}",
+        "{{item.phase === 'PUBLISHED' || item.phase === 'ENDED'}}"
+      ],
+      "target": {
+        "data-route": "event",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 171,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 188,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'my-events' || route === 'drafts'}}",
+        "{{item.phase === 'PUBLISHED'}}"
+      ],
+      "target": {
+        "data-route": "attendees",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 172,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 188,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{route === 'my-events' || route === 'drafts'}}",
+        "{{item.phase === 'ENDED'}}"
+      ],
+      "target": {
+        "data-op": "clone",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 173,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 189,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "catchtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'registrations'}}"
+      ],
+      "target": {
+        "data-route": "event-access",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 174,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 190,
+      "tag": "view",
+      "classes": "notification-card {{index === 0 && !item.notificationGroup ? 'is-first' : ''}} {{item.needsAttention ? 'notification-action' : 'notification-quiet'}} {{item.status === 'READ' ? 'is-read' : ''}}",
+      "handlers": {
+        "bindtap": "openItem"
+      },
+      "conditions": [
+        "{{route === 'messages'}}"
+      ],
+      "target": {
+        "data-index": "{{index}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 175,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 193,
+      "tag": "view",
+      "classes": "list-card",
+      "handlers": {
+        "bindtap": "openItem"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}"
+      ],
+      "target": {
+        "data-index": "{{index}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 176,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 194,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "navigate"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'drafts' || route === 'my-events'}}",
+        "{{item.status === 'DRAFT' || item.status === 'CHANGES_REQUESTED'}}"
+      ],
+      "target": {
+        "data-route": "publish",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 177,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 194,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "navigate"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'drafts' || route === 'my-events'}}"
+      ],
+      "target": {
+        "data-route": "activity-preview",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 178,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 194,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "navigate"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'drafts' || route === 'my-events'}}"
+      ],
+      "target": {
+        "data-route": "approval-progress",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 179,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 195,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "navigate"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'my-campaigns'}}",
+        "{{item.status === 'DRAFT' || item.status === 'CHANGES_REQUESTED'}}"
+      ],
+      "target": {
+        "data-route": "campaign-edit",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 180,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 195,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "navigate"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'my-campaigns'}}"
+      ],
+      "target": {
+        "data-route": "campaign-review-progress",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 181,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 196,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "action"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'attendees' && item.can_read_contact}}"
+      ],
+      "target": {
+        "data-op": "registrationContact",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 182,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 196,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "action"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'attendees' && item.status === 'REQUESTED'}}"
+      ],
+      "target": {
+        "data-op": "registrationDecision",
+        "data-id": "{{item.id}}",
+        "data-version": "{{item.version}}",
+        "data-approve": "{{false}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 183,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 196,
+      "tag": "button",
+      "classes": "small primary",
+      "handlers": {
+        "catchtap": "action"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'attendees' && item.status === 'REQUESTED'}}"
+      ],
+      "target": {
+        "data-op": "registrationDecision",
+        "data-id": "{{item.id}}",
+        "data-version": "{{item.version}}",
+        "data-approve": "{{true}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 184,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 196,
+      "tag": "button",
+      "classes": "small primary",
+      "handlers": {
+        "catchtap": "action"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'attendees' && item.status === 'CONFIRMED' && !item.checked_in_at}}"
+      ],
+      "target": {
+        "data-op": "checkIn",
+        "data-id": "{{item.id}}",
+        "data-user-id": "{{item.user_id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 185,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 197,
+      "tag": "button",
+      "classes": "small",
+      "handlers": {
+        "catchtap": "action"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'admins' && item.role !== 'OWNER' && item.status === 'ACTIVE'}}"
+      ],
+      "target": {
+        "data-op": "revokeRole",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 186,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 197,
+      "tag": "button",
+      "classes": "small primary",
+      "handlers": {
+        "catchtap": "action"
+      },
+      "conditions": [
+        "{{route !== 'calendar'}}",
+        "{{route === 'invitations'}}"
+      ],
+      "target": {
+        "data-op": "acceptInvite",
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 187,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 200,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record.members.length}}"
+      ],
+      "target": {
+        "data-route": "entity-members",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 188,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 200,
+      "tag": "button",
+      "classes": "entity-member",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{(route === 'space' || route === 'org') && record.members.length}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{item.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 189,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 201,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "clearFilters"
+      },
+      "conditions": [
+        "{{!loading && !error && !items.length && !record && !formKind && route !== 'more' && route !== 'login' && route !== 'privacy' && route !== 'feedback' && route !== 'review-lab' && route !== 'manage'}}",
+        "{{route === 'discover' || route === 'calendar'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 190,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 202,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "onReachBottom"
+      },
+      "conditions": [
+        "{{hasMore}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": "{{loading}}",
+      "openType": null
+    },
+    {
+      "id": 191,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 203,
+      "tag": "button",
+      "classes": "fab",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{route === 'feed' || route === 'discover'}}"
+      ],
+      "target": {
+        "data-route": "publish"
+      },
+      "role": null,
+      "ariaLabel": "{{t.publish}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 192,
+      "file": "miniprogram/templates/screen.wxml",
+      "line": 208,
+      "tag": "view",
+      "classes": "navigation-tab {{tab === item.key ? 'is-current' : ''}}",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{!sheet && !isTask && !keyboardHeight && route !== 'event' && route !== 'activity-preview'}}"
+      ],
+      "target": {
+        "data-route": "{{item.key}}"
+      },
+      "role": "tab",
+      "ariaLabel": "{{item.label}}",
+      "hoverClass": "navigation-pressed",
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 193,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 1,
+      "tag": "view",
+      "classes": "scrim",
+      "handlers": {
+        "bindtap": "requestCloseSheet"
+      },
+      "conditions": [
+        "{{sheet}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 194,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 1,
+      "tag": "button",
+      "classes": "icon-button",
+      "handlers": {
+        "bindtap": "requestCloseSheet"
+      },
+      "conditions": [
+        "{{sheet}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": "{{t.close || '关闭'}}",
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 195,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 4,
+      "tag": "button",
+      "classes": "member-row",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'participants'}}"
+      ],
+      "target": {
+        "data-route": "member",
+        "data-id": "{{item.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 196,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 5,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "savePoster"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'poster'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 197,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 5,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "requestCloseSheet"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'poster'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 198,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 6,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "copy"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'official' || sheet === 'recap'}}",
+        "{{sheet === 'official' && externalContent.username && !demo && !externalContent.demo}}"
+      ],
+      "target": {
+        "data-value": "{{externalContent.username}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 199,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 6,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "copy"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'official' || sheet === 'recap'}}",
+        "{{sheet === 'recap' && externalContent.url && !demo && !externalContent.demo}}"
+      ],
+      "target": {
+        "data-value": "{{externalContent.url}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 200,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 7,
+      "tag": "button",
+      "classes": "choice-row {{city === item.id ? 'chosen' : ''}}",
+      "handlers": {
+        "bindtap": "selectCity"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'city'}}"
+      ],
+      "target": {
+        "data-id": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 201,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 8,
+      "tag": "button",
+      "classes": "choice-row",
+      "handlers": {
+        "bindtap": "selectLanguage"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'language'}}"
+      ],
+      "target": {
+        "data-locale": "zh-CN"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 202,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 8,
+      "tag": "button",
+      "classes": "choice-row",
+      "handlers": {
+        "bindtap": "selectLanguage"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'language'}}"
+      ],
+      "target": {
+        "data-locale": "en"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 203,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 9,
+      "tag": "switch",
+      "classes": "",
+      "handlers": {
+        "bindchange": "preference"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'notifications'}}"
+      ],
+      "target": {
+        "data-kind": "notifications"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 204,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 10,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'mini'}}"
+      ],
+      "target": {
+        "data-kind": "about"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 205,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 10,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "reloadPage"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'mini'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 206,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 10,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'mini'}}"
+      ],
+      "target": {
+        "data-route": "feedback"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 207,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 12,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'manage'}}"
+      ],
+      "target": {
+        "data-route": "edit-entity",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 208,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 12,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'manage'}}"
+      ],
+      "target": {
+        "data-route": "approvals"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 209,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 12,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "navigate"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'manage'}}",
+        "{{record.can_admin}}"
+      ],
+      "target": {
+        "data-route": "admins",
+        "data-id": "{{record.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 210,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 13,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "copy"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'member'}}"
+      ],
+      "target": {
+        "data-value": "{{'/pages/member/index?id=' + record.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 211,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 13,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'member'}}",
+        "{{record.owner !== currentUser && record.muted}}"
+      ],
+      "target": {
+        "data-op": "mute",
+        "data-id": "{{record.owner}}",
+        "data-block-id": "{{record.block_id}}",
+        "data-enabled": "0"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 212,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 13,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'member'}}",
+        "{{record.owner !== currentUser}}"
+      ],
+      "target": {
+        "data-op": "mute",
+        "data-id": "{{record.owner}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 213,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 13,
+      "tag": "button",
+      "classes": "menu-item",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'member'}}"
+      ],
+      "target": {
+        "data-kind": "report"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 214,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 15,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'payment'}}"
+      ],
+      "target": {
+        "data-op": "payment"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 215,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 16,
+      "tag": "button",
+      "classes": "secondary",
+      "handlers": {
+        "bindtap": "copy"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'group'}}",
+        "{{item.type !== 'GROUP_QR' && item.value}}"
+      ],
+      "target": {
+        "data-value": "{{item.value}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 216,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 17,
+      "tag": "textarea",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'return'}}"
+      ],
+      "target": {
+        "data-key": "note"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 217,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 17,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "action"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'return'}}"
+      ],
+      "target": {
+        "data-op": "review",
+        "data-approve": "{{false}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 218,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 19,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'register'}}"
+      ],
+      "target": {
+        "data-key": "display_name"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 219,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 19,
+      "tag": "textarea",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'register'}}"
+      ],
+      "target": {
+        "data-key": "motivation"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 220,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 19,
+      "tag": "checkbox-group",
+      "classes": "",
+      "handlers": {
+        "bindchange": "consent"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'register'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 221,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 19,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'register'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 222,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 19,
+      "tag": "checkbox-group",
+      "classes": "",
+      "handlers": {
+        "bindchange": "contactConsent"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'register'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 223,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 19,
+      "tag": "checkbox",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'register'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 224,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 20,
+      "tag": "button",
+      "classes": "text-button",
+      "handlers": {
+        "bindtap": "sheet"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'comment'}}"
+      ],
+      "target": {
+        "data-kind": "comment",
+        "data-reply": "{{item.id}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 225,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 20,
+      "tag": "textarea",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'comment'}}"
+      ],
+      "target": {
+        "data-key": "text"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 226,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 21,
+      "tag": "input",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet === 'invite'}}"
+      ],
+      "target": {
+        "data-key": "user_id"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 227,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 22,
+      "tag": "textarea",
+      "classes": "",
+      "handlers": {},
+      "conditions": [
+        "{{sheet}}"
+      ],
+      "target": {
+        "data-key": "{{sheet === 'report' ? 'reason' : 'text'}}"
+      },
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 228,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 23,
+      "tag": "button",
+      "classes": "primary",
+      "handlers": {
+        "bindtap": "submitSheet"
+      },
+      "conditions": [
+        "{{sheet}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy || (sheet === 'register' && !consent)}}",
+      "loading": "{{busy}}",
+      "openType": null
+    },
+    {
+      "id": 229,
+      "file": "miniprogram/templates/sheets.wxml",
+      "line": 25,
+      "tag": "button",
+      "classes": "text-button sheet-cancel",
+      "handlers": {
+        "bindtap": "requestCloseSheet"
+      },
+      "conditions": [
+        "{{sheet}}",
+        "{{sheet !== 'poster'}}"
+      ],
+      "target": {},
+      "role": null,
+      "ariaLabel": null,
+      "hoverClass": null,
+      "disabled": "{{busy}}",
+      "loading": null,
+      "openType": null
+    },
+    {
+      "id": 230,
+      "file": "miniprogram/custom-tab-bar/index.wxml",
+      "line": 3,
+      "tag": "button",
+      "classes": "navigation-tab {{selected === index ? 'is-current' : ''}}",
+      "handlers": {
+        "bindtap": "switchTab"
+      },
+      "conditions": [
+        "{{!hidden}}"
+      ],
+      "target": {
+        "data-index": "{{index}}"
+      },
+      "role": "tab",
+      "ariaLabel": "{{item.label}}",
+      "hoverClass": "navigation-pressed",
+      "disabled": null,
+      "loading": null,
+      "openType": null
+    }
+  ],
+  "styleValues": {
+    "border-radius": {
+      "var(--pill)": 26,
+      "50%": 23,
+      "24rpx": 21,
+      "0": 20,
+      "var(--radius)": 19,
+      "20rpx": 9,
+      "28rpx": 9,
+      "26rpx": 8,
+      "16rpx": 7,
+      "32rpx": 6,
+      "18rpx": 4,
+      "99rpx": 3,
+      "4rpx": 3,
+      "var(--radiusInput)": 3,
+      "var(--eventArtRadius)": 3,
+      "8rpx": 2,
+      "22rpx": 2,
+      "14rpx": 2,
+      "40rpx": 2,
+      "12rpx": 2,
+      "999rpx": 2,
+      "36rpx 36rpx 0 0": 1,
+      "10rpx": 1,
+      "32rpx 32rpx 0 0": 1,
+      "0 0 28rpx 0": 1,
+      "24rpx!important": 1,
+      "99rpx!important": 1,
+      "30rpx": 1,
+      "6rpx": 1,
+      "36rpx": 1,
+      "var(--radiusSheet) var(--radiusSheet) 0 0": 1,
+      "0!important": 1,
+      "60rpx 60rpx 0 0": 1,
+      "var(--eventRadius)": 1
+    },
+    "font-size": {
+      "var(--typeBody)": 42,
+      "var(--typeFact)": 40,
+      "var(--typeMeta)": 30,
+      "24rpx": 25,
+      "22rpx": 20,
+      "var(--typeLabel)": 19,
+      "28rpx": 18,
+      "var(--typeTitle)": 15,
+      "26rpx": 14,
+      "20rpx": 13,
+      "var(--typeSection)": 13,
+      "36rpx": 5,
+      "30rpx": 4,
+      "var(--typeEvent)": 4,
+      "34rpx": 3,
+      "40rpx": 2,
+      "32rpx": 2,
+      "46rpx": 2,
+      "38rpx": 2,
+      "17rpx": 2,
+      "23rpx": 2,
+      "21rpx": 2,
+      "inherit": 2,
+      "44rpx": 1,
+      "90rpx": 1,
+      "56rpx": 1,
+      "100rpx": 1,
+      "72rpx": 1,
+      "16rpx": 1,
+      "68rpx": 1,
+      "28rpx!important": 1,
+      "27rpx": 1,
+      "42rpx": 1,
+      "25rpx": 1,
+      "80rpx": 1,
+      "48rpx": 1,
+      "0": 1
+    },
+    "font-weight": {
+      "600": 40,
+      "400": 34,
+      "500": 18,
+      "700": 4,
+      "800": 1,
+      "500!important": 1
+    },
+    "background": {
+      "var(--surface)": 64,
+      "transparent": 43,
+      "var(--control)": 36,
+      "var(--accent)": 23,
+      "var(--accentSoft)": 21,
+      "var(--canvas)": 10,
+      "var(--infoSoft)": 9,
+      "var(--ink)": 7,
+      "var(--sage)": 6,
+      "var(--line)": 3,
+      "#F5F5F2": 2,
+      "#fff": 2,
+      "var(--control)!important": 2,
+      "var(--calendarEvent)": 2,
+      "var(--navigationSurface)": 2,
+      "var(--invitation)": 2,
+      "#e9e9eb": 1,
+      "#eeeef0": 1,
+      "#eaeaec": 1,
+      "#fff0ee": 1,
+      "linear-gradient(90deg,#e8e8ea,#fdfdfd,#e8e8ea)": 1,
+      "#0005": 1,
+      "#DFF8EB": 1,
+      "#ffffffec": 1,
+      "linear-gradient(100deg,#173c2cf0,#173c2c35)": 1,
+      "linear-gradient(transparent 45%,rgba(0,0,0,.55))": 1,
+      "var(--muted)": 1,
+      "linear-gradient(180deg,#0001,#000a)": 1,
+      "#f8f8fa!important": 1,
+      "#f0f1f2": 1,
+      "linear-gradient(100deg,#e2f7edee,#f1f4e5bb,#e1edf5bb)": 1,
+      "var(--calendarSelected)": 1,
+      "rgba(24,24,20,.48)": 1,
+      "linear-gradient(to bottom,var(--chromeClear) 0,var(--canvas) 24rpx,var(--canvas) 100%)": 1,
+      "var(--surface)!important": 1,
+      "rgba(250,249,245,.85)": 1,
+      "linear-gradient(to bottom,var(--canvas) 0,var(--canvas) calc(100% - 48rpx),var(--chromeClear) 100%)": 1,
+      "linear-gradient(to bottom,var(--chromeSoft),var(--chromeClear))": 1,
+      "linear-gradient(to bottom,var(--chromeClear),var(--canvas) 24rpx)": 1,
+      "rgba(255,255,255,.9)": 1,
+      "rgba(35,35,35,.6)": 1,
+      "var(--peopleSurface)": 1,
+      "linear-gradient(to bottom,var(--chromeClear),var(--chromeSoft) 78%)": 1,
+      "var(--navigationAccent)": 1
+    },
+    "border": {
+      "0": 66,
+      "1rpx solid var(--line)": 10,
+      "var(--stroke) solid var(--outline)": 9,
+      "var(--stroke) solid var(--line)": 9,
+      "3rpx solid var(--surface)": 2,
+      "var(--stroke) solid var(--danger)": 2,
+      "1rpx solid rgba(35,35,35,.16)": 2,
+      "4rpx solid var(--surface)": 1,
+      "1rpx solid var(--danger)": 1,
+      "2rpx solid var(--canvas)": 1,
+      "1px solid transparent": 1,
+      "var(--stroke) dashed var(--line)": 1,
+      "1px solid var(--ink)": 1,
+      "1rpx solid rgba(35,35,35,.2)": 1,
+      "var(--stroke) solid transparent": 1
+    },
+    "box-shadow": {
+      "none": 7,
+      "inset 0 0 0 2rpx var(--accentText)": 2,
+      "inset 0 0 0 1px var(--outline)": 2,
+      "0 4rpx 16rpx #00000008": 1,
+      "0 -6rpx 24rpx #00000008": 1,
+      "0 8rpx 24rpx #00000012": 1,
+      "0 8rpx 28rpx rgba(35,35,35,.2)": 1,
+      "0 2rpx 6rpx rgba(0,0,0,.06)": 1,
+      "0 10rpx 32rpx rgba(0,0,0,.045),0 2rpx 6rpx rgba(0,0,0,.018)": 1
+    },
+    "padding": {
+      "0": 22,
+      "28rpx": 16,
+      "24rpx": 16,
+      "16rpx 0": 7,
+      "8rpx 0": 5,
+      "20rpx 0": 5,
+      "20rpx": 5,
+      "22rpx": 4,
+      "3rpx 10rpx": 4,
+      "12rpx": 4,
+      "24rpx 0": 4,
+      "6rpx 16rpx": 3,
+      "8rpx": 3,
+      "16rpx 20rpx": 3,
+      "36rpx": 3,
+      "8rpx 16rpx": 3,
+      "12rpx 20rpx": 3,
+      "10rpx 18rpx": 3,
+      "var(--panelInset)": 3,
+      "24rpx 28rpx": 3,
+      "18rpx": 2,
+      "10rpx": 2,
+      "14rpx 0": 2,
+      "2rpx 8rpx": 2,
+      "22rpx 24rpx": 2,
+      "28rpx 24rpx": 2,
+      "0!important": 2,
+      "0 22rpx": 2,
+      "0 24rpx": 2,
+      "1rpx 10rpx": 2,
+      "32rpx 0 16rpx": 2,
+      "32rpx 0": 2,
+      "20rpx 16rpx": 2,
+      "24rpx!important": 2,
+      "8rpx 18rpx": 2,
+      "10rpx 0": 2,
+      "16rpx 0 24rpx": 2,
+      "var(--eventRim)": 2,
+      "28rpx 0": 2,
+      "20rpx 12rpx": 2,
+      "20rpx 30rpx": 1,
+      "24rpx 28rpx 100rpx": 1,
+      "10rpx 24rpx": 1,
+      "10rpx 22rpx": 1,
+      "20rpx 10rpx": 1,
+      "10rpx 20rpx": 1,
+      "26rpx 0": 1,
+      "18rpx 0": 1,
+      "20rpx 28rpx calc(20rpx + env(safe-area-inset-bottom))": 1,
+      "100rpx 20rpx": 1,
+      "60rpx 0": 1,
+      "24rpx 32rpx calc(32rpx + env(safe-area-inset-bottom))": 1,
+      "18rpx 24rpx": 1,
+      "6rpx 10rpx": 1,
+      "2rpx 6rpx": 1,
+      "24rpx 26rpx": 1,
+      "28rpx 32rpx": 1,
+      "2rpx": 1,
+      "20rpx 24rpx": 1,
+      "14rpx 24rpx": 1,
+      "36rpx 0": 1,
+      "20rpx 14rpx": 1,
+      "100rpx 24rpx": 1,
+      "6rpx 0 16rpx": 1,
+      "24rpx 8rpx 36rpx": 1,
+      "50rpx 24rpx 35rpx": 1,
+      "10rpx 30rpx": 1,
+      "22rpx 24rpx!important": 1,
+      "26rpx": 1,
+      "16rpx": 1,
+      "26rpx 28rpx": 1,
+      "20rpx 0 28rpx": 1,
+      "4rpx 8rpx": 1,
+      "40rpx 28rpx": 1,
+      "2rpx 4rpx!important": 1,
+      "0 18rpx": 1,
+      "14rpx 18rpx": 1,
+      "26rpx 0 10rpx": 1,
+      "20rpx 28rpx": 1,
+      "6rpx 8rpx": 1,
+      "2rpx 10rpx": 1,
+      "4rpx 16rpx": 1,
+      "24rpx 0 40rpx": 1,
+      "var(--sectionInset) 0": 1,
+      "24rpx var(--pageGutter) 12rpx": 1,
+      "24rpx 32rpx calc(24rpx + env(safe-area-inset-bottom))": 1,
+      "0 20rpx": 1,
+      "4rpx": 1,
+      "0 8rpx 0 14rpx": 1,
+      "3rpx 12rpx": 1,
+      "28rpx 0 32rpx": 1,
+      "1rpx 8rpx": 1,
+      "18rpx 28rpx": 1,
+      "6rpx 0": 1,
+      "6rpx 12rpx": 1,
+      "12rpx 8rpx": 1,
+      "6rpx 14rpx": 1,
+      "24rpx 4rpx": 1,
+      "20rpx 24rpx 8rpx": 1,
+      "24rpx var(--pageGutter) calc(20rpx + env(safe-area-inset-bottom))": 1,
+      "16rpx 4rpx": 1,
+      "12rpx 0": 1,
+      "40rpx 0": 1,
+      "28rpx 4rpx": 1,
+      "8rpx 20rpx": 1,
+      "32rpx 0 8rpx": 1,
+      "0 0 24rpx": 1,
+      "2rpx 12rpx": 1,
+      "2px": 1,
+      "28rpx 28rpx 36rpx": 1,
+      "4rpx 14rpx": 1,
+      "52rpx 24rpx 24rpx": 1,
+      "0 10rpx": 1,
+      "22rpx 18rpx": 1,
+      "2rpx 9rpx": 1,
+      "9rpx 18rpx": 1,
+      "60rpx 24rpx": 1,
+      "24rpx var(--navigationGutter) calc(12rpx + env(safe-area-inset-bottom))": 1,
+      "5rpx": 1,
+      "12rpx 4rpx": 1
+    },
+    "gap": {
+      "16rpx": 21,
+      "12rpx": 17,
+      "20rpx": 17,
+      "24rpx": 15,
+      "8rpx": 10,
+      "18rpx": 7,
+      "0": 3,
+      "6rpx": 3,
+      "14rpx": 2,
+      "4rpx": 2,
+      "28rpx": 2,
+      "80rpx": 1,
+      "10rpx": 1,
+      "7rpx": 1
+    }
+  },
+  "snapshot": "Before the limited fixes in this audit turn",
+  "changesAfterSnapshot": [
+    "Return migrated to isolated ui-icon-button Component with equal visible dimensions and separate hit target",
+    "Navigation shell/active item and search action decoration outlines removed after explicit user choice"
+  ]
+}

@@ -1,0 +1,10 @@
+/* The native capsule supplies the visible diameter. The shared hit target is independent. */
+.ui-icon-button{display:flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box;width:var(--touchTarget);height:var(--touchTarget);min-width:var(--touchTarget);min-height:var(--touchTarget);margin:0;padding:0;border:0;border-radius:50%;background:transparent;line-height:1;pointer-events:auto}
+.ui-icon-button::after{border:0}
+.ui-icon-button-face{display:flex;align-items:center;justify-content:center;flex:none;box-sizing:border-box;border:0;border-radius:50%;overflow:hidden;transition:opacity var(--pressDuration) ease-out}
+.surface-surface{background:var(--surface)}
+.surface-glass{background:var(--navigationSurface);-webkit-backdrop-filter:blur(var(--navigationBlur));backdrop-filter:blur(var(--navigationBlur))}
+.ui-icon-button-glyph{display:block;width:var(--iconControlGlyph);height:var(--iconControlGlyph)}
+.is-pressed .ui-icon-button-face{opacity:var(--pressOpacity)}
+.ui-icon-button.is-disabled .ui-icon-button-face{background:var(--control);opacity:1}
+.ui-icon-button.is-disabled .ui-icon-button-glyph{opacity:.5}

@@ -79,3 +79,16 @@ test('server errors map onto the words the screens already translate', () => {
   assert.equal(map.knownCode(401, 'Unauthorized'), 'LOGIN_REQUIRED');
   assert.equal(map.knownCode(422, 'user is not a participant of this event'), 'NOT_FOUND');
 });
+
+test('event gallery survives the soon content round trip without losing prose or signed URLs', () => {
+  const description = '第一段\n\n![作者原有图片](https://example.org/original.jpg)\n保留正文';
+  const media = [{ type: 'image', url: 'https://example.org/a.jpg?key=a%2Fb&x=1' }, { type: 'image', url: 'https://example.org/b(2).jpg' }, { type: 'link', url: 'https://example.org/info' }];
+  const content = map.encodeEventContent({ description, media });
+  const event = map.eventCard({ id: 'gallery', content, image_url: media[0].url });
+  assert.equal(event.description, description);
+  assert.deepEqual(event.media.map(x => [x.type, x.url]), media.map(x => [x.type, x.url]));
+  assert.equal(map.eventCard({ image_url: 'https://example.org/old.jpg' }).media[0].url, 'https://example.org/old.jpg');
+  assert.deepEqual(map.eventCard({}).media, []);
+  assert.equal(map.eventContent('normal <!-- comment -->').description, 'normal <!-- comment -->');
+  assert.equal(map.encodeEventContent({ description: 'text', media: [] }), 'text');
+});

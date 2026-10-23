@@ -6,6 +6,7 @@ const tokens={
  info:'#656560',infoSoft:'#F0F0EC',sage:'#F0F0EC',sageInk:'#454541',lavender:'#F0F0EC',
  invitation:'#FFFFFF',peopleSurface:'#FFFFFF',
  chromeClear:'rgba(245,245,242,0)',chromeSoft:'rgba(245,245,242,.94)',
+ touchTarget:'44px',iconControlFallback:'32px',iconControlGlyph:'32rpx',pressDuration:'140ms',pressOpacity:'.7',navigationBlur:'18px',
  stroke:'1px',radius:'32rpx',radiusImage:'24rpx',radiusInput:'24rpx',radiusSheet:'48rpx',pill:'999rpx',
  spaceUnit:'8rpx',pageGutter:'32rpx',sectionGap:'56rpx',headingGap:'24rpx',
  itemGap:'32rpx',panelInset:'32rpx',sectionInset:'40rpx',controlHeight:'88rpx',

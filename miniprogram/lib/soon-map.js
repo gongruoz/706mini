@@ -93,7 +93,27 @@ function registrationStatus(participant, ticketItem) {
   return 'REQUESTED';
 }
 
+// The existing soon contract stores additional event media as Markdown in content.
+const eventMediaMarker = '\n\n<!-- 706-event-media -->\n';
+function eventContent(content = '') {
+  const at = content.lastIndexOf(eventMediaMarker);
+  if (at < 0) return { description: content, media: [] };
+  const lines = content.slice(at + eventMediaMarker.length).split('\n').filter(Boolean);
+  const media = lines.map(line => {
+    const match = line.match(/^(!?)\[([^\]]*)\]\(<([^>]+)>\)$/);
+    return match && { type: match[1] ? 'image' : 'link', label: match[2], url: match[3] };
+  });
+  if (!media.length || media.some(item => !item)) return { description: content, media: [] };
+  return { description: content.slice(0, at), media };
+}
+function encodeEventContent(form) {
+  const description = form.description || '';
+  const media = (form.media || []).filter(item => ['image', 'link'].includes(item.type) && item.url);
+  if (!media.length) return description;
+  return description + eventMediaMarker + media.map((item, index) => (item.type === 'image' ? '!' : '') + '[' + (item.type === 'image' ? 'Image ' : 'Link ') + (index + 1) + '](<' + item.url.replace(/\s/g, value => encodeURIComponent(value)).replace(/>/g, '%3E').replace(/</g, '%3C') + '>)').join('\n');
+}
 function eventCard(event, extra = {}) {
+  const content = eventContent(event.description || event.content || '');
   const group = event.group || {};
   const kind = groupKind(group);
   const place = event.place || {};
@@ -113,7 +133,8 @@ function eventCard(event, extra = {}) {
     owner: owner?.owner || event.owner_id || '',
     title: event.title || '',
     summary: event.summary || event.notes || '',
-    description: event.description || event.content || '',
+    description: content.description,
+    media: event.media?.length ? event.media : content.media.length ? content.media : (event.cover_url || event.image_url ? [{ type: 'image', url: event.cover_url || event.image_url }] : []),
     cover_url: event.cover_url || event.image_url || '',
     starts_at: event.starts_at || event.start_time,
     ends_at: event.ends_at || event.end_time,
@@ -352,7 +373,7 @@ function accessMethods(imageNote) {
 }
 
 module.exports = {
-  CITIES, eventStatus, campaignStatus, priceMinor, person, entity, groupKind, eventCard, registrationFrom,
+  eventContent, encodeEventContent, CITIES, eventStatus, campaignStatus, priceMinor, person, entity, groupKind, eventCard, registrationFrom,
   registrationStatus, campaignCard, cursorPage, pageResult, comment, feedItem, notification, reviewTask,
   eventReview, applyEventFilters, dateWindow, sendAuth, knownCode, config, accessMethods, reportType
 };
